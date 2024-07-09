@@ -2,9 +2,9 @@ package dev.xkmc.l2damagetracker.contents.attack;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
+import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 
 import javax.annotation.Nullable;
 
@@ -35,7 +35,7 @@ public class PlayerAttackCache {
 			handled |= e.onCriticalHit(this, event);
 		}
 		if (handled) {
-			event.setResult(Event.Result.ALLOW);
+			event.setCriticalHit(true);
 		}
 	}
 

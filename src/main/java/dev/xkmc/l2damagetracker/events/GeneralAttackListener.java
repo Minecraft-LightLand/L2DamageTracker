@@ -7,12 +7,12 @@ import dev.xkmc.l2damagetracker.contents.materials.generic.GenericTieredItem;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 
 import java.util.function.BiConsumer;
 
@@ -45,21 +45,19 @@ public class GeneralAttackListener implements AttackListener {
 	}
 
 	@Override
-	public void setupProfile(AttackCache cache, BiConsumer<LivingEntity, ItemStack> setup) {
-		if (cache.getLivingAttackEvent() != null) {
-			DamageSource source = cache.getLivingAttackEvent().getSource();
-			if (source.getEntity() instanceof LivingEntity le) {
-				if (source.is(L2DamageTypes.DIRECT)) {
-					setup.accept(le, le.getMainHandItem());
-				} else {
-					setup.accept(le, ItemStack.EMPTY);
-				}
+	public void setupProfile(DamageData cache, BiConsumer<LivingEntity, ItemStack> setup) {
+		var le = cache.getAttacker();
+		if (le != null) {
+			if (cache.getSource().is(L2DamageTypes.DIRECT)) {
+				setup.accept(le, le.getMainHandItem());
+			} else {
+				setup.accept(le, ItemStack.EMPTY);
 			}
 		}
 	}
 
 	@Override
-	public void onHurt(AttackCache cache, ItemStack weapon) {
+	public void onHurt(DamageData cache, ItemStack weapon) {
 		var event = cache.getLivingHurtEvent();
 		assert event != null;
 		if (weapon.getItem() instanceof GenericTieredItem item) {
@@ -81,7 +79,7 @@ public class GeneralAttackListener implements AttackListener {
 
 
 	@Override
-	public void onDamage(AttackCache cache, ItemStack weapon) {
+	public void onDamage(DamageDataExtra cache, ItemStack weapon) {
 		var event = cache.getLivingDamageEvent();
 		assert event != null;
 		if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
@@ -98,6 +96,5 @@ public class GeneralAttackListener implements AttackListener {
 			}
 		}
 	}
-
 
 }

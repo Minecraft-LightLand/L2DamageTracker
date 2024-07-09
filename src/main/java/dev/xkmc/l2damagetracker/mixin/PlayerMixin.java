@@ -29,17 +29,4 @@ public class PlayerMixin {
 		flag2.set(hitResult.get() != null);
 	}
 
-
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterMagicAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"), method = "actuallyHurt")
-	public float l2damagetracker$actuallyHurt$moveLivingDamagePre(Player self, DamageSource source, float damage, Operation<Float> original) {
-		float ans = original.call(self, source, damage);
-		return ForgeHooks.onLivingDamage(self, source, ans);
-	}
-
-
-	@WrapOperation(at = @At(value = "INVOKE", remap = false, target = "Lnet/minecraftforge/common/ForgeHooks;onLivingDamage(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;F)F"), method = "actuallyHurt")
-	public float l2damagetracker$actuallyHurt$moveLivingDamagePost(LivingEntity entity, DamageSource src, float damage, Operation<Float> original) {
-		return damage;
-	}
-
 }

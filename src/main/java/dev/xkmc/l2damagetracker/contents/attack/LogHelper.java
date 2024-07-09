@@ -40,12 +40,12 @@ public class LogHelper {
 
 
 	public static boolean savePlayerHurt(ServerPlayer player) {
-		if (L2DamageTrackerConfig.COMMON.savePlayerHurt.get()) return true;
+		if (L2DamageTrackerConfig.SERVER.savePlayerHurt.get()) return true;
 		return MAP.getOrDefault(new Key(Type.HURT, player.getUUID()), NULL).time() > time(player);
 	}
 
 	public static boolean savePlayerAttack(ServerPlayer player) {
-		if (L2DamageTrackerConfig.COMMON.savePlayerAttack.get()) return true;
+		if (L2DamageTrackerConfig.SERVER.savePlayerAttack.get()) return true;
 		return MAP.getOrDefault(new Key(Type.ATTACK, player.getUUID()), NULL).time() > time(player);
 	}
 

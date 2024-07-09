@@ -4,6 +4,9 @@ import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
+import dev.xkmc.l2core.serial.config.ConfigTypeEntry;
+import dev.xkmc.l2core.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
 import dev.xkmc.l2damagetracker.contents.attributes.WrappedAttribute;
 import dev.xkmc.l2damagetracker.contents.curios.TotemUseToClient;
@@ -11,9 +14,7 @@ import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
 import dev.xkmc.l2damagetracker.events.ArsEventCompat;
 import dev.xkmc.l2damagetracker.events.GeneralAttackListener;
 import dev.xkmc.l2damagetracker.init.data.*;
-import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
-import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -21,22 +22,20 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT;
-
 @Mod(L2DamageTracker.MODID)
 @SuppressWarnings("unchecked")
-@Mod.EventBusSubscriber(modid = L2DamageTracker.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = L2DamageTracker.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class L2DamageTracker {
 
 	public static final String MODID = "l2damagetracker";
@@ -44,7 +43,7 @@ public class L2DamageTracker {
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	public static final PacketHandlerWithConfig PACKET_HANDLER = new PacketHandlerWithConfig(
-			new ResourceLocation(MODID, "main"), 2,
+			 MODID,  2,
 			e -> e.create(TotemUseToClient.class, PLAY_TO_CLIENT));
 
 	public static final ProviderType<RegistrateTagsProvider.IntrinsicImpl<Attribute>> ATTR_TAGS =
@@ -112,15 +111,19 @@ public class L2DamageTracker {
 	}
 
 	@SuppressWarnings({"unchecked"})
-	public static RegistryEntry<WrappedAttribute> regWrapped(L2Registrate reg, String id, double def, double min, double max, String name, TagKey<Attribute>... keys) {
+	public static RegistryEntry<RangedAttribute> regWrapped(L2Registrate reg, String id, double def, double min, double max, String name, TagKey<Attribute>... keys) {
 		reg.addRawLang("attribute." + reg.getModid() + "." + id, name);
 		return reg.generic(reg, id, ForgeRegistries.ATTRIBUTES.getRegistryKey(),
 				() -> new WrappedAttribute("attribute." + reg.getModid() + "." + id, def, min, max)
 						.setSyncable(true)).tag(ATTR_TAGS, keys).register();
 	}
 
+	public static ResourceLocation id(String id) {
+		return ResourceLocation.fromNamespaceAndPath(MODID, id);
+	}
+
 	public static TagKey<Attribute> key(String id) {
-		return TagKey.create(Registries.ATTRIBUTE, new ResourceLocation(MODID, id));
+		return TagKey.create(Registries.ATTRIBUTE, loc(id));
 	}
 
 }

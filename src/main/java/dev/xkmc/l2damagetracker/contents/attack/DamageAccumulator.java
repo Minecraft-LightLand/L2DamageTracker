@@ -1,5 +1,6 @@
 package dev.xkmc.l2damagetracker.contents.attack;
 
+import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -17,8 +18,13 @@ public class DamageAccumulator {
 
 	private final List<DamageModifier> modifiers = new ArrayList<>();
 
-	float run(float original, @Nullable LogEntry log, Consumer<AttackListener> collect, Consumer<AttackListener> maximize) {
+	float run(float original, @Nullable LogEntry log,
+			  Consumer<AttackListener> collect,
+			  Consumer<AttackListener> maximize,
+			  DamageModifier event
+	) {
 		frozen = false;
+		modifiers.add(event);
 		AttackEventHandler.getListeners().forEach(collect);
 		frozen = true;
 		finalDamage = accumulate(original, log);

@@ -2,13 +2,13 @@ package dev.xkmc.l2damagetracker.contents.attack;
 
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.l2damagetracker.init.data.L2DamageTrackerConfig;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.fml.loading.FMLPaths;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 public class LogEntry {
 
 	public enum Stage {
-		ATTACK, HURT_PRE, HURT_L2, HURT_POST, DAMAGE_PRE, DAMAGE_FINAL,
+		INCOMING, INCOMING_POST, DAMAGE, DAMAGE_POST
 	}
 
 	public static LogEntry of(DamageSource source, LivingEntity target, @Nullable LivingEntity attacker) {
@@ -35,8 +35,7 @@ public class LogEntry {
 		if (other == null) {
 			otherType = "null";
 		} else {
-			ResourceLocation rl = ForgeRegistries.ENTITY_TYPES.getKey(other.getType());
-			assert rl != null;
+			ResourceLocation rl = BuiltInRegistries.ENTITY_TYPE.getKey(other.getType());
 			otherType = rl.getPath().replaceAll("/", "_");
 		}
 		return FMLPaths.GAMEDIR.get().resolve("logs/damage_tracker/" +
@@ -58,7 +57,7 @@ public class LogEntry {
 		this.target = target;
 		this.attacker = attacker;
 		this.time = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS").format(new Date());
-		info = L2DamageTrackerConfig.COMMON.printDamageTrace.get();
+		info = L2DamageTrackerConfig.SERVER.printDamageTrace.get();
 		if (target instanceof ServerPlayer player && LogHelper.savePlayerHurt(player))
 			saves.add(path(player, attacker, "hurt", time));
 		if (attacker instanceof ServerPlayer player && LogHelper.savePlayerAttack(player))
@@ -78,7 +77,7 @@ public class LogEntry {
 	public void log(Stage stage, float amount) {
 		if (!log) return;
 		output.add("Stage " + stage.name() + ": val = " + amount);
-		if (stage == Stage.DAMAGE_FINAL) {
+		if (stage == Stage.DAMAGE_POST) {
 			output.add("------ Damage Tracker Profile END ------");
 			if (info) {
 				for (var e : output) {

@@ -1,30 +1,30 @@
 package dev.xkmc.l2damagetracker.init.data;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.IConfigSpec;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.IConfigSpec;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class L2DamageTrackerConfig {
 
 	public static class Client {
 
-		Client(ForgeConfigSpec.Builder builder) {
+		Client(ModConfigSpec.Builder builder) {
 		}
 
 	}
 
-	public static class Common {
+	public static class Server {
 
-		public final ForgeConfigSpec.BooleanValue enableCyclicDamageEventInterrupt;
-		public final ForgeConfigSpec.IntValue cyclicDamageThreshold;
-		public final ForgeConfigSpec.BooleanValue muteCyclicDamageInterrupt;
-		public final ForgeConfigSpec.BooleanValue printDamageTrace;
-		public final ForgeConfigSpec.BooleanValue savePlayerAttack;
-		public final ForgeConfigSpec.BooleanValue savePlayerHurt;
+		public final ModConfigSpec.BooleanValue enableCyclicDamageEventInterrupt;
+		public final ModConfigSpec.IntValue cyclicDamageThreshold;
+		public final ModConfigSpec.BooleanValue muteCyclicDamageInterrupt;
+		public final ModConfigSpec.BooleanValue printDamageTrace;
+		public final ModConfigSpec.BooleanValue savePlayerAttack;
+		public final ModConfigSpec.BooleanValue savePlayerHurt;
 
-		Common(ForgeConfigSpec.Builder builder) {
+		Server(ModConfigSpec.Builder builder) {
 			enableCyclicDamageEventInterrupt = builder
 					.comment("Allows L2DamageTracker to detect and prevent cyclic damage events")
 					.define("enableCyclicDamageEventInterrupt", false);
@@ -45,20 +45,20 @@ public class L2DamageTrackerConfig {
 
 	}
 
-	public static final ForgeConfigSpec CLIENT_SPEC;
+	public static final ModConfigSpec CLIENT_SPEC;
 	public static final Client CLIENT;
 
-	public static final ForgeConfigSpec COMMON_SPEC;
-	public static final Common COMMON;
+	public static final ModConfigSpec SERVER_SPEC;
+	public static final Server SERVER;
 
 	static {
-		final Pair<Client, ForgeConfigSpec> client = new ForgeConfigSpec.Builder().configure(Client::new);
+		final Pair<Client, ModConfigSpec> client = new ModConfigSpec.Builder().configure(Client::new);
 		CLIENT_SPEC = client.getRight();
 		CLIENT = client.getLeft();
 
-		final Pair<Common, ForgeConfigSpec> common = new ForgeConfigSpec.Builder().configure(Common::new);
-		COMMON_SPEC = common.getRight();
-		COMMON = common.getLeft();
+		final Pair<Server, ModConfigSpec> common = new ModConfigSpec.Builder().configure(Server::new);
+		SERVER_SPEC = common.getRight();
+		SERVER = common.getLeft();
 	}
 
 	/**
@@ -66,13 +66,13 @@ public class L2DamageTrackerConfig {
 	 */
 	public static void init() {
 		register(ModConfig.Type.CLIENT, CLIENT_SPEC);
-		register(ModConfig.Type.COMMON, COMMON_SPEC);
+		register(ModConfig.Type.SERVER, SERVER_SPEC);
 	}
 
 	private static void register(ModConfig.Type type, IConfigSpec<?> spec) {
 		var mod = ModLoadingContext.get().getActiveContainer();
 		String path = "l2_configs/" + mod.getModId() + "-" + type.extension() + ".toml";
-		ModLoadingContext.get().registerConfig(type, spec, path);
+		mod.registerConfig(type, spec, path);
 	}
 
 

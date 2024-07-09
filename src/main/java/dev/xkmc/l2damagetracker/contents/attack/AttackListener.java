@@ -2,9 +2,7 @@ package dev.xkmc.l2damagetracker.contents.attack;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.CriticalHitEvent;
+import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 
 import java.util.function.BiConsumer;
 
@@ -17,28 +15,23 @@ public interface AttackListener {
 		return false;
 	}
 
-	default void setupProfile(AttackCache attackCache, BiConsumer<LivingEntity, ItemStack> setupProfile) {
+	default void setupProfile(DamageData attackCache, BiConsumer<LivingEntity, ItemStack> setupProfile) {
 	}
 
-	default void onAttack(AttackCache cache, ItemStack weapon) {
+	default boolean onAttack(DamageData.Attack cache) {
+		return false;
 	}
 
-	default void postAttack(AttackCache cache, LivingAttackEvent event, ItemStack weapon) {
+	default void onHurt(DamageData.Offence data) {
 	}
 
-	default void onHurt(AttackCache cache, ItemStack weapon) {
+	default void onHurtMaximized(DamageData.OffenceMax data) {
 	}
 
-	default void onHurtMaximized(AttackCache cache, ItemStack weapon) {
+	default void onDamage(DamageData.Defence data) {
 	}
 
-	default void postHurt(AttackCache cache, LivingHurtEvent event, ItemStack weapon) {
-	}
-
-	default void onDamage(AttackCache cache, ItemStack weapon) {
-	}
-
-	default void onDamageFinalized(AttackCache cache, ItemStack weapon) {
+	default void onDamageFinalized(DamageData.DefenceMax data) {
 	}
 
 	default void onCreateSource(CreateSourceEvent event) {

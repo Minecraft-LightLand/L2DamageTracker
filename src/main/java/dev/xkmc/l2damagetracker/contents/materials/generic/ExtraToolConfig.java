@@ -1,7 +1,7 @@
 package dev.xkmc.l2damagetracker.contents.materials.generic;
 
 import com.google.common.collect.Multimap;
-import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
+import dev.xkmc.l2damagetracker.contents.attack.DamageDataExtra;
 import dev.xkmc.l2damagetracker.contents.materials.api.IMatVanillaType;
 import dev.xkmc.l2damagetracker.contents.materials.vanilla.GenItemVanillaType;
 import dev.xkmc.l2library.base.effects.EffectUtil;
@@ -113,7 +113,7 @@ public class ExtraToolConfig {
 		return false;
 	}
 
-	public void onDamage(AttackCache cache, ItemStack stack) {
+	public void onDamage(DamageDataExtra cache, ItemStack stack) {
 
 	}
 

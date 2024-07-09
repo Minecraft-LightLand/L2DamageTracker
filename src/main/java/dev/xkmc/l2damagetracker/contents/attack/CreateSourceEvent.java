@@ -4,7 +4,6 @@ import dev.xkmc.l2damagetracker.contents.damage.DamageState;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeWrapper;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
-import dev.xkmc.l2library.init.L2Library;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -17,7 +16,7 @@ public class CreateSourceEvent {
 
 	private final Registry<DamageType> registry;
 	private final ResourceKey<DamageType> original;
-	private LivingEntity attacker;
+	private final LivingEntity attacker;
 	private Entity direct;
 
 	@Nullable
