@@ -1,19 +1,11 @@
 package dev.xkmc.l2damagetracker.contents.materials.generic;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -27,8 +19,8 @@ public class GenericAxeItem extends AxeItem implements GenericTieredItem {
 
 	private final ExtraToolConfig config;
 
-	public GenericAxeItem(Tier tier, int damage, float speed, Properties prop, ExtraToolConfig config) {
-		super(tier, damage, speed, prop);
+	public GenericAxeItem(Tier tier, Properties prop, ExtraToolConfig config) {
+		super(tier, prop);
 		this.config = config;
 	}
 
@@ -38,35 +30,8 @@ public class GenericAxeItem extends AxeItem implements GenericTieredItem {
 	}
 
 	@Override
-	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, @Nullable T entity, Consumer<Item> onBroken) {
 		return config.damageItem(stack, amount, entity);
-	}
-
-	@Override
-	public boolean canBeDepleted() {
-		return config.canBeDepleted;
-	}
-
-	@Override
-	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity user) {
-		config.onHit(stack, target, user);
-		if (config.tool_hit > 0)
-			stack.hurtAndBreak(config.tool_hit, user, (level) -> level.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-		return true;
-	}
-
-	@Override
-	public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity entity) {
-		if (config.tool_mine > 0 && state.getDestroySpeed(level, pos) != 0.0F) {
-			stack.hurtAndBreak(config.tool_mine, entity, (l) -> l.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-		}
-		return true;
-	}
-
-	@NotNull
-	@Override
-	public AABB getSweepHitBox(@NotNull ItemStack stack, @NotNull Player player, @NotNull Entity target) {
-		return super.getSweepHitBox(stack, player, target);
 	}
 
 	@Override
@@ -75,12 +40,12 @@ public class GenericAxeItem extends AxeItem implements GenericTieredItem {
 	}
 
 	@Override
-	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-		var parent = super.getAttributeModifiers(slot, stack);
-		if (slot != EquipmentSlot.MAINHAND) return parent;
-		Multimap<Attribute, AttributeModifier> cur = HashMultimap.create();
-		cur.putAll(parent);
-		return config.modify(cur, slot, stack);
+	public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+		var parent = super.getDefaultAttributeModifiers(stack);
+		var b = ItemAttributeModifiers.builder();
+		for (var e : parent.modifiers()) b.add(e.attribute(), e.modifier(), e.slot());
+		config.modify(b, stack);
+		return b.build();
 	}
 
 	@Override
@@ -90,8 +55,8 @@ public class GenericAxeItem extends AxeItem implements GenericTieredItem {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-		config.addTooltip(pStack, pTooltipComponents);
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> list, TooltipFlag tooltipFlag) {
+		config.addTooltip(stack, list);
 	}
 
 }

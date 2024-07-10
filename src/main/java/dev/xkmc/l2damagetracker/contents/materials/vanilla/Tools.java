@@ -32,12 +32,12 @@ public enum Tools implements ITool {
 		return Math.round((base_damage + damage_offset) * damage_scale);
 	}
 
-	public float getSpeed(float base_speed) {
+	public float getAtkSpeed(float base_speed) {
 		return Mth.clamp(Math.round(base_speed * speed_scale * 10) * 0.1f, 0.1f, 4f);
 	}
 
 	@Override
-	public Item create(Tier tier, int damage, float speed, Item.Properties prop, ExtraToolConfig config) {
-		return fac.get(tier, damage, speed, prop, config);
+	public Item create(Tier tier, Item.Properties prop, ExtraToolConfig config) {
+		return fac.get(tier, prop, config);
 	}
 }

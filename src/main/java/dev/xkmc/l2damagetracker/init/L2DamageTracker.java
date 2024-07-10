@@ -1,19 +1,15 @@
 package dev.xkmc.l2damagetracker.init;
 
-import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.tterrag.registrate.providers.ProviderType;
-import com.tterrag.registrate.providers.RegistrateTagsProvider;
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import dev.xkmc.l2core.init.reg.datapack.DataMapReg;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
-import dev.xkmc.l2core.serial.config.ConfigTypeEntry;
+import dev.xkmc.l2core.init.reg.simple.Reg;
 import dev.xkmc.l2core.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
-import dev.xkmc.l2damagetracker.contents.attributes.WrappedAttribute;
 import dev.xkmc.l2damagetracker.contents.curios.TotemUseToClient;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
-import dev.xkmc.l2damagetracker.events.ArsEventCompat;
-import dev.xkmc.l2damagetracker.events.GeneralAttackListener;
+import dev.xkmc.l2damagetracker.events.L2DTGeneralAttackListener;
 import dev.xkmc.l2damagetracker.init.data.*;
 import dev.xkmc.l2serial.network.PacketHandler;
 import dev.xkmc.l2tabs.init.L2Tabs;
@@ -24,6 +20,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
+import net.minecraft.world.item.ArmorMaterial;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -43,6 +40,7 @@ public class L2DamageTracker {
 
 	public static final String MODID = "l2damagetracker";
 	public static final Logger LOGGER = LogManager.getLogger();
+	public static final Reg REG = new Reg(MODID);
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	public static final PacketHandlerWithConfig PACKET_HANDLER = new PacketHandlerWithConfig(
@@ -61,18 +59,15 @@ public class L2DamageTracker {
 	public static final SimpleEntry<Attribute> ABSORB = regWrapped(REGISTRATE, "damage_absorption", 0, 0, 10000, "Damage Absorption");
 	public static final SimpleEntry<Attribute> REDUCTION = regWrapped(REGISTRATE, "damage_reduction", 1, -10000, 10000, "Damage after Reduction", PERCENTAGE, NEGATIVE);
 
-	public static final ConfigTypeEntry<ArmorEffectConfig> ARMOR =
-			new ConfigTypeEntry<>(PACKET_HANDLER, "armor", ArmorEffectConfig.class);
+	public static final DataMapReg<ArmorMaterial, ArmorImmunity> ARMOR = REG.dataMap("armor_immunity", Registries.ARMOR_MATERIAL, ArmorImmunity.class);
 
 
 	public L2DamageTracker() {
 		L2DamageTrackerConfig.init();
 		L2DamageTypes.register();
-		AttackEventHandler.register(1000, new GeneralAttackListener());
+		AttackEventHandler.register(1000, new L2DTGeneralAttackListener());
 		REGISTRATE.addDataGenerator(ProviderType.LANG, L2DTLangData::genLang);
-		if (ModList.get().isLoaded(ArsNouveau.MODID)) {
-			MinecraftForge.EVENT_BUS.register(ArsEventCompat.class);
-		}
+		//TODO if (ModList.get().isLoaded(ArsNouveau.MODID)) MinecraftForge.EVENT_BUS.register(ArsEventCompat.class);
 	}
 
 	@SubscribeEvent
@@ -97,7 +92,7 @@ public class L2DamageTracker {
 		var helper = event.getExistingFileHelper();
 		new L2DamageTypes(output, pvd, helper).generate(gen, event.getGenerator());
 		if (ModList.get().isLoaded(L2Tabs.MODID)) {
-			event.getGenerator().addProvider(event.includeServer(), new DTAttributeConfigGen(event.getGenerator()));
+			event.getGenerator().addProvider(event.includeServer(), new DTAttributeConfigGen(output, pvd));
 		}
 	}
 

@@ -7,5 +7,6 @@
   "attribute.l2damagetracker.explosion_damage": "Explosion Damage",
   "attribute.l2damagetracker.fire_damage": "Fire Damage",
   "attribute.l2damagetracker.magic_damage": "Magic Damage",
-  "l2damagetracker.tooltip.tool.immune": "Immune to: "
+  "l2damagetracker.tooltip.tool.immune": "Grants immunity to: ",
+  "l2damagetracker.tooltip.tool.immune_set": "Full set grants immunity to: "
 }

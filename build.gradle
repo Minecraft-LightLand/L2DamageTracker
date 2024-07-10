@@ -138,12 +138,19 @@ repositories {
         name 'Progwml6 maven'
         url 'https://dvs1.progwml6.com/files/maven'
     }
+
+    maven {
+        name = "OctoStudios"
+        url = uri("https://maven.octo-studios.com/releases")
+    }
+
     mavenLocal();
 }
 
 dependencies {
     implementation "mezz.jei:jei-${jei_minecraft_version}:${jei_version}"
     implementation "com.tterrag.registrate:Registrate:${registrate_version}"
+    implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     implementation "dev.xkmc:l2serial:${l2serial_ver}"
     implementation "dev.xkmc:l2core:${l2core_ver}"
     implementation "dev.xkmc:l2tabs:${l2tabs_ver}"

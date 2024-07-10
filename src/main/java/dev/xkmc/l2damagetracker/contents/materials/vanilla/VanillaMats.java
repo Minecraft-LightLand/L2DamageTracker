@@ -7,6 +7,7 @@ import dev.xkmc.l2damagetracker.contents.materials.api.ToolConfig;
 import dev.xkmc.l2damagetracker.contents.materials.generic.ExtraToolConfig;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public record VanillaMats(Tiers tier) implements IMatToolType, IToolStats {
 
@@ -26,13 +27,10 @@ public record VanillaMats(Tiers tier) implements IMatToolType, IToolStats {
 	}
 
 	@Override
-	public int getDamage(ITool tool) {
-		return tool.getDamage(Math.round(tier.getAttackDamageBonus()) + 4);
-	}
-
-	@Override
-	public float getSpeed(ITool tool) {
-		return tool.getSpeed(1);
+	public void configure(ITool tool, ItemAttributeModifiers.Builder builder) {
+		int dmg = tool.getDamage(Math.round(tier.getAttackDamageBonus()) + 4);
+		float atkSpeed = tool.getAtkSpeed(1);
+		IToolStats.configure(builder, dmg, atkSpeed);
 	}
 
 	@Override

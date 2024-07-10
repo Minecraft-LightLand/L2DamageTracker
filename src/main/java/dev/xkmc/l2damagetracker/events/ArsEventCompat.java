@@ -1,13 +1,8 @@
 package dev.xkmc.l2damagetracker.events;
 
-import com.hollingsworth.arsnouveau.api.event.SpellDamageEvent;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-
 public class ArsEventCompat {
 
+	/* TODO
 	@SubscribeEvent
 	public static void onArsAttack(SpellDamageEvent.Pre event) {
 		if (event.damageSource.getMsgId().equals("player_attack")) {
@@ -18,6 +13,6 @@ public class ArsEventCompat {
 					old.getEntity(),
 					old.getSourcePosition());
 		}
-	}
+	}*/
 
 }

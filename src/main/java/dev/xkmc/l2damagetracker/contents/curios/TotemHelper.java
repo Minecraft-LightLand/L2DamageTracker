@@ -8,8 +8,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.CommonHooks;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
@@ -31,7 +31,7 @@ public class TotemHelper {
 				if (self instanceof ServerPlayer serverplayer) {
 					InteractionHand hand = slot instanceof HandPred pred ? pred.hand() : InteractionHand.OFF_HAND;
 					// not checking if event passed or not because the information is wrong anyway
-					ForgeHooks.onLivingUseTotem(self, source, holded, hand);
+					CommonHooks.onLivingUseTotem(self, source, holded, hand);
 					serverplayer.awardStat(Stats.ITEM_USED.get(holded.getItem()), 1);
 					CriteriaTriggers.USED_TOTEM.trigger(serverplayer, holded);
 				}
@@ -86,8 +86,8 @@ public class TotemHelper {
 
 	private static void curioTotemSlots(LivingEntity self, List<TotemSlot> ans) {
 		var opt = CuriosApi.getCuriosInventory(self);
-		if (opt.resolve().isPresent()) {
-			var curio = opt.resolve().get();
+		if (opt.isPresent()) {
+			var curio = opt.get();
 			for (var handler : curio.getCurios().values()) {
 				var stacks = handler.getStacks();
 				int n = stacks.getSlots();

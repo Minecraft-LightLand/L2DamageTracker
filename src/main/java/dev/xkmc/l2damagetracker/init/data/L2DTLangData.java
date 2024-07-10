@@ -5,7 +5,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 public enum L2DTLangData {
-	ARMOR_IMMUNE("l2damagetracker.tooltip.tool.immune", "Immune to: ", 0);
+	ARMOR_IMMUNE_SET("l2damagetracker.tooltip.tool.immune_set", "Full set grants immunity to: ", 0),
+	ARMOR_IMMUNE("l2damagetracker.tooltip.tool.immune", "Grants immunity to: ", 0);
 
 	private final String key, def;
 	private final int arg;

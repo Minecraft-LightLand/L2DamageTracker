@@ -1,21 +1,12 @@
 package dev.xkmc.l2damagetracker.contents.materials.generic;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -25,7 +16,7 @@ public class GenericHoeItem extends HoeItem implements GenericTieredItem {
 
 	private final ExtraToolConfig config;
 
-	public GenericHoeItem(Tier tier, int damage, float speed, Properties prop, ExtraToolConfig config) {
+	public GenericHoeItem(Tier tier, Properties prop, ExtraToolConfig config) {
 		super(tier, prop);
 		this.config = config;
 	}
@@ -41,44 +32,17 @@ public class GenericHoeItem extends HoeItem implements GenericTieredItem {
 	}
 
 	@Override
-	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity user) {
-		config.onHit(stack, target, user);
-		if (config.tool_hit > 0)
-			stack.hurtAndBreak(config.tool_hit, user, (level) -> level.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-		return true;
-	}
-
-	@Override
-	public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity entity) {
-		if (config.tool_mine > 0 && state.getDestroySpeed(level, pos) != 0.0F) {
-			stack.hurtAndBreak(config.tool_mine, entity, (l) -> l.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-		}
-		return true;
-	}
-
-	@NotNull
-	@Override
-	public AABB getSweepHitBox(@NotNull ItemStack stack, @NotNull Player player, @NotNull Entity target) {
-		return super.getSweepHitBox(stack, player, target);
-	}
-
-	@Override
 	public ExtraToolConfig getExtraConfig() {
 		return config;
 	}
 
 	@Override
 	public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
-		return super.getDefaultAttributeModifiers(stack);
-	}
-
-	@Override
-	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-		var parent = super.getAttributeModifiers(slot, stack);
-		if (slot != EquipmentSlot.MAINHAND) return parent;
-		Multimap<Attribute, AttributeModifier> cur = HashMultimap.create();
-		cur.putAll(parent);
-		return config.modify(cur, slot, stack);
+		var parent = super.getDefaultAttributeModifiers(stack);
+		var b = ItemAttributeModifiers.builder();
+		for (var e : parent.modifiers()) b.add(e.attribute(), e.modifier(), e.slot());
+		config.modify(b, stack);
+		return b.build();
 	}
 
 	@Override
@@ -88,8 +52,9 @@ public class GenericHoeItem extends HoeItem implements GenericTieredItem {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-		config.addTooltip(pStack, pTooltipComponents);
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> list, TooltipFlag tooltipFlag) {
+		config.addTooltip(stack, list);
 	}
+
 
 }

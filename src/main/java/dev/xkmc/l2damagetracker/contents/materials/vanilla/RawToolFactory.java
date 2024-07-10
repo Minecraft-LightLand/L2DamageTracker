@@ -7,5 +7,5 @@ import net.minecraft.world.item.Tier;
 @FunctionalInterface
 public interface RawToolFactory {
 
-	Item get(Tier tier, int dmg, float speed, Item.Properties props, ExtraToolConfig config);
+	Item get(Tier tier, Item.Properties props, ExtraToolConfig config);
 }

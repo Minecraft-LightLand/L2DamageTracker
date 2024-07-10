@@ -27,10 +27,10 @@ public class CommonHooksMixin {
 	@WrapOperation(method = "onLivingDamagePre", at = @At(value = "INVOKE", target =
 			"Lnet/neoforged/bus/api/IEventBus;post(Lnet/neoforged/bus/api/Event;)Lnet/neoforged/bus/api/Event;"))
 	private static Event l2damagetracker$postEntityDamagePreEvent(IEventBus instance, Event event, Operation<? extends Event> original) {
-		DamageContainerExtra.get(((LivingDamageEvent.Pre) event).getContainer()).onDamagePre((LivingDamageEvent.Pre) event);
-		Event ans = original.call(instance, event);
-		DamageContainerExtra.get(((LivingDamageEvent.Pre) event).getContainer()).onDamagePost((LivingDamageEvent.Pre) event);
-		return ans;
+		LivingDamageEvent.Pre evt = (LivingDamageEvent.Pre) event;
+		DamageDataExtra cont = DamageContainerExtra.get((evt).getContainer());
+		cont.onDamage(evt, e -> original.call(instance, e));
+		return evt;
 	}
 
 }

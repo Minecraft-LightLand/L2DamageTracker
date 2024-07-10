@@ -1,53 +1,35 @@
 package dev.xkmc.l2damagetracker.contents.materials.generic;
 
-import com.google.common.collect.Multimap;
-import dev.xkmc.l2core.base.effects.EffectUtil;
-import dev.xkmc.l2damagetracker.contents.attack.DamageDataExtra;
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.materials.api.IMatVanillaType;
 import dev.xkmc.l2damagetracker.contents.materials.vanilla.GenItemVanillaType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 public class ExtraToolConfig {
 
-	public int tool_hit = 2, tool_mine = 1, sword_hit = 1, sword_mine = 2;
-	public List<MobEffectInstance> effects = new ArrayList<>();
 	public Function<IMatVanillaType, Item> stick = e -> Items.STICK;
 	public boolean reversed = false;
 	public Function<Integer, TagKey<Block>> tier = GenItemVanillaType::getBlockTag;
 
-	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity) {
+	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, @Nullable T entity) {
 		return amount;
 	}
 
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-	}
-
-	public void onHit(ItemStack stack, LivingEntity target, LivingEntity user) {
-		for (MobEffectInstance ins : effects) {
-			EffectUtil.addEffect(target, ins, user);
-		}
-	}
-
-	public ExtraToolConfig addEffects(MobEffectInstance... ins) {
-		effects.addAll(List.of(ins));
-		return this;
 	}
 
 	public ExtraToolConfig setStick(Function<IMatVanillaType, Item> sup, boolean reverse) {
@@ -61,8 +43,8 @@ public class ExtraToolConfig {
 		return this;
 	}
 
-	public Multimap<Attribute, AttributeModifier> modify(Multimap<Attribute, AttributeModifier> map, EquipmentSlot slot, ItemStack stack) {
-		return map;
+	public void modify(ItemAttributeModifiers.Builder builder, ItemStack stack) {
+
 	}
 
 	public float getDestroySpeed(ItemStack stack, BlockState state, float old) {
@@ -76,12 +58,11 @@ public class ExtraToolConfig {
 	public void addTooltip(ItemStack stack, List<Component> list) {
 	}
 
-	public boolean hideWithEffect() {
-		return false;
+	public void onDamage(DamageData.Offence cache, ItemStack stack) {
+
 	}
 
-	public void onDamage(DamageDataExtra cache, ItemStack stack) {
-
+	public void configure(ItemAttributeModifiers.Builder builder) {
 	}
 
 }

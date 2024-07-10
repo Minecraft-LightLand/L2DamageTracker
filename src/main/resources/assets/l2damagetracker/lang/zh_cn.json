@@ -2,10 +2,11 @@
   "attribute.l2damagetracker.crit_rate": "暴击率",
   "attribute.l2damagetracker.crit_damage": "暴击伤害",
   "attribute.l2damagetracker.bow_strength": "投射物伤害",
-  "l2damagetracker.tooltip.tool.immune": "免疫: ",
   "attribute.l2damagetracker.explosion_damage": "爆炸伤害",
   "attribute.l2damagetracker.fire_damage": "火焰伤害",
   "attribute.l2damagetracker.magic_damage": "魔法伤害",
   "attribute.l2damagetracker.damage_absorption": "伤害吸收",
-  "attribute.l2damagetracker.damage_reduction": "受到的伤害"
+  "attribute.l2damagetracker.damage_reduction": "受到的伤害",
+  "l2damagetracker.tooltip.tool.immune": "提供免疫: ",
+  "l2damagetracker.tooltip.tool.immune_set": "全套提供免疫: "
 }

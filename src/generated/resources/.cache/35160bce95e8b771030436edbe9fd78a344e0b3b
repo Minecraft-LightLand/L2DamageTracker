@@ -1,7 +1,6 @@
-// 1.20.1	2024-03-14T15:56:02.267887	Tags for minecraft:damage_type mod id l2damagetracker
-d8a74090649bb964a5dd444e40b3a32dcf131064 data/forge/tags/damage_type/direct.json
-4780359f3196a37daa0712673346e035d102a673 data/forge/tags/damage_type/ignore_scaling.json
-a9c5b1696e4e423b52836f0e8f5501aa7f3490f6 data/forge/tags/damage_type/is_magic.json
+// 1.21	2024-07-10T15:09:49.661496	Tags for minecraft:damage_type mod id l2damagetracker
+d8a74090649bb964a5dd444e40b3a32dcf131064 data/l2damagetracker/tags/damage_type/direct.json
+4780359f3196a37daa0712673346e035d102a673 data/l2damagetracker/tags/damage_type/ignore_scaling.json
 b57c109ecfae9adbfd0a70a88d4e1addf3b12776 data/l2damagetracker/tags/damage_type/material_mux.json
 f458d7b699649a219188afc926cb6a5459bf55e2 data/minecraft/tags/damage_type/bypasses_armor.json
 6001d8bd8f685a004a7af9afba16b51e33cd69f3 data/minecraft/tags/damage_type/bypasses_effects.json

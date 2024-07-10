@@ -8,8 +8,8 @@ public interface ITool {
 
 	int getDamage(int base_damage);
 
-	float getSpeed(float base_speed);
+	float getAtkSpeed(float base_speed);
 
-	Item create(Tier tier, int damage, float speed, Item.Properties prop, ExtraToolConfig config);
+	Item create(Tier tier, Item.Properties prop, ExtraToolConfig config);
 
 }
