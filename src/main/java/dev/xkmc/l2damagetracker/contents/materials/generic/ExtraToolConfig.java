@@ -1,10 +1,10 @@
 package dev.xkmc.l2damagetracker.contents.materials.generic;
 
 import com.google.common.collect.Multimap;
+import dev.xkmc.l2core.base.effects.EffectUtil;
 import dev.xkmc.l2damagetracker.contents.attack.DamageDataExtra;
 import dev.xkmc.l2damagetracker.contents.materials.api.IMatVanillaType;
 import dev.xkmc.l2damagetracker.contents.materials.vanilla.GenItemVanillaType;
-import dev.xkmc.l2library.base.effects.EffectUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,59 +27,26 @@ import java.util.function.Function;
 public class ExtraToolConfig {
 
 	public int tool_hit = 2, tool_mine = 1, sword_hit = 1, sword_mine = 2;
-	public double repair_chance = 0, damage_chance = 1;
-	public boolean canBeDepleted = true, bypassArmor, bypassMagic;
 	public List<MobEffectInstance> effects = new ArrayList<>();
 	public Function<IMatVanillaType, Item> stick = e -> Items.STICK;
 	public boolean reversed = false;
 	public Function<Integer, TagKey<Block>> tier = GenItemVanillaType::getBlockTag;
 
 	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity) {
-		double raw = amount * damage_chance;
-		int floor = (int) Math.floor(raw);
-		double rem = raw - floor;
-		return floor + (entity.level().random.nextDouble() < rem ? 1 : 0);
+		return amount;
 	}
 
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-		if (stack.isDamaged() && repair_chance > level.getRandom().nextDouble()) {
-			stack.setDamageValue(stack.getDamageValue() - 1);
-		}
 	}
 
 	public void onHit(ItemStack stack, LivingEntity target, LivingEntity user) {
 		for (MobEffectInstance ins : effects) {
-			EffectUtil.addEffect(target, ins, EffectUtil.AddReason.NONE, user);
+			EffectUtil.addEffect(target, ins, user);
 		}
-	}
-
-	public ExtraToolConfig repairChance(double chance) {
-		this.repair_chance = chance;
-		return this;
-	}
-
-	public ExtraToolConfig damageChance(double chance) {
-		this.damage_chance = chance;
-		return this;
-	}
-
-	public ExtraToolConfig setUnDepletable() {
-		canBeDepleted = true;
-		return this;
 	}
 
 	public ExtraToolConfig addEffects(MobEffectInstance... ins) {
 		effects.addAll(List.of(ins));
-		return this;
-	}
-
-	public ExtraToolConfig setBypassArmor() {
-		bypassArmor = true;
-		return this;
-	}
-
-	public ExtraToolConfig setBypassMagic() {
-		bypassMagic = true;
 		return this;
 	}
 

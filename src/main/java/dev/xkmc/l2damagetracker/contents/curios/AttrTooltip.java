@@ -3,12 +3,12 @@ package dev.xkmc.l2damagetracker.contents.curios;
 import com.google.common.collect.Multimap;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -16,24 +16,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
+import static net.minecraft.world.item.component.ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT;
 
 public class AttrTooltip {
 
-	public static MutableComponent getDesc(Attribute attr, double val, AttributeModifier.Operation op) {
-		return getDesc(attr, val, op, null, (val < 0 ^ isNegative(attr)) ? ChatFormatting.RED : ChatFormatting.BLUE);
+	public static MutableComponent getDesc(Holder<Attribute> attr, double val, AttributeModifier.Operation op) {
+		return getDesc(attr, val, op, null, (val < 0 ^ attr.is(L2DamageTracker.NEGATIVE)) ? ChatFormatting.RED : ChatFormatting.BLUE);
 	}
 
-	public static MutableComponent getText(Attribute attr, double val, AttributeModifier.Operation op) {
+	public static MutableComponent getText(Holder<Attribute> attr, double val, AttributeModifier.Operation op) {
 		return getDesc(attr, val, op, ChatFormatting.AQUA, ChatFormatting.GRAY);
 	}
 
-	public static MutableComponent getDesc(Attribute attr, double val, AttributeModifier.Operation op,
+	public static MutableComponent getDesc(Holder<Attribute> attr, double val, AttributeModifier.Operation op,
 										   @Nullable ChatFormatting num, ChatFormatting all) {
-		var text = Component.translatable(attr.getDescriptionId());
+		var text = Component.translatable(attr.value().getDescriptionId());
 		MutableComponent base;
-		if (AttrTooltip.isMult(attr)) {
-			if (op == AttributeModifier.Operation.ADDITION) {
+		if (attr.is(L2DamageTracker.PERCENTAGE)){
+			if (op == AttributeModifier.Operation.ADD_VALUE) {
 				base = Component.literal(val < 0 ? "-" : "+");
 				base.append(ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val * 100)));
 				base.append("%");
@@ -42,9 +42,9 @@ public class AttrTooltip {
 				base = Component.literal("x");
 				base.append(ATTRIBUTE_MODIFIER_FORMAT.format(val + 1));
 			}
-		} else {
+		} else{
 			base = Component.literal(val < 0 ? "-" : "+");
-			if (op == AttributeModifier.Operation.ADDITION) {
+			if (op == AttributeModifier.Operation.ADD_VALUE) {
 				base.append(ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val)));
 			} else {
 				base.append(ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val * 100)));
@@ -58,13 +58,13 @@ public class AttrTooltip {
 		return base.withStyle(all);
 	}
 
-	public static List<Component> modifyTooltip(List<Component> tooltips, Multimap<Attribute, AttributeModifier> attributes, boolean remove) {
+	public static List<Component> modifyTooltip(List<Component> tooltips, Multimap<Holder<Attribute>, AttributeModifier> attributes, boolean remove) {
 		Map<TooltipDetail, Integer> map = analyzeTooltip(tooltips);
 		for (var ent : attributes.entries()) {
 			var attr = ent.getKey();
-			double val = ent.getValue().getAmount();
-			var op = ent.getValue().getOperation();
-			var key = new TooltipDetail(attr.getDescriptionId(), op.toValue());
+			double val = ent.getValue().amount();
+			var op = ent.getValue().operation();
+			var key = new TooltipDetail(attr.value().getDescriptionId(), op.id());
 			Integer index = map.get(key);
 			if (index == null) continue;
 			map.remove(key);
@@ -72,7 +72,7 @@ public class AttrTooltip {
 				tooltips.set(index, null);
 			} else {
 				MutableComponent rep = null;
-				if (isMult(attr) || isNegative(attr)) {
+				if (attr.is(L2DamageTracker.PERCENTAGE) || attr.is(L2DamageTracker.NEGATIVE)) {
 					rep = getDesc(attr, val, op);
 				}
 				if (rep != null) {
@@ -102,14 +102,6 @@ public class AttrTooltip {
 			}
 		}
 		return map;
-	}
-
-	public static boolean isMult(Attribute attr) {
-		return ForgeRegistries.ATTRIBUTES.getHolder(attr).orElseThrow().is(L2DamageTracker.PERCENTAGE);
-	}
-
-	public static boolean isNegative(Attribute attr) {
-		return ForgeRegistries.ATTRIBUTES.getHolder(attr).orElseThrow().is(L2DamageTracker.NEGATIVE);
 	}
 
 	public record TooltipDetail(String id, int op) {

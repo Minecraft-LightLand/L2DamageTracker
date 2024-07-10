@@ -8,15 +8,14 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
-@Mod.EventBusSubscriber(modid = L2DamageTracker.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = L2DamageTracker.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class GeneralEventHandler {
 
 	@SubscribeEvent
@@ -27,20 +26,21 @@ public class GeneralEventHandler {
 	}
 
 	@SubscribeEvent
-	public static void onServerTick(TickEvent.ServerTickEvent event) {
-		if (event.phase != TickEvent.Phase.END) return;
+	public static void onServerTick(ServerTickEvent.Post event) {
 		LogHelper.tick(event.getServer());
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onPotionTest(MobEffectEvent.Applicable event) {
+		var ins = event.getEffectInstance();
+		if (ins == null) return;
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
+			if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
 			ItemStack stack = event.getEntity().getItemBySlot(slot);
 			if (!stack.isEmpty()) {
 				if (stack.getItem() instanceof GenericArmorItem armor) {
-					if (armor.getConfig().immuneToEffect(stack, armor, event.getEffectInstance())) {
-						event.setResult(Event.Result.DENY);
+					if (armor.getConfig().immuneToEffect(stack, armor, ins)) {
+						event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
 						return;
 					}
 				}

@@ -1,8 +1,6 @@
 package dev.xkmc.l2damagetracker.events;
 
 import dev.xkmc.l2damagetracker.contents.attack.*;
-import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
-import dev.xkmc.l2damagetracker.contents.materials.generic.ExtraToolConfig;
 import dev.xkmc.l2damagetracker.contents.materials.generic.GenericTieredItem;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
@@ -10,7 +8,6 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 
@@ -21,27 +18,16 @@ public class GeneralAttackListener implements AttackListener {
 	@Override
 	public boolean onCriticalHit(PlayerAttackCache cache, CriticalHitEvent event) {
 		Player player = event.getEntity();
-		double cr = L2DamageTracker.CRIT_RATE.get().getWrappedValue(player);
-		double cd = L2DamageTracker.CRIT_DMG.get().getWrappedValue(player);
+		double cr = player.getAttributeValue(L2DamageTracker.CRIT_RATE.holder());
+		double cd = player.getAttributeValue(L2DamageTracker.CRIT_DMG.holder());
 		if (event.isVanillaCritical()) {
-			event.setDamageModifier(event.getDamageModifier() / 1.5f * (float) (1 + cd));
+			event.setDamageMultiplier(event.getDamageMultiplier() / 1.5f * (float) (1 + cd));
+			return true;
 		} else if (player.getRandom().nextDouble() < cr) {
-			event.setDamageModifier(event.getDamageModifier() * (float) (1 + cd));
-			event.setResult(Event.Result.ALLOW);
+			event.setDamageMultiplier(event.getDamageMultiplier() * (float) (1 + cd));
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void onCreateSource(CreateSourceEvent event) {
-		if (event.getAttacker().getMainHandItem().getItem() instanceof GenericTieredItem gen) {
-			if (event.getRegistry().getHolderOrThrow(event.getOriginal()).is(L2DamageTypes.MATERIAL_MUX)) {
-				ExtraToolConfig config = gen.getExtraConfig();
-				if (config.bypassMagic) event.enable(DefaultDamageState.BYPASS_MAGIC);
-				if (config.bypassArmor) event.enable(DefaultDamageState.BYPASS_ARMOR);
-			}
-		}
 	}
 
 	@Override

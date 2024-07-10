@@ -1,26 +1,19 @@
 package dev.xkmc.l2damagetracker.init.data;
 
-import com.hollingsworth.arsnouveau.ArsNouveau;
-import com.hollingsworth.arsnouveau.setup.registry.DamageTypesRegistry;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeWrapper;
 import dev.xkmc.l2damagetracker.contents.damage.DamageWrapperTagProvider;
 import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
-import io.redspace.ironsspellbooks.IronsSpellbooks;
-import io.redspace.ironsspellbooks.damage.ISSDamageTypes;
-import io.redspace.ironsspellbooks.datagen.DamageTypeTagGenerator;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.worldgen.BootstapContext;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,16 +23,13 @@ import java.util.concurrent.CompletableFuture;
 public class L2DamageTypes extends DamageTypeAndTagsGen {
 
 	public static final TagKey<DamageType> MATERIAL_MUX = TagKey.create(Registries.DAMAGE_TYPE,
-			new ResourceLocation(L2DamageTracker.MODID, "material_mux"));
-
-	public static final TagKey<DamageType> MAGIC = TagKey.create(Registries.DAMAGE_TYPE,
-			new ResourceLocation("forge", "is_magic"));
+			L2DamageTracker.loc("material_mux"));
 
 	public static final TagKey<DamageType> NO_SCALE = TagKey.create(Registries.DAMAGE_TYPE,
-			new ResourceLocation("forge", "ignore_scaling"));
+			L2DamageTracker.loc("ignore_scaling"));
 
 	public static final TagKey<DamageType> DIRECT = TagKey.create(Registries.DAMAGE_TYPE,
-			new ResourceLocation("forge", "direct"));
+			L2DamageTracker.loc("direct"));
 
 	public static final DamageTypeRoot PLAYER_ATTACK = new DamageTypeRoot(L2DamageTracker.MODID, DamageTypes.PLAYER_ATTACK,
 			List.of(DIRECT), (type) -> new DamageType("player", 0.1F));
@@ -77,7 +67,7 @@ public class L2DamageTypes extends DamageTypeAndTagsGen {
 	}
 
 	@Override
-	protected void addDamageTypes(BootstapContext<DamageType> ctx) {
+	protected void addDamageTypes(BootstrapContext<DamageType> ctx) {
 		DamageTypeRoot.generateAll();
 		for (DamageTypeWrapper wrapper : L2DamageTypes.LIST) {
 			ctx.register(wrapper.type(), wrapper.getObject());
@@ -92,9 +82,8 @@ public class L2DamageTypes extends DamageTypeAndTagsGen {
 		}
 		pvd.tag(MATERIAL_MUX).add(DamageTypes.PLAYER_ATTACK, DamageTypes.MOB_ATTACK);
 		pvd.tag(DIRECT).add(DamageTypes.PLAYER_ATTACK, DamageTypes.MOB_ATTACK);
-		pvd.tag(MAGIC).add(DamageTypes.MAGIC, DamageTypes.INDIRECT_MAGIC, DamageTypes.THORNS, DamageTypes.SONIC_BOOM,
-				DamageTypes.WITHER, DamageTypes.DRAGON_BREATH, DamageTypes.WITHER_SKULL);
 		pvd.tag(NO_SCALE).add(DamageTypes.THORNS, DamageTypes.STARVE, DamageTypes.DROWN, DamageTypes.DRY_OUT, DamageTypes.IN_WALL);
+		/*
 		if (ModList.get().isLoaded(IronsSpellbooks.MODID)) {
 			pvd.tag(MAGIC).addOptionalTag(DamageTypeTagGenerator.FIRE_MAGIC.location());
 			pvd.tag(MAGIC).addOptionalTag(DamageTypeTagGenerator.ICE_MAGIC.location());
@@ -116,7 +105,7 @@ public class L2DamageTypes extends DamageTypeAndTagsGen {
 			pvd.tag(MAGIC).addOptional(DamageTypesRegistry.WINDSHEAR.location());
 			pvd.tag(MAGIC).addOptional(DamageTypesRegistry.FLARE.location());
 			pvd.tag(MAGIC).addOptional(DamageTypesRegistry.COLD_SNAP.location());
-		}
+		}*/
 	}
 
 }

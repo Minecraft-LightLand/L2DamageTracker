@@ -107,14 +107,19 @@ public class DamageDataExtra implements DamageData.All {
 	}
 
 	void setupPlayer(PlayerAttackCache prev) {
-		player = prev;
-		attacker = prev.getAttacker();
-		if (!prev.getWeapon().isEmpty()) weapon = prev.getWeapon();
+
 	}
 
 	public void onIncoming(LivingIncomingDamageEvent event, Consumer<LivingIncomingDamageEvent> cons) {
 		target = event.getEntity();
 		cont = event.getContainer();
+
+		if (attacker instanceof Player pl) {
+			var e = AttackEventHandler.PLAYER.get(pl.getUUID());
+			player = e;
+			if (!e.getWeapon().isEmpty()) weapon = e.getWeapon();
+		}
+
 		var list = AttackEventHandler.getListeners();
 		for (var e : list) e.setupProfile(this, this::setupAttackerProfile);
 		log.log(LogEntry.Stage.INCOMING, originalDamage);

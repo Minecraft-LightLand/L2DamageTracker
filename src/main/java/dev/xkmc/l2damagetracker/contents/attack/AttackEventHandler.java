@@ -2,11 +2,9 @@ package dev.xkmc.l2damagetracker.contents.attack;
 
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -42,7 +40,7 @@ public class AttackEventHandler {
 		return LISTENERS.values();
 	}
 
-	private static final HashMap<UUID, PlayerAttackCache> PLAYER = new HashMap<>();
+	static final HashMap<UUID, PlayerAttackCache> PLAYER = new HashMap<>();
 
 	@SubscribeEvent
 	public static void onPlayerAttack(AttackEntityEvent event) {
@@ -69,9 +67,9 @@ public class AttackEventHandler {
 	public static void onEntityJoin(EntityJoinLevelEvent event) {
 		if (event.getEntity() instanceof AbstractArrow arrow) {
 			if (arrow.getOwner() instanceof Player player) {
-				double cr = L2DamageTracker.CRIT_RATE.get().getWrappedValue(player);
-				double cd = L2DamageTracker.CRIT_DMG.get().getWrappedValue(player);
-				double strength = L2DamageTracker.BOW_STRENGTH.get().getWrappedValue(player);
+				double cr = player.getAttributeValue(L2DamageTracker.CRIT_RATE.holder());
+				double cd = player.getAttributeValue(L2DamageTracker.CRIT_DMG.holder());
+				double strength = player.getAttributeValue(L2DamageTracker.BOW_STRENGTH.holder());
 				if (arrow.isCritArrow() && player.getRandom().nextDouble() < cr) {
 					strength *= (1 + cd);
 				}

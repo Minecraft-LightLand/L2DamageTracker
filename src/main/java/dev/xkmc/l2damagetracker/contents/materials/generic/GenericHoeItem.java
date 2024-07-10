@@ -10,10 +10,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -28,7 +26,7 @@ public class GenericHoeItem extends HoeItem implements GenericTieredItem {
 	private final ExtraToolConfig config;
 
 	public GenericHoeItem(Tier tier, int damage, float speed, Properties prop, ExtraToolConfig config) {
-		super(tier, damage, speed, prop);
+		super(tier, prop);
 		this.config = config;
 	}
 
@@ -38,13 +36,8 @@ public class GenericHoeItem extends HoeItem implements GenericTieredItem {
 	}
 
 	@Override
-	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, @Nullable T entity, Consumer<Item> onBroken) {
 		return config.damageItem(stack, amount, entity);
-	}
-
-	@Override
-	public boolean canBeDepleted() {
-		return config.canBeDepleted;
 	}
 
 	@Override
@@ -72,6 +65,11 @@ public class GenericHoeItem extends HoeItem implements GenericTieredItem {
 	@Override
 	public ExtraToolConfig getExtraConfig() {
 		return config;
+	}
+
+	@Override
+	public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+		return super.getDefaultAttributeModifiers(stack);
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public enum DefaultDamageState implements DamageState {
 
 	@Override
 	public ResourceLocation getId() {
-		return new ResourceLocation(L2DamageTracker.MODID, name().toLowerCase(Locale.ROOT));
+		return L2DamageTracker.loc(name().toLowerCase(Locale.ROOT));
 	}
 
 }

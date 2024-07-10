@@ -27,7 +27,7 @@ public final class DamageTypeVariant implements DamageTypeWrapper {
 		for (DamageState state : set) {
 			name.append("-").append(state.getId().getPath());
 		}
-		this.type = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(modid, name.toString()));
+		this.type = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(modid, name.toString()));
 	}
 
 	public ResourceKey<DamageType> type() {

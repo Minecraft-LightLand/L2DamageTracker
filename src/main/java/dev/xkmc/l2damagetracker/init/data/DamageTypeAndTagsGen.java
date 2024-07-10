@@ -7,12 +7,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -72,7 +72,7 @@ public abstract class DamageTypeAndTagsGen {
 		generator.addProvider(gen, new DamageTypeTagsGen(entries.getRegistryProvider()));
 	}
 
-	protected void addDamageTypes(BootstapContext<DamageType> ctx) {
+	protected void addDamageTypes(BootstrapContext<DamageType> ctx) {
 		for (var e : holders) {
 			ctx.register(e.key, e.value);
 		}
