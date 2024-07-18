@@ -43,7 +43,7 @@ public class GenericArmorItem extends ArmorItem {
 		var parent = super.getDefaultAttributeModifiers(stack);
 		var b = ItemAttributeModifiers.builder();
 		for (var e : parent.modifiers()) b.add(e.attribute(), e.modifier(), e.slot());
-		config.modify(b, getEquipmentSlot(), stack);
+		config.modifyDynamicAttributes(b, getEquipmentSlot(), stack);
 		return b.build();
 	}
 

@@ -55,7 +55,7 @@ public class L2DTGeneralEventHandler {
 			if (!(stack.getItem() instanceof ArmorItem armor)) continue;
 			ArmorImmunity e = L2DamageTracker.ARMOR.get(access, armor.getMaterial());
 			if (e == null) continue;
-			if (!e.set().contains(ins.getEffect())) continue;
+			if (!e.set().contains(ins.getEffect().value())) continue;
 			if (set == null) set = e;
 			if (set == e) count++;
 			if (!e.full()) {

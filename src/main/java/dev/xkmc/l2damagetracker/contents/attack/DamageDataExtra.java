@@ -1,12 +1,16 @@
 package dev.xkmc.l2damagetracker.contents.attack;
 
+import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.l2damagetracker.init.data.L2DamageTrackerConfig;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
+import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import org.jetbrains.annotations.Nullable;
@@ -87,6 +91,11 @@ public class DamageDataExtra implements DamageData.All {
 		noCancellation = true;
 	}
 
+	@Override
+	public @Nullable PlayerAttackCache getPlayerData() {
+		return player;
+	}
+
 	private boolean shouldLog() {
 		if (getAttacker() instanceof Player && L2DamageTrackerConfig.SERVER.savePlayerAttack.get()) return true;
 		if (getTarget() instanceof Player && L2DamageTrackerConfig.SERVER.savePlayerHurt.get()) return true;
@@ -96,18 +105,16 @@ public class DamageDataExtra implements DamageData.All {
 	public void init(DamageSource source, float originalDamage) {
 		this.source = source;
 		this.originalDamage = originalDamage;
-		this.attacker = source.getEntity() instanceof LivingEntity le ? le : null;
 		this.bypassMagic = source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) ||
 				source.is(DamageTypeTags.BYPASSES_EFFECTS);
+		Entity e = source.getEntity();
+		while (e instanceof PartEntity<?> pe) e = pe.getParent();
+		this.attacker = e instanceof LivingEntity le ? le : null;
 	}
 
 	void setupAttackerProfile(@Nullable LivingEntity entity, @Nullable ItemStack stack) {
 		if (attacker == null && entity != null) attacker = entity;
 		if (weapon.isEmpty() && stack != null) weapon = stack;
-	}
-
-	void setupPlayer(PlayerAttackCache prev) {
-
 	}
 
 	public void onIncoming(LivingIncomingDamageEvent event, Consumer<LivingIncomingDamageEvent> cons) {
@@ -133,6 +140,7 @@ public class DamageDataExtra implements DamageData.All {
 				e -> e.onHurt(this),
 				e -> e.onHurtMaximized(this),
 				event(event, cons));
+		if (noCancellation && event.isCanceled()) event.setCanceled(false);
 		event.setAmount(damage);
 		log.log(LogEntry.Stage.INCOMING_POST, damage);
 	}
@@ -147,8 +155,11 @@ public class DamageDataExtra implements DamageData.All {
 		event.setNewDamage(damage);
 	}
 
+	private static final ResourceLocation EVENT_OFFENSIVE = L2DamageTracker.loc("event_offensive");
+	private static final ResourceLocation EVENT_DEFENSIVE = L2DamageTracker.loc("event_defensive");
+
 	private static DamageModifier event(LivingIncomingDamageEvent event, Consumer<LivingIncomingDamageEvent> cons) {
-		return new Nonlinear(DamageModifier.Order.EVENT, 0, f -> {
+		return new Nonlinear(EVENT_OFFENSIVE, DamageModifier.Order.EVENT, 0, f -> {
 			event.setAmount(f);
 			cons.accept(event);
 			return event.getAmount();
@@ -156,7 +167,7 @@ public class DamageDataExtra implements DamageData.All {
 	}
 
 	private static DamageModifier event(LivingDamageEvent.Pre event, Consumer<LivingDamageEvent.Pre> cons) {
-		return new Nonlinear(DamageModifier.Order.EVENT, 0, f -> {
+		return new Nonlinear(EVENT_DEFENSIVE, DamageModifier.Order.EVENT, 0, f -> {
 			event.setNewDamage(f);
 			cons.accept(event);
 			return event.getNewDamage();

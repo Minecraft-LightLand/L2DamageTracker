@@ -23,13 +23,16 @@ public interface DamageData {
 
 	boolean bypassMagic();
 
+	@Nullable
+	PlayerAttackCache getPlayerData();
+
 	interface PostSetup extends DamageData {
 
 		ItemStack getWeapon();
 
 	}
 
-	interface Attack extends DamageData {
+	interface Attack extends PostSetup {
 
 		void setNonCancellable();
 

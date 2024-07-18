@@ -98,7 +98,7 @@ public class LogEntry {
 
 	public void recordModifier(DamageModifier mod) {
 		if (!trace) return;
-		modifiers.put(mod, getStackTrace());
+		modifiers.put(mod, mod.id() + " --- " + getStackTrace());
 	}
 
 	public void startLayer(DamageModifier.Order key, float val) {

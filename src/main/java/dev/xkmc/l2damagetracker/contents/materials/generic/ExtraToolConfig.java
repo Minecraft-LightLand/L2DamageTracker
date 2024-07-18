@@ -24,6 +24,13 @@ public class ExtraToolConfig {
 	public Function<IMatVanillaType, Item> stick = e -> Items.STICK;
 	public boolean reversed = false;
 	public Function<Integer, TagKey<Block>> tier = GenItemVanillaType::getBlockTag;
+	private TagKey<Item>[] tags = new TagKey[0];
+
+	@SafeVarargs
+	public final ExtraToolConfig tags(TagKey<Item>... tags){
+		this.tags = tags;
+		return this;
+	}
 
 	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, @Nullable T entity) {
 		return amount;
@@ -43,9 +50,14 @@ public class ExtraToolConfig {
 		return this;
 	}
 
-	public void modify(ItemAttributeModifiers.Builder builder, ItemStack stack) {
+	public void configureAttributes(ItemAttributeModifiers.Builder builder) {
+	}
+
+
+	public void modifyDynamicAttributes(ItemAttributeModifiers.Builder builder, ItemStack stack) {
 
 	}
+
 
 	public float getDestroySpeed(ItemStack stack, BlockState state, float old) {
 		return old;
@@ -62,7 +74,8 @@ public class ExtraToolConfig {
 
 	}
 
-	public void configure(ItemAttributeModifiers.Builder builder) {
+	public TagKey<Item>[] tags() {
+		return tags;
 	}
 
 }

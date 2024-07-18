@@ -54,15 +54,19 @@ public class L2DTGeneralAttackListener implements AttackListener {
 		if (attacker != null) {
 			if (data.getSource().is(DamageTypeTags.IS_EXPLOSION)) {
 				var ins = attacker.getAttribute(L2DamageTracker.EXPLOSION_FACTOR.holder());
-				if (ins != null) data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue()));
+				if (ins != null)
+					data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue(),
+							L2DamageTracker.EXPLOSION_FACTOR.key().location()));
 			}
 			if (data.getSource().is(DamageTypeTags.IS_FIRE)) {
 				var ins = attacker.getAttribute(L2DamageTracker.FIRE_FACTOR.holder());
-				if (ins != null) data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue()));
+				if (ins != null) data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue(),
+						L2DamageTracker.FIRE_FACTOR.key().location()));
 			}
 			if (data.getSource().is(Tags.DamageTypes.IS_MAGIC)) {
 				var ins = attacker.getAttribute(L2DamageTracker.MAGIC_FACTOR.holder());
-				if (ins != null) data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue()));
+				if (ins != null) data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue(),
+						L2DamageTracker.MAGIC_FACTOR.key().location()));
 			}
 		}
 	}
@@ -73,13 +77,16 @@ public class L2DTGeneralAttackListener implements AttackListener {
 			var ins = data.getTarget().getAttribute(L2DamageTracker.REDUCTION.holder());
 			if (ins != null) {
 				float val = (float) ins.getValue();
-				data.addDealtModifier(DamageModifier.multAttr(val));
+				data.addDealtModifier(DamageModifier.multAttr(val,
+						L2DamageTracker.REDUCTION.key().location()));
 			}
 			ins = data.getTarget().getAttribute(L2DamageTracker.ABSORB.holder());
 			if (ins != null) {
 				float val = (float) ins.getValue();
-				data.addDealtModifier(DamageModifier.add(-val));
-				data.addDealtModifier(DamageModifier.nonlinearMiddle(943, e -> Math.max(0, e)));
+				data.addDealtModifier(DamageModifier.add(-val,
+						L2DamageTracker.ABSORB.key().location()));
+				data.addDealtModifier(DamageModifier.nonlinearMiddle(943, e -> Math.max(0, e),
+						L2DamageTracker.ABSORB.key().location().withSuffix("_prevent_underflow")));
 			}
 		}
 	}

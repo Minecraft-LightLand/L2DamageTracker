@@ -3,13 +3,10 @@ package dev.xkmc.l2damagetracker.contents.materials.generic;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -44,7 +41,7 @@ public class GenericAxeItem extends AxeItem implements GenericTieredItem {
 		var parent = super.getDefaultAttributeModifiers(stack);
 		var b = ItemAttributeModifiers.builder();
 		for (var e : parent.modifiers()) b.add(e.attribute(), e.modifier(), e.slot());
-		config.modify(b, stack);
+		config.modifyDynamicAttributes(b, stack);
 		return b.build();
 	}
 

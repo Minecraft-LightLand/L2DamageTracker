@@ -1,23 +1,20 @@
 package dev.xkmc.l2damagetracker.init.data;
 
-import dev.xkmc.l2damagetracker.contents.damage.DamageWrapperTagProvider;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistrySetBuilder;
+import com.tterrag.registrate.providers.ProviderType;
+import com.tterrag.registrate.providers.RegistrateTagsProvider;
+import dev.xkmc.l2core.init.L2TagGen;
+import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
-import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 public abstract class DamageTypeAndTagsGen {
+
+	public static final ProviderType<RegistrateTagsProvider.Impl<DamageType>> DAMAGE_TYPE_TAG = L2TagGen.getProvider(Registries.DAMAGE_TYPE);
 
 	public record DamageTypeTagGroup(TagKey<DamageType>[] tags) {
 
@@ -53,23 +50,17 @@ public abstract class DamageTypeAndTagsGen {
 
 	}
 
-	private final PackOutput output;
-	private final CompletableFuture<HolderLookup.Provider> pvd;
-	private final ExistingFileHelper helper;
-	private final String modid;
+	private final L2Registrate reg;
 	private final List<DamageTypeHolder> holders = new ArrayList<>();
 
-	public DamageTypeAndTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> pvd, ExistingFileHelper helper, String modid) {
-		this.output = output;
-		this.pvd = pvd;
-		this.helper = helper;
-		this.modid = modid;
+	public DamageTypeAndTagsGen(L2Registrate reg) {
+		this.reg = reg;
 	}
 
-	public void generate(boolean gen, DataGenerator generator) {
-		var entries = new DamageTypeGen();
-		generator.addProvider(gen, entries);
-		generator.addProvider(gen, new DamageTypeTagsGen(entries.getRegistryProvider()));
+	public void generate() {
+		reg.getDataGenInitializer().add(Registries.DAMAGE_TYPE, this::addDamageTypes);
+		reg.addDataGenerator(DAMAGE_TYPE_TAG, this::addDamageTypeTags);
+		reg.getDataGenInitializer().addDependency(DAMAGE_TYPE_TAG, ProviderType.DYNAMIC);
 	}
 
 	protected void addDamageTypes(BootstrapContext<DamageType> ctx) {
@@ -78,35 +69,12 @@ public abstract class DamageTypeAndTagsGen {
 		}
 	}
 
-	protected void addDamageTypeTags(DamageWrapperTagProvider pvd, HolderLookup.Provider lookup) {
+	protected void addDamageTypeTags(RegistrateTagsProvider.Impl<DamageType> pvd) {
 		for (var e : holders) {
 			for (var t : e.tags) {
-				pvd.tag(t).add(e.key);
+				pvd.addTag(t).add(e.key);
 			}
 		}
 	}
-
-	private class DamageTypeGen extends DatapackBuiltinEntriesProvider {
-
-		public DamageTypeGen() {
-			super(output, pvd, new RegistrySetBuilder().add(Registries.DAMAGE_TYPE,
-					DamageTypeAndTagsGen.this::addDamageTypes), Set.of(modid));
-		}
-
-	}
-
-	private class DamageTypeTagsGen extends TagsProvider<DamageType> {
-
-		public DamageTypeTagsGen(CompletableFuture<HolderLookup.Provider> pvd) {
-			super(output, Registries.DAMAGE_TYPE, pvd, modid, helper);
-		}
-
-		@Override
-		protected void addTags(HolderLookup.Provider lookup) {
-			addDamageTypeTags(this::tag, lookup);
-		}
-
-	}
-
 
 }

@@ -6,6 +6,7 @@ import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
+import dev.xkmc.l2core.util.MathHelper;
 import dev.xkmc.l2damagetracker.contents.materials.api.*;
 import dev.xkmc.l2damagetracker.contents.materials.generic.GenericArmorItem;
 import net.minecraft.resources.ResourceLocation;
@@ -26,23 +27,31 @@ import java.util.function.BiFunction;
 public record GenItemVanillaType(String modid, L2Registrate registrate) {
 
 	public static final ToolConfig TOOL_GEN = new ToolConfig(GenItemVanillaType::genGenericTool);
-	public static final ArmorConfig ARMOR_GEN = new ArmorConfig((mat, slot, prop) -> new GenericArmorItem(mat.getArmorMaterial(), slot, prop, mat.getExtraArmorConfig()));
+	public static final ArmorConfig ARMOR_GEN = new ArmorConfig(GenItemVanillaType::genGenericArmor);
+
 
 	public static Item genGenericTool(IMatToolType mat, ITool tool, Item.Properties prop) {
 		var builder = ItemAttributeModifiers.builder();
 		mat.getToolStats().configure(tool, builder);
-		mat.getExtraToolConfig().configure(builder);
+		mat.getExtraToolConfig().configureAttributes(builder);
 		prop.attributes(builder.build());
 		return tool.create(mat.getTier(), prop, mat.getExtraToolConfig());
 	}
 
+	private static ArmorItem genGenericArmor(IMatArmorType mat, ArmorItem.Type slot, Item.Properties prop) {
+		var builder = ItemAttributeModifiers.builder();
+		mat.getExtraArmorConfig().configureAttributes(builder, slot.getSlot());
+		prop.attributes(builder.build());
+		return new GenericArmorItem(mat.getArmorMaterial(), slot, prop, mat.getExtraArmorConfig());
+	}
+
 	public static TagKey<Block> getBlockTag(int level) {
 		return switch (level) {
-			case 0 -> Tags.Blocks.NEEDS_WOOD_TOOL;
-			case 1 -> BlockTags.NEEDS_STONE_TOOL;
-			case 2 -> BlockTags.NEEDS_IRON_TOOL;
-			case 3 -> BlockTags.NEEDS_DIAMOND_TOOL;
-			default -> Tags.Blocks.NEEDS_NETHERITE_TOOL;
+			case 0 -> BlockTags.INCORRECT_FOR_WOODEN_TOOL;
+			case 1 -> BlockTags.INCORRECT_FOR_STONE_TOOL;
+			case 2 -> BlockTags.INCORRECT_FOR_IRON_TOOL;
+			case 3 -> BlockTags.INCORRECT_FOR_DIAMOND_TOOL;
+			default -> BlockTags.INCORRECT_FOR_NETHERITE_TOOL;
 
 		};
 	}
@@ -57,13 +66,13 @@ public record GenItemVanillaType(String modid, L2Registrate registrate) {
 					registrate.item(id + "_" + str, p -> mat.getArmorConfig().sup().get(mat, slot, p))
 							.model((ctx, pvd) -> generatedModel(ctx, pvd, id, str))
 							.defaultLang();
-			ans[i][3] = armor_gen.apply("helmet", ArmorItem.Type.HELMET).tag(ItemTags.HEAD_ARMOR, ItemTags.TRIMMABLE_ARMOR).register();
-			ans[i][2] = armor_gen.apply("chestplate", ArmorItem.Type.CHESTPLATE).tag(ItemTags.CHEST_ARMOR, ItemTags.TRIMMABLE_ARMOR).register();
-			ans[i][1] = armor_gen.apply("leggings", ArmorItem.Type.LEGGINGS).tag(ItemTags.LEG_ARMOR, ItemTags.TRIMMABLE_ARMOR).register();
-			ans[i][0] = armor_gen.apply("boots", ArmorItem.Type.BOOTS).tag(ItemTags.FOOT_ARMOR, ItemTags.TRIMMABLE_ARMOR).register();
+			ans[i][3] = armor_gen.apply("helmet", ArmorItem.Type.HELMET).tag(MathHelper.merge(mat.getExtraArmorConfig().tags(), ItemTags.HEAD_ARMOR, ItemTags.TRIMMABLE_ARMOR)).register();
+			ans[i][2] = armor_gen.apply("chestplate", ArmorItem.Type.CHESTPLATE).tag(MathHelper.merge(mat.getExtraArmorConfig().tags(), ItemTags.CHEST_ARMOR, ItemTags.TRIMMABLE_ARMOR)).register();
+			ans[i][1] = armor_gen.apply("leggings", ArmorItem.Type.LEGGINGS).tag(MathHelper.merge(mat.getExtraArmorConfig().tags(), ItemTags.LEG_ARMOR, ItemTags.TRIMMABLE_ARMOR)).register();
+			ans[i][0] = armor_gen.apply("boots", ArmorItem.Type.BOOTS).tag(MathHelper.merge(mat.getExtraArmorConfig().tags(), ItemTags.FOOT_ARMOR, ItemTags.TRIMMABLE_ARMOR)).register();
 			BiFunction<String, Tools, ItemEntry> tool_gen = (str, tool) ->
 					registrate.item(id + "_" + str, p -> mat.getToolConfig().sup().get(mat, tool, p))
-							.model((ctx, pvd) -> handHeld(ctx, pvd, id, str)).tag(tool.tag)
+							.model((ctx, pvd) -> handHeld(ctx, pvd, id, str)).tag(MathHelper.merge(mat.getExtraToolConfig().tags(), tool.tag))
 							.defaultLang().register();
 			for (int j = 0; j < Tools.values().length; j++) {
 				Tools tool = Tools.values()[j];

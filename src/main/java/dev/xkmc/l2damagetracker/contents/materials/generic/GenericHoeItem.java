@@ -41,7 +41,7 @@ public class GenericHoeItem extends HoeItem implements GenericTieredItem {
 		var parent = super.getDefaultAttributeModifiers(stack);
 		var b = ItemAttributeModifiers.builder();
 		for (var e : parent.modifiers()) b.add(e.attribute(), e.modifier(), e.slot());
-		config.modify(b, stack);
+		config.modifyDynamicAttributes(b, stack);
 		return b.build();
 	}
 

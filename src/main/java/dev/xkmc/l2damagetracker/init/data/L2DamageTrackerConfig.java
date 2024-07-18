@@ -69,7 +69,7 @@ public class L2DamageTrackerConfig {
 		register(ModConfig.Type.SERVER, SERVER_SPEC);
 	}
 
-	private static void register(ModConfig.Type type, IConfigSpec<?> spec) {
+	private static void register(ModConfig.Type type, IConfigSpec spec) {
 		var mod = ModLoadingContext.get().getActiveContainer();
 		String path = "l2_configs/" + mod.getModId() + "-" + type.extension() + ".toml";
 		mod.registerConfig(type, spec, path);
