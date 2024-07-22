@@ -60,7 +60,7 @@ public final class DamageTypeVariant implements DamageTypeWrapper {
 	}
 
 	@Override
-	public void gen(DamageWrapperTagProvider gen, HolderLookup.Provider pvd) {
+	public void gen(DamageWrapperTagProvider gen) {
 		TreeSet<TagKey<DamageType>> tags = new TreeSet<>(Comparator.comparing(TagKey::location));
 		tags.addAll(root.inherent);
 		for (DamageState state : root.states) {

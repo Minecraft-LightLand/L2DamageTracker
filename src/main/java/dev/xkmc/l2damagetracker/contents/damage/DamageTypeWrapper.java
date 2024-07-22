@@ -27,7 +27,7 @@ public interface DamageTypeWrapper {
 
 	DamageTypeWrapper toRoot();
 
-	default void gen(DamageWrapperTagProvider gen, HolderLookup.Provider pvd) {
+	default void gen(DamageWrapperTagProvider gen) {
 	}
 
 	DamageType getObject();

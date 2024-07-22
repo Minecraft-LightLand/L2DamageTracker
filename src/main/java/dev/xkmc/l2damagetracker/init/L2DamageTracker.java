@@ -12,9 +12,7 @@ import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
 import dev.xkmc.l2damagetracker.events.L2DTGeneralAttackListener;
 import dev.xkmc.l2damagetracker.init.data.*;
 import dev.xkmc.l2serial.network.PacketHandler;
-import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -22,11 +20,9 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.item.ArmorMaterial;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,12 +57,13 @@ public class L2DamageTracker {
 
 	public static final DataMapReg<ArmorMaterial, ArmorImmunity> ARMOR = REG.dataMap("armor_immunity", Registries.ARMOR_MATERIAL, ArmorImmunity.class);
 
-
 	public L2DamageTracker() {
 		L2DamageTrackerConfig.init();
 		L2DamageTypes.register();
 		AttackEventHandler.register(1000, new L2DTGeneralAttackListener());
+		new L2DamageTypes(REGISTRATE).generate();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, L2DTLangData::genLang);
+		REGISTRATE.addDataGenerator(ProviderType.DATA_MAP, DTAttributeConfigGen::onDataMapGen);
 		//TODO if (ModList.get().isLoaded(ArsNouveau.MODID)) MinecraftForge.EVENT_BUS.register(ArsEventCompat.class);
 	}
 
@@ -81,18 +78,6 @@ public class L2DamageTracker {
 			event.add(e, MAGIC_FACTOR.holder());
 			event.add(e, REDUCTION.holder());
 			event.add(e, ABSORB.holder());
-		}
-	}
-
-	@SubscribeEvent
-	public static void gatherData(GatherDataEvent event) {
-		boolean gen = event.includeServer();
-		PackOutput output = event.getGenerator().getPackOutput();
-		var pvd = event.getLookupProvider();
-		var helper = event.getExistingFileHelper();
-		new L2DamageTypes(output, pvd, helper).generate(gen, event.getGenerator());
-		if (ModList.get().isLoaded(L2Tabs.MODID)) {
-			event.getGenerator().addProvider(event.includeServer(), new DTAttributeConfigGen(output, pvd));
 		}
 	}
 

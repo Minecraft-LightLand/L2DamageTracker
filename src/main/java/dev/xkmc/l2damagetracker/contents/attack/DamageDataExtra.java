@@ -121,10 +121,14 @@ public class DamageDataExtra implements DamageData.All {
 		target = event.getEntity();
 		cont = event.getContainer();
 
+		log = LogEntry.of(source, target, getAttacker());
+
 		if (attacker instanceof Player pl) {
 			var e = AttackEventHandler.PLAYER.get(pl.getUUID());
-			player = e;
-			if (!e.getWeapon().isEmpty()) weapon = e.getWeapon();
+			if (e != null) {
+				player = e;
+				if (!e.getWeapon().isEmpty()) weapon = e.getWeapon();
+			}
 		}
 
 		var list = AttackEventHandler.getListeners();

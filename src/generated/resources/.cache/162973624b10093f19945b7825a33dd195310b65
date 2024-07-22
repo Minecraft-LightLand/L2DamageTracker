@@ -1,5 +1,0 @@
-// 1.21	2024-07-10T15:09:49.662723	Registrate Provider for l2damagetracker [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute)]
-84afd50501dc7ad403ce9238fe95e2639782d18a assets/l2damagetracker/lang/en_ud.json
-96cd256aaf843bea41627dd1164dbc61e4100d44 assets/l2damagetracker/lang/en_us.json
-4104c9365f409772f4f2b0b39820d927e124feec data/l2damagetracker/tags/attribute/negative.json
-b4cb1dc9b33406bd2f174250bfb654d3556eede9 data/l2damagetracker/tags/attribute/percentage.json

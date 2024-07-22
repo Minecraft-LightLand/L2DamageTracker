@@ -8,5 +8,14 @@
   "attribute.l2damagetracker.damage_absorption": "伤害吸收",
   "attribute.l2damagetracker.damage_reduction": "受到的伤害",
   "l2damagetracker.tooltip.tool.immune": "提供免疫: ",
-  "l2damagetracker.tooltip.tool.immune_set": "全套提供免疫: "
+  "l2damagetracker.tooltip.tool.immune_set": "全套提供免疫: ",
+  "l2damagetracker.configuration.printDamageTrace": "输出伤害分析",
+  "l2damagetracker.configuration.printDamageTrace.tooltip": "在终端输出所有伤害的简略伤害分析报告",
+  "l2damagetracker.configuration.savePlayerAttack": "分析玩家攻击报告",
+  "l2damagetracker.configuration.savePlayerAttack.tooltip": "对玩家造成的伤害进行分析并保存分析报告至 logs/damage_tracker/",
+  "l2damagetracker.configuration.savePlayerDamaged": "分析玩家受伤报告",
+  "l2damagetracker.configuration.savePlayerDamaged.tooltip": "对玩家收到的伤害进行分析并保存分析报告至 logs/damage_tracker/",
+  "l2damagetracker.configuration.section.l2configs.l2damagetracker.server.toml.title": "莱特兰伤害统计 - 服务端配置",
+  "l2damagetracker.configuration.title": "莱特兰伤害统计 - 配置",
+  "l2damagetracker.title": "莱特兰·伤害统计"
 }

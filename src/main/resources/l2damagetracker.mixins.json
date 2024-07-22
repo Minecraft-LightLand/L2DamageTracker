@@ -7,8 +7,7 @@
 	"CommonHooksMixin",
 	"DamageContainerMixin",
 	"DamageSourcesMixin",
-	"LivingEntityMixin",
-	"PlayerMixin"
+	"LivingEntityMixin"
   ],
   "client": [
   ],

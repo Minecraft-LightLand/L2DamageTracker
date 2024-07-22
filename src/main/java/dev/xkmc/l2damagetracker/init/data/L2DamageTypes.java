@@ -1,24 +1,21 @@
 package dev.xkmc.l2damagetracker.init.data;
 
+import com.tterrag.registrate.providers.RegistrateTagsProvider;
+import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeWrapper;
-import dev.xkmc.l2damagetracker.contents.damage.DamageWrapperTagProvider;
 import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 
 public class L2DamageTypes extends DamageTypeAndTagsGen {
 
@@ -60,10 +57,8 @@ public class L2DamageTypes extends DamageTypeAndTagsGen {
 		DamageTypeRoot.configureGeneration(Set.of(L2DamageTracker.MODID), L2DamageTracker.MODID, LIST);
 	}
 
-	public L2DamageTypes(PackOutput output,
-						 CompletableFuture<HolderLookup.Provider> pvd,
-						 ExistingFileHelper files) {
-		super(output, pvd, files, L2DamageTracker.MODID);
+	public L2DamageTypes(L2Registrate reg) {
+		super(reg);
 	}
 
 	@Override
@@ -75,15 +70,16 @@ public class L2DamageTypes extends DamageTypeAndTagsGen {
 	}
 
 	@Override
-	protected void addDamageTypeTags(DamageWrapperTagProvider pvd, HolderLookup.Provider lookup) {
+	protected void addDamageTypeTags(RegistrateTagsProvider.Impl<DamageType> pvd) {
 		DamageTypeRoot.generateAll();
 		for (DamageTypeWrapper wrapper : LIST) {
-			wrapper.gen(pvd, lookup);
+			wrapper.gen(pvd::addTag);
 		}
-		pvd.tag(MATERIAL_MUX).add(DamageTypes.PLAYER_ATTACK, DamageTypes.MOB_ATTACK);
-		pvd.tag(DIRECT).add(DamageTypes.PLAYER_ATTACK, DamageTypes.MOB_ATTACK);
-		pvd.tag(NO_SCALE).add(DamageTypes.THORNS, DamageTypes.STARVE, DamageTypes.DROWN, DamageTypes.DRY_OUT, DamageTypes.IN_WALL);
-		/*
+		pvd.addTag(MATERIAL_MUX).add(DamageTypes.PLAYER_ATTACK, DamageTypes.MOB_ATTACK);
+		pvd.addTag(DIRECT).add(DamageTypes.PLAYER_ATTACK, DamageTypes.MOB_ATTACK);
+		pvd.addTag(NO_SCALE).add(DamageTypes.THORNS, DamageTypes.STARVE, DamageTypes.DROWN, DamageTypes.DRY_OUT, DamageTypes.IN_WALL);
+
+		/* TODO
 		if (ModList.get().isLoaded(IronsSpellbooks.MODID)) {
 			pvd.tag(MAGIC).addOptionalTag(DamageTypeTagGenerator.FIRE_MAGIC.location());
 			pvd.tag(MAGIC).addOptionalTag(DamageTypeTagGenerator.ICE_MAGIC.location());

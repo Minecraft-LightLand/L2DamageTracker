@@ -1,0 +1,19 @@
+// 1.21	2024-07-22T17:02:23.772636	Registrate Provider for l2damagetracker [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute), Tags (enchantment), Tags (damage_type)]
+7362d17c5734cd582c720c4fe6bca7884a0f5cdc assets/l2damagetracker/lang/en_ud.json
+873cf6c05c71b3e5729a956417b0956cd7c17713 assets/l2damagetracker/lang/en_us.json
+25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_armor-bypass_magic.json
+25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_armor.json
+25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_magic.json
+4b4b2ff422d23e4cb6282f664d89dad7ac8ff8e6 data/l2damagetracker/damage_type/player_attack-bypass_armor-bypass_magic.json
+4b4b2ff422d23e4cb6282f664d89dad7ac8ff8e6 data/l2damagetracker/damage_type/player_attack-bypass_armor.json
+4b4b2ff422d23e4cb6282f664d89dad7ac8ff8e6 data/l2damagetracker/damage_type/player_attack-bypass_magic.json
+4104c9365f409772f4f2b0b39820d927e124feec data/l2damagetracker/tags/attribute/negative.json
+b4cb1dc9b33406bd2f174250bfb654d3556eede9 data/l2damagetracker/tags/attribute/percentage.json
+d8a74090649bb964a5dd444e40b3a32dcf131064 data/l2damagetracker/tags/damage_type/direct.json
+4780359f3196a37daa0712673346e035d102a673 data/l2damagetracker/tags/damage_type/ignore_scaling.json
+b57c109ecfae9adbfd0a70a88d4e1addf3b12776 data/l2damagetracker/tags/damage_type/material_mux.json
+1fde62e5470a7144d505d303fd5d445c611ae5f3 data/l2tabs/data_maps/attribute/attribute_entry.json
+f458d7b699649a219188afc926cb6a5459bf55e2 data/minecraft/tags/damage_type/bypasses_armor.json
+6001d8bd8f685a004a7af9afba16b51e33cd69f3 data/minecraft/tags/damage_type/bypasses_effects.json
+6001d8bd8f685a004a7af9afba16b51e33cd69f3 data/minecraft/tags/damage_type/bypasses_enchantments.json
+6001d8bd8f685a004a7af9afba16b51e33cd69f3 data/minecraft/tags/damage_type/bypasses_resistance.json
