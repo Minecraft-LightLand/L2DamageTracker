@@ -13,6 +13,7 @@
   "l2damagetracker.configuration.savePlayerAttack.tooltip": "Save player attack damage trace to file under logs/damage_tracker/",
   "l2damagetracker.configuration.savePlayerDamaged": "Debug attacks on player",
   "l2damagetracker.configuration.savePlayerDamaged.tooltip": "Save player hurt damage trace to file under logs/damage_tracker/",
+  "l2damagetracker.configuration.section.l2configs.l2damagetracker.server.toml": "L2DamageTracker Server Configuration",
   "l2damagetracker.configuration.section.l2configs.l2damagetracker.server.toml.title": "L2DamageTracker Server Configuration",
   "l2damagetracker.configuration.title": "L2DamageTracker Configuration",
   "l2damagetracker.title": "L2DamageTracker",

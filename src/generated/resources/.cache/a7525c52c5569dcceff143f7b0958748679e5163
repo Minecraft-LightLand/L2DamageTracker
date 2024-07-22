@@ -1,6 +1,6 @@
-// 1.21	2024-07-22T17:02:23.772636	Registrate Provider for l2damagetracker [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute), Tags (enchantment), Tags (damage_type)]
-7362d17c5734cd582c720c4fe6bca7884a0f5cdc assets/l2damagetracker/lang/en_ud.json
-873cf6c05c71b3e5729a956417b0956cd7c17713 assets/l2damagetracker/lang/en_us.json
+// 1.21	2024-07-22T22:02:13.682491	Registrate Provider for l2damagetracker [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute), Tags (enchantment), Tags (damage_type)]
+e2bc284c312d3fc1b3c2079e50368fdb777731da assets/l2damagetracker/lang/en_ud.json
+af26fa7ba7046d8482a550db3c3e173cfb07743c assets/l2damagetracker/lang/en_us.json
 25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_armor-bypass_magic.json
 25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_armor.json
 25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_magic.json
