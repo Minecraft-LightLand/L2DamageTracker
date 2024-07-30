@@ -26,9 +26,10 @@ import java.util.function.BiFunction;
 @SuppressWarnings({"unchecked", "rawtypes", "unsafe"})
 public record GenItemVanillaType(String modid, L2Registrate registrate) {
 
+	private static final int[] DURABILITY = new int[]{13, 15, 16, 11};
+
 	public static final ToolConfig TOOL_GEN = new ToolConfig(GenItemVanillaType::genGenericTool);
 	public static final ArmorConfig ARMOR_GEN = new ArmorConfig(GenItemVanillaType::genGenericArmor);
-
 
 	public static Item genGenericTool(IMatToolType mat, ITool tool, Item.Properties prop) {
 		var builder = ItemAttributeModifiers.builder();
@@ -42,6 +43,7 @@ public record GenItemVanillaType(String modid, L2Registrate registrate) {
 		var builder = ItemAttributeModifiers.builder();
 		mat.getExtraArmorConfig().configureAttributes(builder, slot.getSlot());
 		prop.attributes(builder.build());
+		prop.durability(slot.getDurability(mat.armorDurability()));
 		return new GenericArmorItem(mat.getArmorMaterial(), slot, prop, mat.getExtraArmorConfig());
 	}
 

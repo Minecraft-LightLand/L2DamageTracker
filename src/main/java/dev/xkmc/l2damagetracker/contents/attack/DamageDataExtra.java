@@ -150,8 +150,8 @@ public class DamageDataExtra implements DamageData.All {
 	}
 
 	public void onDamage(LivingDamageEvent.Pre event, Consumer<LivingDamageEvent.Pre> cons) {
-		log.log(LogEntry.Stage.DAMAGE, event.getOriginalDamage());
-		float damage = defenseModifiers.run(event.getOriginalDamage(), log.initModifiers(),
+		log.log(LogEntry.Stage.DAMAGE, event.getNewDamage());
+		float damage = defenseModifiers.run(event.getNewDamage(), log.initModifiers(),
 				e -> e.onDamage(this),
 				e -> e.onDamageFinalized(this),
 				event(event, cons));
