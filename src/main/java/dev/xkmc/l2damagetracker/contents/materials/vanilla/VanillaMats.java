@@ -30,7 +30,7 @@ public record VanillaMats(Tiers tier) implements IMatToolType, IToolStats {
 	public void configure(ITool tool, ItemAttributeModifiers.Builder builder) {
 		int dmg = tool.getDamage(Math.round(tier.getAttackDamageBonus()) + 4);
 		float atkSpeed = tool.getAtkSpeed(1);
-		IToolStats.configure(builder, dmg, atkSpeed);
+		tool.configure(builder, dmg, atkSpeed);
 	}
 
 	@Override

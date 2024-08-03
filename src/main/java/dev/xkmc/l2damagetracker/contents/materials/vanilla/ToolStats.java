@@ -9,7 +9,7 @@ public record ToolStats(int durability, int speed, int base_damage, float base_s
 
 	@Override
 	public void configure(ITool tool, ItemAttributeModifiers.Builder builder) {
-		IToolStats.configure(builder, tool.getDamage(base_damage), tool.getAtkSpeed(base_speed));
+		tool.configure(builder, tool.getDamage(base_damage), tool.getAtkSpeed(base_speed));
 	}
 
 }
