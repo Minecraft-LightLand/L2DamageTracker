@@ -7,6 +7,7 @@
   "attribute.l2damagetracker.explosion_damage": "Explosion Damage",
   "attribute.l2damagetracker.fire_damage": "Fire Damage",
   "attribute.l2damagetracker.magic_damage": "Magic Damage",
+  "attribute.l2damagetracker.regen": "Regeneration Rate",
   "l2damagetracker.configuration.printDamageTrace": "Damage Trace Logging",
   "l2damagetracker.configuration.printDamageTrace.tooltip": "Print damage trace tracked by damage tracker",
   "l2damagetracker.configuration.savePlayerAttack": "Debug player attacks",

@@ -9,14 +9,17 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.bus.api.Event;
 
 import javax.annotation.Nullable;
 
-public class CreateSourceEvent {
+public class CreateSourceEvent extends Event {
 
 	private final Registry<DamageType> registry;
 	private final ResourceKey<DamageType> original;
 	private final LivingEntity attacker;
+	private final @Nullable Vec3 pos;
 	private Entity direct;
 
 	@Nullable
@@ -25,10 +28,11 @@ public class CreateSourceEvent {
 	@Nullable
 	private DamageTypeWrapper result;
 
-	public CreateSourceEvent(Registry<DamageType> registry, ResourceKey<DamageType> mobAttack, LivingEntity entity, @Nullable Entity direct) {
+	public CreateSourceEvent(Registry<DamageType> registry, ResourceKey<DamageType> mobAttack, LivingEntity entity, @Nullable Entity direct, @Nullable Vec3 pos) {
 		this.registry = registry;
 		this.original = mobAttack;
 		this.attacker = entity;
+		this.pos = pos;
 		this.direct = direct;
 		this.result = DamageTypeRoot.ROOTS.get(original);
 	}
@@ -39,6 +43,11 @@ public class CreateSourceEvent {
 
 	public LivingEntity getAttacker() {
 		return attacker;
+	}
+
+	@Nullable
+	public Vec3 getPos() {
+		return pos;
 	}
 
 	@Nullable

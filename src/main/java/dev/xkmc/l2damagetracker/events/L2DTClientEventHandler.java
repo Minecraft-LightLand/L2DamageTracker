@@ -47,7 +47,7 @@ public class L2DTClientEventHandler {
 			for (var e : EquipmentSlot.values()) {
 				if (e.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
 				if (player.getItemBySlot(e).getItem() instanceof ArmorItem ar) {
-					if (ar.getMaterial().value() == mat.value()) count++;
+					if (ar.getMaterial().value() == mat.value()) count++;//TODO fix
 				}
 			}
 			enabled = count >= 4;

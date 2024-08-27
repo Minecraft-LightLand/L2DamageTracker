@@ -20,6 +20,7 @@ public class DTAttributeConfigGen {
 		add(b, L2DamageTracker.MAGIC_FACTOR.key(), true, 18000);
 		add(b, L2DamageTracker.REDUCTION.key(), true, 23000);
 		add(b, L2DamageTracker.ABSORB.key(), false, 24000);
+		add(b, L2DamageTracker.REGEN.key(), true, 25000);
 	}
 
 	public static void add(DataMapProvider.Builder<AttrDispEntry, Attribute> b, ResourceKey<Attribute> attr, boolean perc, int order) {

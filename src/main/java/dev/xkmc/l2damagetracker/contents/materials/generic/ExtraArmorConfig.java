@@ -34,10 +34,6 @@ public class ExtraArmorConfig {
 	public void configureAttributes(ItemAttributeModifiers.Builder builder, EquipmentSlot slot) {
 	}
 
-	public void modifyDynamicAttributes(ItemAttributeModifiers.Builder builder, EquipmentSlot slot, ItemStack stack) {
-
-	}
-
 	public void onArmorTick(ItemStack stack, Level world, Player player) {
 	}
 

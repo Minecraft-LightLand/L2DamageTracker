@@ -13,6 +13,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -41,7 +44,7 @@ public record GenItemVanillaType(String modid, L2Registrate registrate) {
 
 	private static ArmorItem genGenericArmor(IMatArmorType mat, ArmorItem.Type slot, Item.Properties prop) {
 		var builder = ItemAttributeModifiers.builder();
-		mat.getExtraArmorConfig().configureAttributes(builder, slot.getSlot());
+		mat.defaultAttributes(builder, slot);
 		prop.attributes(builder.build());
 		prop.durability(slot.getDurability(mat.armorDurability()));
 		return new GenericArmorItem(mat.getArmorMaterial(), slot, prop, mat.getExtraArmorConfig());

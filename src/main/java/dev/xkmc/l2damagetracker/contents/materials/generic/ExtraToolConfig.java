@@ -53,7 +53,7 @@ public class ExtraToolConfig {
 	public void configureAttributes(ItemAttributeModifiers.Builder builder) {
 	}
 
-
+	@Deprecated(forRemoval = true)
 	public void modifyDynamicAttributes(ItemAttributeModifiers.Builder builder, ItemStack stack) {
 
 	}

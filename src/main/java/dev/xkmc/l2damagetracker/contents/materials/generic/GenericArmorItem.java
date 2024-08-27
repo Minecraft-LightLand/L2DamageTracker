@@ -6,7 +6,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,15 +35,6 @@ public class GenericArmorItem extends ArmorItem {
 
 	public ExtraArmorConfig getConfig() {
 		return config;
-	}
-
-	@Override
-	public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
-		var parent = super.getDefaultAttributeModifiers(stack);
-		var b = ItemAttributeModifiers.builder();
-		for (var e : parent.modifiers()) b.add(e.attribute(), e.modifier(), e.slot());
-		config.modifyDynamicAttributes(b, getEquipmentSlot(), stack);
-		return b.build();
 	}
 
 	@Override

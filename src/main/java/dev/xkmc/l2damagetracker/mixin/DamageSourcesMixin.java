@@ -26,7 +26,7 @@ public abstract class DamageSourcesMixin {
 	@Inject(at = @At("HEAD"), method = "source(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/world/damagesource/DamageSource;", cancellable = true)
 	public void l2library_modifyDamageSource_direct(ResourceKey<DamageType> type, Entity attacker, CallbackInfoReturnable<DamageSource> cir) {
 		if (attacker instanceof LivingEntity le) {
-			DamageSource ans = AttackEventHandler.onDamageSourceCreate(new CreateSourceEvent(damageTypes, type, le, le));
+			DamageSource ans = AttackEventHandler.onDamageSourceCreate(new CreateSourceEvent(damageTypes, type, le, le,null));
 			if (ans != null) {
 				cir.setReturnValue(ans);
 			}
@@ -36,7 +36,7 @@ public abstract class DamageSourcesMixin {
 	@Inject(at = @At("HEAD"), method = "source(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/world/damagesource/DamageSource;", cancellable = true)
 	public void l2library_modifyDamageSource_indirect(ResourceKey<DamageType> type, Entity direct, Entity owner, CallbackInfoReturnable<DamageSource> cir) {
 		if (owner instanceof LivingEntity le) {
-			DamageSource ans = AttackEventHandler.onDamageSourceCreate(new CreateSourceEvent(damageTypes, type, le, direct));
+			DamageSource ans = AttackEventHandler.onDamageSourceCreate(new CreateSourceEvent(damageTypes, type, le, direct,null));
 			if (ans != null) {
 				cir.setReturnValue(ans);
 			}

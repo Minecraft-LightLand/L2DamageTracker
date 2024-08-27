@@ -6,6 +6,7 @@
     "l2damagetracker:explosion_damage",
     "l2damagetracker:fire_damage",
     "l2damagetracker:magic_damage",
+    "l2damagetracker:regen",
     "l2damagetracker:damage_reduction"
   ]
 }

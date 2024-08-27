@@ -39,6 +39,11 @@
       "intrinsic": 0.0,
       "order": 18000,
       "usePercent": true
+    },
+    "l2damagetracker:regen": {
+      "intrinsic": 0.0,
+      "order": 25000,
+      "usePercent": true
     }
   }
 }

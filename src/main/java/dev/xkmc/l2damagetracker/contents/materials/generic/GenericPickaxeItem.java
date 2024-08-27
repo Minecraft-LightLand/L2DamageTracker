@@ -37,15 +37,6 @@ public class GenericPickaxeItem extends PickaxeItem implements GenericTieredItem
 	}
 
 	@Override
-	public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
-		var parent = super.getDefaultAttributeModifiers(stack);
-		var b = ItemAttributeModifiers.builder();
-		for (var e : parent.modifiers()) b.add(e.attribute(), e.modifier(), e.slot());
-		config.modifyDynamicAttributes(b, stack);
-		return b.build();
-	}
-
-	@Override
 	public float getDestroySpeed(ItemStack stack, BlockState state) {
 		float old = super.getDestroySpeed(stack, state);
 		return config.getDestroySpeed(stack, state, old);

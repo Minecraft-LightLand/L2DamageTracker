@@ -1,13 +1,21 @@
 package dev.xkmc.l2damagetracker.contents.attack;
 
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
@@ -38,6 +46,17 @@ public class AttackEventHandler {
 
 	public static Collection<AttackListener> getListeners() {
 		return LISTENERS.values();
+	}
+
+	public static DamageSource createSource(ServerLevel level, @Nullable LivingEntity user, ResourceKey<DamageType> key, @Nullable Entity direct, @Nullable Vec3 pos) {
+		var access = level.registryAccess();
+		if (user != null) {
+			var event = new CreateSourceEvent(access.registryOrThrow(Registries.DAMAGE_TYPE),
+					key, user, direct, pos);
+			var ans = onDamageSourceCreate(event);
+			if (ans != null) return ans;
+		}
+		return new DamageSource(access.holderOrThrow(key), direct, user == null ? direct : user, pos);
 	}
 
 	static final HashMap<UUID, PlayerAttackCache> PLAYER = new HashMap<>();
@@ -94,11 +113,13 @@ public class AttackEventHandler {
 		if (cache != null)
 			event.setPlayerAttackCache(cache);
 		getListeners().forEach(e -> e.onCreateSource(event));
+		NeoForge.EVENT_BUS.post(event);
 		if (event.getPlayerAttackCache() != cache) {
 			PLAYER.put(event.getAttacker().getUUID(), event.getPlayerAttackCache());
 		}
 		if (event.getResult() == null) return null;
-		return new DamageSource(event.getRegistry().getHolderOrThrow(event.getResult().type()), event.getDirect(), event.getAttacker());
+		return new DamageSource(event.getRegistry().getHolderOrThrow(event.getResult().type()),
+				event.getDirect(), event.getAttacker(), event.getPos());
 	}
 
 }

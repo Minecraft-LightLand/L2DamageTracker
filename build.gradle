@@ -119,8 +119,8 @@ repositories {
     flatDir {
         dirs 'libs'
     }
-    maven {
-        url = "https://maven.theillusivec4.top/"
+    maven { // Registrate
+        url "https://maven.ithundxr.dev/snapshots"
     }
     maven {
         // Location of the maven for vazkii's mods
@@ -154,4 +154,5 @@ dependencies {
     implementation "dev.xkmc:l2serial:${l2serial_ver}"
     implementation "dev.xkmc:l2core:${l2core_ver}"
     implementation "dev.xkmc:l2tabs:${l2tabs_ver}"
+    implementation "dev.xkmc:l2menustacker:${l2menustacker_ver}"
 }

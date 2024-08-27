@@ -52,6 +52,7 @@ public class L2DamageTracker {
 	public static final SimpleEntry<Attribute> EXPLOSION_FACTOR = regWrapped(REGISTRATE, "explosion_damage", 1, 0, 1000, "Explosion Damage", PERCENTAGE);
 	public static final SimpleEntry<Attribute> FIRE_FACTOR = regWrapped(REGISTRATE, "fire_damage", 1, 0, 1000, "Fire Damage", PERCENTAGE);
 	public static final SimpleEntry<Attribute> MAGIC_FACTOR = regWrapped(REGISTRATE, "magic_damage", 1, 0, 1000, "Magic Damage", PERCENTAGE);
+	public static final SimpleEntry<Attribute> REGEN = regWrapped(REGISTRATE, "regen", 1, 0, 1000, "Regeneration Rate", PERCENTAGE);
 	public static final SimpleEntry<Attribute> ABSORB = regWrapped(REGISTRATE, "damage_absorption", 0, 0, 10000, "Damage Absorption");
 	public static final SimpleEntry<Attribute> REDUCTION = regWrapped(REGISTRATE, "damage_reduction", 1, -10000, 10000, "Damage after Reduction", PERCENTAGE, NEGATIVE);
 
