@@ -5,6 +5,8 @@
     "l2damagetracker:bow_strength",
     "l2damagetracker:explosion_damage",
     "l2damagetracker:fire_damage",
+    "l2damagetracker:freezing_damage",
+    "l2damagetracker:lightning_damage",
     "l2damagetracker:magic_damage",
     "l2damagetracker:regen",
     "l2damagetracker:damage_reduction"

@@ -35,6 +35,16 @@
       "order": 17000,
       "usePercent": true
     },
+    "l2damagetracker:freezing_damage": {
+      "intrinsic": 0.0,
+      "order": 17100,
+      "usePercent": true
+    },
+    "l2damagetracker:lightning_damage": {
+      "intrinsic": 0.0,
+      "order": 17200,
+      "usePercent": true
+    },
     "l2damagetracker:magic_damage": {
       "intrinsic": 0.0,
       "order": 18000,

@@ -1,5 +1,6 @@
 package dev.xkmc.l2damagetracker.events;
 
+import dev.xkmc.l2core.init.reg.registrate.LegacyHolder;
 import dev.xkmc.l2damagetracker.contents.attack.AttackListener;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
@@ -8,7 +9,10 @@ import dev.xkmc.l2damagetracker.contents.materials.generic.GenericTieredItem;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.Tags;
@@ -52,21 +56,19 @@ public class L2DTGeneralAttackListener implements AttackListener {
 		}
 		var attacker = data.getAttacker();
 		if (attacker != null) {
-			if (data.getSource().is(DamageTypeTags.IS_EXPLOSION)) {
-				var ins = attacker.getAttribute(L2DamageTracker.EXPLOSION_FACTOR.holder());
-				if (ins != null)
-					data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue(),
-							L2DamageTracker.EXPLOSION_FACTOR.key().location()));
-			}
-			if (data.getSource().is(DamageTypeTags.IS_FIRE)) {
-				var ins = attacker.getAttribute(L2DamageTracker.FIRE_FACTOR.holder());
-				if (ins != null) data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue(),
-						L2DamageTracker.FIRE_FACTOR.key().location()));
-			}
-			if (data.getSource().is(Tags.DamageTypes.IS_MAGIC)) {
-				var ins = attacker.getAttribute(L2DamageTracker.MAGIC_FACTOR.holder());
-				if (ins != null) data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue(),
-						L2DamageTracker.MAGIC_FACTOR.key().location()));
+			elemental(data, attacker, DamageTypeTags.IS_EXPLOSION, L2DamageTracker.EXPLOSION_FACTOR);
+			elemental(data, attacker, DamageTypeTags.IS_FIRE, L2DamageTracker.FIRE_FACTOR);
+			elemental(data, attacker, DamageTypeTags.IS_FREEZING, L2DamageTracker.FREEZING_FACTOR);
+			elemental(data, attacker, DamageTypeTags.IS_LIGHTNING, L2DamageTracker.LIGHTNING_FACTOR);
+			elemental(data, attacker, Tags.DamageTypes.IS_MAGIC, L2DamageTracker.MAGIC_FACTOR);
+		}
+	}
+
+	private void elemental(DamageData.Offence data, LivingEntity attacker, TagKey<DamageType> tag, LegacyHolder<Attribute> attr) {
+		if (data.getSource().is(tag)) {
+			var ins = attacker.getAttribute(attr);
+			if (ins != null) {
+				data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue(), attr.key().location()));
 			}
 		}
 	}

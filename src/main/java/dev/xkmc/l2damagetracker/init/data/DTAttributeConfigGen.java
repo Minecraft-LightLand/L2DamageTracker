@@ -17,6 +17,8 @@ public class DTAttributeConfigGen {
 		add(b, L2DamageTracker.BOW_STRENGTH.key(), true, 13000);
 		add(b, L2DamageTracker.EXPLOSION_FACTOR.key(), true, 16000);
 		add(b, L2DamageTracker.FIRE_FACTOR.key(), true, 17000);
+		add(b, L2DamageTracker.FREEZING_FACTOR.key(), true, 17100);
+		add(b, L2DamageTracker.LIGHTNING_FACTOR.key(), true, 17200);
 		add(b, L2DamageTracker.MAGIC_FACTOR.key(), true, 18000);
 		add(b, L2DamageTracker.REDUCTION.key(), true, 23000);
 		add(b, L2DamageTracker.ABSORB.key(), false, 24000);
