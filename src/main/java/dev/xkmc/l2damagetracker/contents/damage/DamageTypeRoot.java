@@ -13,6 +13,7 @@ public class DamageTypeRoot implements DamageTypeWrapper {
 
 	public static final TreeMap<ResourceKey<DamageType>, DamageTypeRoot> ROOTS = new TreeMap<>();
 
+	@Nullable
 	public static DamageTypeRoot of(ResourceKey<DamageType> key) {
 		return ROOTS.get(key);
 	}
@@ -24,7 +25,7 @@ public class DamageTypeRoot implements DamageTypeWrapper {
 		GEN.put(modid, new GenConfig(support, modid, list));
 	}
 
-	public static void generateAll() {
+	public synchronized static void generateAll() {
 		if (generated) return;
 		generated = true;
 		for (GenConfig config : GEN.values()) {
@@ -32,6 +33,10 @@ public class DamageTypeRoot implements DamageTypeWrapper {
 				val.generate(config);
 			}
 		}
+	}
+
+	private synchronized static void put(ResourceKey<DamageType> type, DamageTypeRoot root) {
+		ROOTS.put(type, root);
 	}
 
 	private final String source;
@@ -50,7 +55,7 @@ public class DamageTypeRoot implements DamageTypeWrapper {
 		this.type = type;
 		this.states = DamageState.newSet();
 		this.sup = sup;
-		ROOTS.put(type, this);
+		put(type, this);
 	}
 
 	public ResourceKey<DamageType> type() {

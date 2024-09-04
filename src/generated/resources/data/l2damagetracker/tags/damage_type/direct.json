@@ -1,11 +1,19 @@
 {
   "values": [
     "l2damagetracker:mob_attack-bypass_magic",
+    "l2damagetracker:mob_attack-bypass_cooldown",
+    "l2damagetracker:mob_attack-bypass_cooldown-bypass_magic",
     "l2damagetracker:mob_attack-bypass_armor",
     "l2damagetracker:mob_attack-bypass_armor-bypass_magic",
+    "l2damagetracker:mob_attack-bypass_armor-bypass_cooldown",
+    "l2damagetracker:mob_attack-bypass_armor-bypass_cooldown-bypass_magic",
     "l2damagetracker:player_attack-bypass_magic",
+    "l2damagetracker:player_attack-bypass_cooldown",
+    "l2damagetracker:player_attack-bypass_cooldown-bypass_magic",
     "l2damagetracker:player_attack-bypass_armor",
     "l2damagetracker:player_attack-bypass_armor-bypass_magic",
+    "l2damagetracker:player_attack-bypass_armor-bypass_cooldown",
+    "l2damagetracker:player_attack-bypass_armor-bypass_cooldown-bypass_magic",
     "minecraft:player_attack",
     "minecraft:mob_attack"
   ]

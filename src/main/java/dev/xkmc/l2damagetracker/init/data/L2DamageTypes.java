@@ -50,9 +50,11 @@ public class L2DamageTypes extends DamageTypeAndTagsGen {
 	public static void register() {
 		PLAYER_ATTACK.add(DefaultDamageState.BYPASS_ARMOR);
 		PLAYER_ATTACK.add(DefaultDamageState.BYPASS_MAGIC);
+		PLAYER_ATTACK.add(DefaultDamageState.BYPASS_COOLDOWN);
 
 		MOB_ATTACK.add(DefaultDamageState.BYPASS_ARMOR);
 		MOB_ATTACK.add(DefaultDamageState.BYPASS_MAGIC);
+		MOB_ATTACK.add(DefaultDamageState.BYPASS_COOLDOWN);
 
 		DamageTypeRoot.configureGeneration(Set.of(L2DamageTracker.MODID), L2DamageTracker.MODID, LIST);
 	}

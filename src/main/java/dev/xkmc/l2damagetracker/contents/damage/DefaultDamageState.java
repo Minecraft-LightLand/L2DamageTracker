@@ -12,7 +12,8 @@ import java.util.function.Consumer;
 
 public enum DefaultDamageState implements DamageState {
 	BYPASS_ARMOR(DamageTypeTags.BYPASSES_ARMOR),
-	BYPASS_MAGIC(L2DamageTypes.BYPASS_MAGIC.tags());
+	BYPASS_MAGIC(L2DamageTypes.BYPASS_MAGIC.tags()),
+	BYPASS_COOLDOWN(DamageTypeTags.BYPASSES_COOLDOWN);
 
 	private final TagKey<DamageType>[] tags;
 

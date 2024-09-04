@@ -78,6 +78,8 @@ public class L2DamageTracker {
 			event.add(e, BOW_STRENGTH.holder());
 			event.add(e, EXPLOSION_FACTOR.holder());
 			event.add(e, FIRE_FACTOR.holder());
+			event.add(e, FREEZING_FACTOR.holder());
+			event.add(e, LIGHTNING_FACTOR.holder());
 			event.add(e, MAGIC_FACTOR.holder());
 			event.add(e, REDUCTION.holder());
 			event.add(e, ABSORB.holder());

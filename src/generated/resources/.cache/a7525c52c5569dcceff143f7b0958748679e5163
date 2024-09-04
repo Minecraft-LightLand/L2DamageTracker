@@ -1,19 +1,28 @@
-// 1.21.1	2024-08-30T16:11:11.543759	Registrate Provider for l2damagetracker [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute), Tags (enchantment), Tags (damage_type)]
+// 1.21.1	2024-09-04T17:02:18.993307	Registrate Provider for l2damagetracker [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute), Tags (enchantment), Tags (damage_type)]
 f96d21993e30f96e6d11934db7a2a4f2f9ccd851 assets/l2damagetracker/lang/en_ud.json
 72322e6b6e1cbb7e8926456b93308d48f0ebb2b5 assets/l2damagetracker/lang/en_us.json
+25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_armor-bypass_cooldown-bypass_magic.json
+25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_armor-bypass_cooldown.json
 25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_armor-bypass_magic.json
 25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_armor.json
+25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_cooldown-bypass_magic.json
+25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_cooldown.json
 25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_magic.json
+4b4b2ff422d23e4cb6282f664d89dad7ac8ff8e6 data/l2damagetracker/damage_type/player_attack-bypass_armor-bypass_cooldown-bypass_magic.json
+4b4b2ff422d23e4cb6282f664d89dad7ac8ff8e6 data/l2damagetracker/damage_type/player_attack-bypass_armor-bypass_cooldown.json
 4b4b2ff422d23e4cb6282f664d89dad7ac8ff8e6 data/l2damagetracker/damage_type/player_attack-bypass_armor-bypass_magic.json
 4b4b2ff422d23e4cb6282f664d89dad7ac8ff8e6 data/l2damagetracker/damage_type/player_attack-bypass_armor.json
+4b4b2ff422d23e4cb6282f664d89dad7ac8ff8e6 data/l2damagetracker/damage_type/player_attack-bypass_cooldown-bypass_magic.json
+4b4b2ff422d23e4cb6282f664d89dad7ac8ff8e6 data/l2damagetracker/damage_type/player_attack-bypass_cooldown.json
 4b4b2ff422d23e4cb6282f664d89dad7ac8ff8e6 data/l2damagetracker/damage_type/player_attack-bypass_magic.json
 4104c9365f409772f4f2b0b39820d927e124feec data/l2damagetracker/tags/attribute/negative.json
 1628e5ab89cc3fbabeea0414378c628279f174fa data/l2damagetracker/tags/attribute/percentage.json
-d8a74090649bb964a5dd444e40b3a32dcf131064 data/l2damagetracker/tags/damage_type/direct.json
+81a4734ef585bc66c328b3eec9e290ead5324a97 data/l2damagetracker/tags/damage_type/direct.json
 4780359f3196a37daa0712673346e035d102a673 data/l2damagetracker/tags/damage_type/ignore_scaling.json
 b57c109ecfae9adbfd0a70a88d4e1addf3b12776 data/l2damagetracker/tags/damage_type/material_mux.json
 f1820f57e39eaa7c6fd2c64af9a574312758d0f7 data/l2tabs/data_maps/attribute/attribute_entry.json
-f458d7b699649a219188afc926cb6a5459bf55e2 data/minecraft/tags/damage_type/bypasses_armor.json
-6001d8bd8f685a004a7af9afba16b51e33cd69f3 data/minecraft/tags/damage_type/bypasses_effects.json
-6001d8bd8f685a004a7af9afba16b51e33cd69f3 data/minecraft/tags/damage_type/bypasses_enchantments.json
-6001d8bd8f685a004a7af9afba16b51e33cd69f3 data/minecraft/tags/damage_type/bypasses_resistance.json
+feb2719d63ef038cdb576d9f16f82539dd9449d9 data/minecraft/tags/damage_type/bypasses_armor.json
+07d98cd0726e0b5d307629f534accf0daee977d0 data/minecraft/tags/damage_type/bypasses_cooldown.json
+cbfaa8efe26d5fe4a1ad3094a54c46bcac8c5bc9 data/minecraft/tags/damage_type/bypasses_effects.json
+cbfaa8efe26d5fe4a1ad3094a54c46bcac8c5bc9 data/minecraft/tags/damage_type/bypasses_enchantments.json
+cbfaa8efe26d5fe4a1ad3094a54c46bcac8c5bc9 data/minecraft/tags/damage_type/bypasses_resistance.json
