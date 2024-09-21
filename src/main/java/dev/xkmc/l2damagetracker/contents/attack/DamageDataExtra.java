@@ -1,7 +1,6 @@
 package dev.xkmc.l2damagetracker.contents.attack;
 
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
-import dev.xkmc.l2damagetracker.init.data.L2DamageTrackerConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -9,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.Event;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -34,6 +34,7 @@ public class DamageDataExtra implements DamageData.All {
 	private boolean bypassMagic;
 	private float originalDamage;
 	private boolean noCancellation;
+	private Event logEvent;
 
 	public boolean bypassMagic() {
 		return bypassMagic;
@@ -96,12 +97,6 @@ public class DamageDataExtra implements DamageData.All {
 		return player;
 	}
 
-	private boolean shouldLog() {
-		if (getAttacker() instanceof Player && L2DamageTrackerConfig.SERVER.savePlayerAttack.get()) return true;
-		if (getTarget() instanceof Player && L2DamageTrackerConfig.SERVER.savePlayerHurt.get()) return true;
-		return L2DamageTrackerConfig.SERVER.printDamageTrace.get();
-	}
-
 	public void init(DamageSource source, float originalDamage) {
 		this.source = source;
 		this.originalDamage = originalDamage;
@@ -115,6 +110,12 @@ public class DamageDataExtra implements DamageData.All {
 	void setupAttackerProfile(@Nullable LivingEntity entity, @Nullable ItemStack stack) {
 		if (attacker == null && entity != null) attacker = entity;
 		if (weapon.isEmpty() && stack != null) weapon = stack;
+	}
+
+	public void onSetNewDamage(float damage) {
+		if (logEvent != null) {
+			log.eventLayer(logEvent, damage);
+		}
 	}
 
 	public void onIncoming(LivingIncomingDamageEvent event, Consumer<LivingIncomingDamageEvent> cons) {
@@ -162,18 +163,22 @@ public class DamageDataExtra implements DamageData.All {
 	private static final ResourceLocation EVENT_OFFENSIVE = L2DamageTracker.loc("event_offensive");
 	private static final ResourceLocation EVENT_DEFENSIVE = L2DamageTracker.loc("event_defensive");
 
-	private static DamageModifier event(LivingIncomingDamageEvent event, Consumer<LivingIncomingDamageEvent> cons) {
+	private DamageModifier event(LivingIncomingDamageEvent event, Consumer<LivingIncomingDamageEvent> cons) {
 		return new Nonlinear(EVENT_OFFENSIVE, DamageModifier.Order.EVENT, 0, f -> {
 			event.setAmount(f);
+			logEvent = event;
 			cons.accept(event);
+			logEvent = null;
 			return event.getAmount();
 		});
 	}
 
-	private static DamageModifier event(LivingDamageEvent.Pre event, Consumer<LivingDamageEvent.Pre> cons) {
+	private DamageModifier event(LivingDamageEvent.Pre event, Consumer<LivingDamageEvent.Pre> cons) {
 		return new Nonlinear(EVENT_DEFENSIVE, DamageModifier.Order.EVENT, 0, f -> {
 			event.setNewDamage(f);
+			logEvent = event;
 			cons.accept(event);
+			logEvent = null;
 			return event.getNewDamage();
 		});
 	}

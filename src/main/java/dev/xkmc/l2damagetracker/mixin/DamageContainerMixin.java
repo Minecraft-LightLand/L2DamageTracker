@@ -1,7 +1,7 @@
 package dev.xkmc.l2damagetracker.mixin;
 
-import dev.xkmc.l2damagetracker.contents.attack.DamageDataExtra;
 import dev.xkmc.l2damagetracker.contents.attack.DamageContainerExtra;
+import dev.xkmc.l2damagetracker.contents.attack.DamageDataExtra;
 import net.minecraft.world.damagesource.DamageSource;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +25,11 @@ public class DamageContainerMixin implements DamageContainerExtra {
 	@Inject(at = @At("TAIL"), method = "<init>")
 	public void l2damagetracker$onInit(DamageSource source, float originalDamage, CallbackInfo ci) {
 		l2damagetracker$extra.init(source, originalDamage);
+	}
+
+	@Inject(at = @At("HEAD"), method = "setNewDamage")
+	public void l2damagetracker$setNewDamage(float damage, CallbackInfo ci) {
+		l2damagetracker$extra.onSetNewDamage(damage);
 	}
 
 }

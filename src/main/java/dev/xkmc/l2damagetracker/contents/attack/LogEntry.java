@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.bus.api.Event;
 import net.neoforged.fml.loading.FMLPaths;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
@@ -113,6 +114,12 @@ public class LogEntry {
 		output.add("| - Layer " + key.name() + " end, val = " + val);
 	}
 
+	public void eventLayer(Event event, float val) {
+		if (!log) return;
+		String info = event.getClass().getSimpleName() + ", source = " + getStackTrace();
+		output.add("| - | -> " + val + ", source = " + info);
+	}
+
 	private static void write(Path path, Consumer<PrintStream> cons) {
 		PrintStream stream = null;
 		try {
@@ -150,6 +157,8 @@ public class LogEntry {
 		var trace = new Throwable().getStackTrace();
 		for (var e : trace) {
 			if (e.getClassName().startsWith("dev.xkmc.l2damagetracker.contents.attack"))
+				continue;
+			if (e.getClassName().startsWith("net.neoforged.neoforge.event"))
 				continue;
 			return e.toString();
 		}
