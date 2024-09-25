@@ -34,7 +34,7 @@ public class ExtraArmorConfig {
 	public void configureAttributes(ItemAttributeModifiers.Builder builder, EquipmentSlot slot) {
 	}
 
-	@Deprecated
+	@Deprecated(forRemoval = true)
 	public void onArmorTick(ItemStack stack, Level world, Player player) {
 	}
 

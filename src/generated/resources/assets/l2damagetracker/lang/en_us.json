@@ -20,6 +20,7 @@
   "l2damagetracker.configuration.section.l2configs.l2damagetracker.server.toml.title": "L2DamageTracker Server Configuration",
   "l2damagetracker.configuration.title": "L2DamageTracker Configuration",
   "l2damagetracker.title": "L2DamageTracker",
+  "l2damagetracker.tooltip.mult": "x%s %s",
   "l2damagetracker.tooltip.tool.immune": "Grants immunity to: ",
   "l2damagetracker.tooltip.tool.immune_set": "Full set grants immunity to: "
 }

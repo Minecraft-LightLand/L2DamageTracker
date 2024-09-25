@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import static net.minecraft.world.item.component.ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT;
 
+@Deprecated(forRemoval = true)
 public class AttrTooltip {
 
 	public static MutableComponent getDesc(Holder<Attribute> attr, double val, AttributeModifier.Operation op) {

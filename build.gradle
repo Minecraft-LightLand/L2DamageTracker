@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.153'
+    id 'net.neoforged.gradle.userdev' version '7.0.165'
 }
 
 version = mod_version
@@ -38,7 +38,7 @@ runs {
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
     }
     data {
-        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        arguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
@@ -155,4 +155,7 @@ dependencies {
     implementation "dev.xkmc:l2core:${l2core_ver}"
     implementation "dev.xkmc:l2tabs:${l2tabs_ver}"
     implementation "dev.xkmc:l2menustacker:${l2menustacker_ver}"
+
+    implementation "curse.maven:ars-nouveau-401955:5721123"
+    implementation "curse.maven:geckolib-388172:5726714"
 }
