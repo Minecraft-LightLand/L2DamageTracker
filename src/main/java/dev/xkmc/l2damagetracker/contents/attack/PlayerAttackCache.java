@@ -65,5 +65,8 @@ public class PlayerAttackCache {
 		return weapon;
 	}
 
+	public enum Stage {
+		PREINIT, PLAYER_ATTACK, CRITICAL_HIT
+	}
 
 }

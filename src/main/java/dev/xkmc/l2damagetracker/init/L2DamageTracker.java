@@ -8,6 +8,7 @@ import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.Reg;
 import dev.xkmc.l2core.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
+import dev.xkmc.l2damagetracker.contents.attack.SendLogPacket;
 import dev.xkmc.l2damagetracker.contents.curios.FactorAttribute;
 import dev.xkmc.l2damagetracker.contents.curios.TotemUseToClient;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
@@ -48,8 +49,10 @@ public class L2DamageTracker {
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	public static final PacketHandlerWithConfig PACKET_HANDLER = new PacketHandlerWithConfig(
-			MODID, 2,
-			e -> e.create(TotemUseToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT));
+			MODID, 3,
+			e -> e.create(TotemUseToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
+			e -> e.create(SendLogPacket.class, PacketHandler.NetDir.PLAY_TO_CLIENT)
+	);
 
 	@Deprecated(forRemoval = true)
 	public static final TagKey<Attribute> PERCENTAGE = key("percentage");
