@@ -27,11 +27,14 @@ public class LogEntry {
 		INCOMING, INCOMING_POST, DAMAGE, DAMAGE_POST
 	}
 
+	public record Target(String path, @Nullable ServerPlayer client) {
+	}
+
 	public static LogEntry of(DamageSource source, LivingEntity target, @Nullable LivingEntity attacker) {
 		return new LogEntry(source, target, attacker);
 	}
 
-	private static Path path(Player player, @Nullable LivingEntity other, String type, String time) {
+	private static String path(Player player, @Nullable LivingEntity other, String type, String time) {
 		String otherType;
 		if (other == null) {
 			otherType = "null";
@@ -39,8 +42,12 @@ public class LogEntry {
 			ResourceLocation rl = BuiltInRegistries.ENTITY_TYPE.getKey(other.getType());
 			otherType = rl.getPath().replaceAll("/", "_");
 		}
-		return FMLPaths.GAMEDIR.get().resolve("logs/damage_tracker/" +
-				player.getScoreboardName() + "-" + type + "/" + otherType + "/" + time + ".txt");
+		return player.getScoreboardName() + "-" + type + "/" + otherType + "/" + time;
+	}
+
+	public static void writeToFile(String str, List<String> file) {
+		var path = FMLPaths.GAMEDIR.get().resolve("logs/damage_tracker/" + str + ".txt");
+		write(path, e -> file.forEach(e::println));
 	}
 
 	private final DamageSource source;
@@ -51,7 +58,9 @@ public class LogEntry {
 	private final boolean log, info, trace;
 	private final List<String> output = new ArrayList<>();
 	private final Map<DamageModifier, String> modifiers = new HashMap<>();
-	private final List<Path> saves = new ArrayList<>();
+	private final List<Target> saves = new ArrayList<>();
+
+	private Stage lastStage;
 
 	private LogEntry(DamageSource source, LivingEntity target, @Nullable LivingEntity attacker) {
 		this.source = source;
@@ -59,10 +68,10 @@ public class LogEntry {
 		this.attacker = attacker;
 		this.time = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS").format(new Date());
 		info = L2DamageTrackerConfig.SERVER.printDamageTrace.get();
-		if (target instanceof ServerPlayer player && LogHelper.savePlayerHurt(player))
-			saves.add(path(player, attacker, "hurt", time));
-		if (attacker instanceof ServerPlayer player && LogHelper.savePlayerAttack(player))
-			saves.add(path(player, target, "attack", time));
+		if (target instanceof ServerPlayer player)
+			LogHelper.savePlayerHurt(player).save(saves, path(player, attacker, "hurt", time));
+		if (attacker instanceof ServerPlayer player)
+			LogHelper.savePlayerAttack(player).save(saves, path(player, target, "attack", time));
 		trace = !saves.isEmpty();
 		log = info || trace;
 		if (log) {
@@ -78,15 +87,26 @@ public class LogEntry {
 	public void log(Stage stage, float amount) {
 		if (!log) return;
 		output.add("Stage " + stage.name() + ": val = " + amount);
-		if (stage == Stage.DAMAGE_POST) {
-			output.add("------ Damage Tracker Profile END ------");
-			if (info) {
-				for (var e : output) {
-					L2DamageTracker.LOGGER.info(e);
-				}
+		lastStage = stage;
+	}
+
+	public void end() {
+		output.add("------ Damage Tracker Profile END ------");
+		if (info) {
+			for (var e : output) {
+				L2DamageTracker.LOGGER.info(e);
 			}
-			for (var path : saves) {
-				write(path, e -> output.forEach(e::println));
+		}
+		for (var target : saves) {
+			String str = target.path();
+			if (lastStage != Stage.DAMAGE_POST) {
+				str += "-cancelled";
+			}
+
+			if (target.client() != null) {
+				L2DamageTracker.PACKET_HANDLER.toClientPlayer(new SendLogPacket(str, new ArrayList<>(output)), target.client());
+			} else {
+				writeToFile(str, output);
 			}
 		}
 	}
@@ -159,6 +179,8 @@ public class LogEntry {
 			if (e.getClassName().startsWith("dev.xkmc.l2damagetracker.contents.attack"))
 				continue;
 			if (e.getClassName().startsWith("net.neoforged.neoforge.event"))
+				continue;
+			if (e.getClassName().startsWith("net.neoforged.neoforge.common.damagesource"))
 				continue;
 			return e.toString();
 		}

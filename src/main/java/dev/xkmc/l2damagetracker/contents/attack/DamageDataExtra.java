@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 @SuppressWarnings("unused")
 public class DamageDataExtra implements DamageData.All {
 
+
 	private DamageSource source;
 	private LivingEntity target;
 	private LivingEntity attacker;
@@ -148,6 +149,10 @@ public class DamageDataExtra implements DamageData.All {
 		if (noCancellation && event.isCanceled()) event.setCanceled(false);
 		event.setAmount(damage);
 		log.log(LogEntry.Stage.INCOMING_POST, damage);
+		if (event.isCanceled() || damage <= 0) {
+			log.end();
+			log = null;
+		}
 	}
 
 	public void onDamage(LivingDamageEvent.Pre event, Consumer<LivingDamageEvent.Pre> cons) {
@@ -181,6 +186,10 @@ public class DamageDataExtra implements DamageData.All {
 			logEvent = null;
 			return event.getNewDamage();
 		});
+	}
+
+	public void end() {
+		if (log != null) log.end();
 	}
 
 }

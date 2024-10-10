@@ -31,22 +31,32 @@ public class LogHelper {
 
 	}
 
-	private record Val(long time, String playerName, @Nullable CommandSource source) {
+	public record Val(long time, String playerName, @Nullable CommandSource source) {
+
+		public void save(List<LogEntry.Target> saves, String path) {
+			ServerPlayer player = source instanceof ServerPlayer sp ? sp : null;
+			saves.add(new LogEntry.Target(path, player));
+		}
 
 	}
 
 	private static final Map<Key, Val> MAP = new HashMap<>();
 	private static final Val NULL = new Val(0, "", null);
 
-
-	public static boolean savePlayerHurt(ServerPlayer player) {
-		if (L2DamageTrackerConfig.SERVER.savePlayerHurt.get()) return true;
-		return MAP.getOrDefault(new Key(Type.HURT, player.getUUID()), NULL).time() > time(player);
+	@Nullable
+	public static Val savePlayerHurt(ServerPlayer player) {
+		var ans = MAP.getOrDefault(new Key(Type.HURT, player.getUUID()), NULL);
+		if (ans.time() > time(player)) return ans;
+		if (L2DamageTrackerConfig.SERVER.savePlayerHurt.get()) return NULL;
+		return null;
 	}
 
-	public static boolean savePlayerAttack(ServerPlayer player) {
-		if (L2DamageTrackerConfig.SERVER.savePlayerAttack.get()) return true;
-		return MAP.getOrDefault(new Key(Type.ATTACK, player.getUUID()), NULL).time() > time(player);
+	@Nullable
+	public static Val savePlayerAttack(ServerPlayer player) {
+		var ans = MAP.getOrDefault(new Key(Type.ATTACK, player.getUUID()), NULL);
+		if (ans.time() > time(player)) return ans;
+		if (L2DamageTrackerConfig.SERVER.savePlayerAttack.get()) return NULL;
+		return null;
 	}
 
 	private static long time(ServerPlayer player) {
