@@ -1,18 +1,20 @@
 {
-  "required": true,
-  "priority": 1000,
-  "package": "dev.xkmc.l2damagetracker.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-	"CommonHooksMixin",
-	"DamageContainerMixin",
-	"DamageSourcesMixin",
-	"LivingEntityMixin"
-  ],
-  "client": [
-  ],
-  "injectors": {
-	"defaultRequire": 1
-  },
-  "minVersion": "0.8"
+	"required": true,
+	"priority": 1000,
+	"package": "dev.xkmc.l2damagetracker.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"CommonHooksMixin",
+		"DamageContainerMixin",
+		"DamageSourcesMixin",
+		"EntityInvulnerabilityCheckEventMixin",
+		"LivingEntityMixin",
+		"LivingIncomingDamageEventMixin"
+	],
+	"client": [
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"minVersion": "0.8"
 }

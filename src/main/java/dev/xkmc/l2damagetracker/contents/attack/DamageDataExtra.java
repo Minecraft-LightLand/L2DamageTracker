@@ -1,5 +1,7 @@
 package dev.xkmc.l2damagetracker.contents.attack;
 
+import dev.xkmc.l2damagetracker.contents.immunity.ImmunityDataExtra;
+import dev.xkmc.l2damagetracker.contents.logging.AttackLogEntry;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
@@ -30,7 +32,7 @@ public class DamageDataExtra implements DamageData.All {
 
 	private final DamageAccumulator offenseModifiers = new DamageAccumulator();
 	private final DamageAccumulator defenseModifiers = new DamageAccumulator();
-	private LogEntry log;
+	private AttackLogEntry log;
 
 	private boolean bypassMagic;
 	private float originalDamage;
@@ -123,7 +125,7 @@ public class DamageDataExtra implements DamageData.All {
 		target = event.getEntity();
 		cont = event.getContainer();
 
-		log = LogEntry.of(source, target, getAttacker());
+		log = AttackLogEntry.of(source, target, getAttacker());
 
 		if (attacker instanceof Player pl) {
 			var e = AttackEventHandler.PLAYER.get(pl.getUUID());
@@ -135,9 +137,12 @@ public class DamageDataExtra implements DamageData.All {
 
 		var list = AttackEventHandler.getListeners();
 		for (var e : list) e.setupProfile(this, this::setupAttackerProfile);
-		log.log(LogEntry.Stage.INCOMING, originalDamage);
+		log.log(AttackLogEntry.Stage.INCOMING, originalDamage);
 		boolean cancelled = false;
-		for (var e : list) cancelled |= e.onAttack(this);
+		for (var e : list) {
+			//TODO cancellation logging
+			cancelled |= e.onAttack(this);
+		}
 		if (!noCancellation && cancelled) {
 			event.setCanceled(true);
 			return;
@@ -148,7 +153,7 @@ public class DamageDataExtra implements DamageData.All {
 				event(event, cons));
 		if (noCancellation && event.isCanceled()) event.setCanceled(false);
 		event.setAmount(damage);
-		log.log(LogEntry.Stage.INCOMING_POST, damage);
+		log.log(AttackLogEntry.Stage.INCOMING_POST, damage);
 		if (event.isCanceled() || damage <= 0) {
 			log.end();
 			log = null;
@@ -156,12 +161,12 @@ public class DamageDataExtra implements DamageData.All {
 	}
 
 	public void onDamage(LivingDamageEvent.Pre event, Consumer<LivingDamageEvent.Pre> cons) {
-		log.log(LogEntry.Stage.DAMAGE, event.getNewDamage());
+		log.log(AttackLogEntry.Stage.DAMAGE, event.getNewDamage());
 		float damage = defenseModifiers.run(event.getNewDamage(), log.initModifiers(),
 				e -> e.onDamage(this),
 				e -> e.onDamageFinalized(this),
 				event(event, cons));
-		log.log(LogEntry.Stage.DAMAGE_POST, damage);
+		log.log(AttackLogEntry.Stage.DAMAGE_POST, damage);
 		event.setNewDamage(damage);
 	}
 
@@ -172,7 +177,9 @@ public class DamageDataExtra implements DamageData.All {
 		return new Nonlinear(EVENT_OFFENSIVE, DamageModifier.Order.EVENT, 0, f -> {
 			event.setAmount(f);
 			logEvent = event;
+			ImmunityDataExtra.get(event).attach(log);
 			cons.accept(event);
+			ImmunityDataExtra.get(event).end();
 			logEvent = null;
 			return event.getAmount();
 		});

@@ -2,7 +2,7 @@ package dev.xkmc.l2damagetracker.events;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.xkmc.l2core.base.effects.ForceAddEffectEvent;
-import dev.xkmc.l2damagetracker.contents.attack.LogHelper;
+import dev.xkmc.l2damagetracker.contents.logging.LogHelper;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.l2damagetracker.init.data.ArmorImmunity;
 import net.minecraft.commands.CommandSourceStack;

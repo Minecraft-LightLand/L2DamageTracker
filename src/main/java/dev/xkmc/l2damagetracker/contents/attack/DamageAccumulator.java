@@ -1,6 +1,6 @@
 package dev.xkmc.l2damagetracker.contents.attack;
 
-import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
+import dev.xkmc.l2damagetracker.contents.logging.AttackLogEntry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class DamageAccumulator {
 
 	private final List<DamageModifier> modifiers = new ArrayList<>();
 
-	float run(float original, @Nullable LogEntry log,
+	float run(float original, @Nullable AttackLogEntry log,
 			  Consumer<AttackListener> collect,
 			  Consumer<AttackListener> maximize,
 			  DamageModifier event
@@ -33,7 +33,7 @@ public class DamageAccumulator {
 		return finalDamage;
 	}
 
-	private float accumulate(float val, @Nullable LogEntry log) {
+	private float accumulate(float val, @Nullable AttackLogEntry log) {
 		Map<DamageModifier.Order, TreeMap<Integer, DamageModifier>> map = new TreeMap<>();
 		for (var e : modifiers) {
 			if (!map.containsKey(e.order())) {

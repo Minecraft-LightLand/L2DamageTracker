@@ -1,4 +1,4 @@
-package dev.xkmc.l2damagetracker.contents.attack;
+package dev.xkmc.l2damagetracker.contents.logging;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import net.minecraft.world.entity.player.Player;
@@ -9,7 +9,7 @@ public record SendLogPacket(String path, ArrayList<String> file) implements Seri
 
 	@Override
 	public void handle(Player player) {
-		LogEntry.writeToFile(path, file);
+		LoggingBase.writeToFile(path, file);
 	}
 
 }

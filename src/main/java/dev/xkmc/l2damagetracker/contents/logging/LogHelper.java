@@ -1,4 +1,4 @@
-package dev.xkmc.l2damagetracker.contents.attack;
+package dev.xkmc.l2damagetracker.contents.logging;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -31,32 +31,32 @@ public class LogHelper {
 
 	}
 
-	public record Val(long time, String playerName, @Nullable CommandSource source) {
+	public record Val(long time, String playerName, boolean write, @Nullable CommandSource source) {
 
-		public void save(List<LogEntry.Target> saves, String path) {
+		public void save(List<LoggingTarget> saves, String path) {
+			if (!write) return;
 			ServerPlayer player = source instanceof ServerPlayer sp ? sp : null;
-			saves.add(new LogEntry.Target(path, player));
+			saves.add(new LoggingTarget(path, player));
 		}
 
 	}
 
 	private static final Map<Key, Val> MAP = new HashMap<>();
-	private static final Val NULL = new Val(0, "", null);
+	private static final Val SERVER = new Val(0, "", true, null);
+	private static final Val NONE = new Val(0, "", false, null);
 
-	@Nullable
 	public static Val savePlayerHurt(ServerPlayer player) {
-		var ans = MAP.getOrDefault(new Key(Type.HURT, player.getUUID()), NULL);
+		var ans = MAP.getOrDefault(new Key(Type.HURT, player.getUUID()), SERVER);
 		if (ans.time() > time(player)) return ans;
-		if (L2DamageTrackerConfig.SERVER.savePlayerHurt.get()) return NULL;
-		return null;
+		if (L2DamageTrackerConfig.SERVER.savePlayerHurt.get()) return SERVER;
+		return NONE;
 	}
 
-	@Nullable
 	public static Val savePlayerAttack(ServerPlayer player) {
-		var ans = MAP.getOrDefault(new Key(Type.ATTACK, player.getUUID()), NULL);
+		var ans = MAP.getOrDefault(new Key(Type.ATTACK, player.getUUID()), SERVER);
 		if (ans.time() > time(player)) return ans;
-		if (L2DamageTrackerConfig.SERVER.savePlayerAttack.get()) return NULL;
-		return null;
+		if (L2DamageTrackerConfig.SERVER.savePlayerAttack.get()) return SERVER;
+		return NONE;
 	}
 
 	private static long time(ServerPlayer player) {
@@ -87,7 +87,7 @@ public class LogHelper {
 			return false;
 		});
 		for (var ent : removed.asMap().entrySet()) {
-			String pl = ent.getValue().size() == 1 ? new ArrayList<>(ent.getValue()).get(0) : ent.getValue().size() + " players";
+			String pl = ent.getValue().size() == 1 ? new ArrayList<>(ent.getValue()).getFirst() : ent.getValue().size() + " players";
 			ent.getKey().sendSystemMessage(Component.literal("Finished damage profiling for " + pl));
 		}
 
@@ -99,14 +99,14 @@ public class LogHelper {
 		EntitySelector sel = ctx.getArgument("player", EntitySelector.class);
 		var list = sel.findPlayers(ctx.getSource());
 		for (var e : list) {
-			MAP.put(new Key(type, e.getUUID()), new Val(e.server.overworld().getGameTime() + time, e.getScoreboardName(), ctx.getSource().source));
+			MAP.put(new Key(type, e.getUUID()), new Val(e.server.overworld().getGameTime() + time, e.getScoreboardName(), true, ctx.getSource().source));
 		}
 		int sec = time / 20;
 		int min = sec / 60;
 		int hrs = min / 60;
 		String str = String.format("%02d:%02d:%02d", hrs % 24, min % 60, sec % 60);
 		String side = type.name().toLowerCase(Locale.ROOT);
-		String pl = list.size() == 1 ? list.get(0).getScoreboardName() : list.size() + " players";
+		String pl = list.size() == 1 ? list.getFirst().getScoreboardName() : list.size() + " players";
 		ctx.getSource().sendSuccess(() -> Component.literal("Start profiling " + side + " of " + pl + " with time " + str), true);
 		return 1;
 	}

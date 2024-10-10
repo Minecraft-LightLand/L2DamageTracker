@@ -8,7 +8,7 @@ import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.Reg;
 import dev.xkmc.l2core.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
-import dev.xkmc.l2damagetracker.contents.attack.SendLogPacket;
+import dev.xkmc.l2damagetracker.contents.logging.SendLogPacket;
 import dev.xkmc.l2damagetracker.contents.curios.FactorAttribute;
 import dev.xkmc.l2damagetracker.contents.curios.TotemUseToClient;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
