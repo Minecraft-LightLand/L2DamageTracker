@@ -22,7 +22,6 @@ import java.util.function.Consumer;
 @SuppressWarnings("unused")
 public class DamageDataExtra implements DamageData.All {
 
-
 	private DamageSource source;
 	private LivingEntity target;
 	private LivingEntity attacker;
@@ -93,6 +92,7 @@ public class DamageDataExtra implements DamageData.All {
 	@Override
 	public void setNonCancellable() {
 		noCancellation = true;
+		log.logNoImmunity();
 	}
 
 	@Override
@@ -140,8 +140,11 @@ public class DamageDataExtra implements DamageData.All {
 		log.log(AttackLogEntry.Stage.INCOMING, originalDamage);
 		boolean cancelled = false;
 		for (var e : list) {
-			//TODO cancellation logging
-			cancelled |= e.onAttack(this);
+			var cancel = e.onAttack(this);
+			if (cancel){
+				cancelled = true;
+				log.logImmunity(e);
+			}
 		}
 		if (!noCancellation && cancelled) {
 			event.setCanceled(true);

@@ -1,12 +1,10 @@
 package dev.xkmc.l2damagetracker.contents.logging;
 
+import dev.xkmc.l2damagetracker.contents.attack.AttackListener;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.Event;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,6 +33,16 @@ public class AttackLogEntry extends LoggingBase {
 		if (!log) return;
 		output.add("Stage " + stage.name() + ": val = " + amount);
 		lastStage = stage;
+	}
+
+	public void logImmunity(AttackListener l) {
+		if (!log) return;
+		output.add("<Immunity> Damage cancelled by " + l.getClass().getName());
+	}
+
+	public void logNoImmunity() {
+		if (!log) return;
+		output.add("<Immunity> Damage marked non-cancellable by " + getStackTrace());
 	}
 
 	public void end() {
@@ -73,7 +81,9 @@ public class AttackLogEntry extends LoggingBase {
 	}
 
 	public void processModifier(DamageModifier e, String info) {
-		output.add("| - | " + info + ", source = " + modifiers.get(e));
+		var s = modifiers.get(e);
+		if (s == null) s = e.id().toString();
+		output.add("| - | " + info + ", source = " + s);
 	}
 
 	public void endLayer(DamageModifier.Order key, float val) {

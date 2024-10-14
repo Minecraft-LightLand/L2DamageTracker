@@ -1,4 +1,4 @@
-// 1.21.1	2024-09-24T21:35:05.222244	Registrate Provider for l2damagetracker [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute), Tags (enchantment), Tags (damage_type)]
+// 1.21.1	2024-10-12T03:31:50.138386	Registrate Provider for l2damagetracker [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute), Tags (enchantment), Tags (damage_type)]
 74a65c0670c8214726d4a79d7a83f89b6ce9a45c assets/l2damagetracker/lang/en_ud.json
 5633c82ef9e0c686b095781f20536cfe3a782c1c assets/l2damagetracker/lang/en_us.json
 25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_armor-bypass_cooldown-bypass_magic.json
