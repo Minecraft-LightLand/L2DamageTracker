@@ -148,6 +148,7 @@ public class DamageDataExtra implements DamageData.All {
 		}
 		if (!noCancellation && cancelled) {
 			event.setCanceled(true);
+			log.end();
 			return;
 		}
 		float damage = offenseModifiers.run(event.getAmount(), log.initModifiers(),
@@ -159,7 +160,6 @@ public class DamageDataExtra implements DamageData.All {
 		log.log(AttackLogEntry.Stage.INCOMING_POST, damage);
 		if (event.isCanceled() || damage <= 0) {
 			log.end();
-			log = null;
 		}
 	}
 
