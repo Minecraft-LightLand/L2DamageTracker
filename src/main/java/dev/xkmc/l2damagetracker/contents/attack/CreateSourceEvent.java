@@ -1,11 +1,16 @@
 package dev.xkmc.l2damagetracker.contents.attack;
 
+import dev.xkmc.l2damagetracker.compat.SingletonDamageTypeWrapper;
 import dev.xkmc.l2damagetracker.contents.damage.DamageState;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeWrapper;
+import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -117,5 +122,30 @@ public class CreateSourceEvent extends Event {
 		}
 	}
 
+	// for KubeJS
+	public boolean sourceIs(String id) {
+		if (id.startsWith("#")) {
+			return getRegistry().getHolderOrThrow(getOriginal())
+					.is(TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.parse(id.substring(1))));
+		} else return getOriginal().location().toString().equals(id);
+	}
+
+	public void enable(String type) {
+		DamageState state = switch (type) {
+			case "bypass_armor" -> DefaultDamageState.BYPASS_ARMOR;
+			case "bypass_magic" -> DefaultDamageState.BYPASS_MAGIC;
+			case "bypass_cooldown" -> DefaultDamageState.BYPASS_COOLDOWN;
+			default -> null;
+		};
+		if (state != null) {
+			enable(state);
+		}
+	}
+
+	public void setTo(String id) {
+		setResult(new SingletonDamageTypeWrapper(
+				ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.parse(id))
+		));
+	}
 
 }
