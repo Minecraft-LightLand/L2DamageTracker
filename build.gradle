@@ -157,5 +157,7 @@ dependencies {
     implementation "dev.xkmc:l2menustacker:${l2menustacker_ver}"
 
     implementation "curse.maven:ars-nouveau-401955:5721123"
-    implementation "curse.maven:geckolib-388172:5726714"
+    implementation "curse.maven:geckolib-388172:6027599"
+    implementation "curse.maven:playeranimator-658587:6024462"
+    implementation "curse.maven:irons-spells-n-spellbooks-855414:6282642"
 }

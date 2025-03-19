@@ -35,6 +35,11 @@ public class AttackLogEntry extends LoggingBase {
 		lastStage = stage;
 	}
 
+	public void markLateEntry() {
+		if (!log) return;
+		output.add("<Late Entry> Damage pipeline bypassed by " + getStackTrace());
+	}
+
 	public void logImmunity(AttackListener l) {
 		if (!log) return;
 		output.add("<Immunity> Damage cancelled by " + l.getClass().getName());

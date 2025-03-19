@@ -31,6 +31,8 @@ public class DamageDataExtra implements DamageData.All {
 
 	private final DamageAccumulator offenseModifiers = new DamageAccumulator();
 	private final DamageAccumulator defenseModifiers = new DamageAccumulator();
+
+	@Nullable
 	private AttackLogEntry log;
 
 	private boolean bypassMagic;
@@ -80,19 +82,19 @@ public class DamageDataExtra implements DamageData.All {
 	}
 
 	public void addHurtModifier(DamageModifier mod) {
-		log.recordModifier(mod);
+		if (log != null) log.recordModifier(mod);
 		offenseModifiers.addHurtModifier(mod);
 	}
 
 	public void addDealtModifier(DamageModifier mod) {
-		log.recordModifier(mod);
+		if (log != null) log.recordModifier(mod);
 		defenseModifiers.addHurtModifier(mod);
 	}
 
 	@Override
 	public void setNonCancellable() {
 		noCancellation = true;
-		log.logNoImmunity();
+		if (log != null) log.logNoImmunity();
 	}
 
 	@Override
@@ -116,7 +118,7 @@ public class DamageDataExtra implements DamageData.All {
 	}
 
 	public void onSetNewDamage(float damage) {
-		if (logEvent != null) {
+		if (logEvent != null && log != null) {
 			log.eventLayer(logEvent, damage);
 		}
 	}
@@ -141,7 +143,7 @@ public class DamageDataExtra implements DamageData.All {
 		boolean cancelled = false;
 		for (var e : list) {
 			var cancel = e.onAttack(this);
-			if (cancel){
+			if (cancel) {
 				cancelled = true;
 				log.logImmunity(e);
 			}
@@ -164,6 +166,12 @@ public class DamageDataExtra implements DamageData.All {
 	}
 
 	public void onDamage(LivingDamageEvent.Pre event, Consumer<LivingDamageEvent.Pre> cons) {
+		if (log == null) {
+			target = event.getEntity();
+			cont = event.getContainer();
+			log = AttackLogEntry.of(source, target, getAttacker());
+			log.markLateEntry();
+		}
 		log.log(AttackLogEntry.Stage.DAMAGE, event.getNewDamage());
 		float damage = defenseModifiers.run(event.getNewDamage(), log.initModifiers(),
 				e -> e.onDamage(this),

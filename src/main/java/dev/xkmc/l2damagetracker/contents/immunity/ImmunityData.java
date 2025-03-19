@@ -5,12 +5,14 @@ import dev.xkmc.l2damagetracker.contents.logging.ImmunityLogEntry;
 import dev.xkmc.l2damagetracker.contents.logging.LoggingBase;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
+import org.jetbrains.annotations.Nullable;
 
 public class ImmunityData {
 
+	@Nullable
 	private LoggingBase entry;
 
-	public void attach(AttackLogEntry log) {
+	public void attach(@Nullable AttackLogEntry log) {
 		entry = log;
 	}
 
