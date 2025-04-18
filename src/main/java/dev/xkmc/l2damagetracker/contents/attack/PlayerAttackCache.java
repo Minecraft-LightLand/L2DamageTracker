@@ -17,7 +17,7 @@ public class PlayerAttackCache {
 
 	private ItemStack weapon = ItemStack.EMPTY;
 
-	private float strength = -1;
+	private float strength = 1;
 
 	void pushPlayer(AttackEntityEvent event) {
 		stage = Stage.PLAYER_ATTACK;
