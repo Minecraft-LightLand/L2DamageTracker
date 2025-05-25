@@ -15,6 +15,7 @@ import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -74,10 +75,18 @@ public class DamageDataExtra implements DamageData.All {
 	}
 
 	public float getDamageIncoming() {
+		if (!offenseModifiers.maximized) {
+			L2DamageTracker.LOGGER.error("incoming damage not calculated yet");
+			L2DamageTracker.LOGGER.throwing(Level.DEBUG, new IllegalStateException("incoming damage not calculated yet"));
+		}
 		return offenseModifiers.getMaximized();
 	}
 
 	public float getDamageFinal() {
+		if (!defenseModifiers.maximized) {
+			L2DamageTracker.LOGGER.error("final damage not calculated yet");
+			L2DamageTracker.LOGGER.throwing(Level.DEBUG, new IllegalStateException("final damage not calculated yet"));
+		}
 		return defenseModifiers.getMaximized();
 	}
 

@@ -1,6 +1,8 @@
 package dev.xkmc.l2damagetracker.contents.attack;
 
 import dev.xkmc.l2damagetracker.contents.logging.AttackLogEntry;
+import dev.xkmc.l2damagetracker.init.L2DamageTracker;
+import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import java.util.function.Consumer;
 public class DamageAccumulator {
 
 	private boolean frozen = true;
-	private boolean maximized = false;
+	protected boolean maximized = false;
 
 	private float finalDamage;
 
@@ -58,14 +60,14 @@ public class DamageAccumulator {
 	}
 
 	public float getMaximized() {
-		if (!maximized)
-			throw new IllegalStateException("damage not calculated yet");
 		return finalDamage;
 	}
 
 	public void addHurtModifier(DamageModifier mod) {
-		if (frozen)
-			throw new IllegalStateException("modify damage only on event.");
+		if (frozen) {
+			L2DamageTracker.LOGGER.throwing(Level.ERROR, new IllegalStateException("modify damage only on event."));
+			return;
+		}
 		this.modifiers.add(mod);
 	}
 
