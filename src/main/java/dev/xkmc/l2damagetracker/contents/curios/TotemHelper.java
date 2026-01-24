@@ -10,6 +10,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
@@ -74,6 +76,21 @@ public class TotemHelper {
 
 	}
 
+	public static class TotemFinderEvent extends LivingEvent {
+
+		private final List<TotemSlot> list;
+
+		public TotemFinderEvent(LivingEntity entity, List<TotemSlot> list) {
+			super(entity);
+			this.list = list;
+		}
+
+		public void add(TotemSlot slot) {
+			list.add(slot);
+		}
+
+	}
+
 	public static List<TotemSlot> totemSlots(LivingEntity self) {
 		List<TotemSlot> ans = new ArrayList<>();
 		new HandPred(self, self.getMainHandItem(), InteractionHand.MAIN_HAND).add(ans);
@@ -81,6 +98,7 @@ public class TotemHelper {
 		if (ModList.get().isLoaded("curios")) {
 			curioTotemSlots(self, ans);
 		}
+		NeoForge.EVENT_BUS.post(new TotemFinderEvent(self, ans));
 		return ans;
 	}
 

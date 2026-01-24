@@ -24,9 +24,11 @@ public class AttackLogEntry extends LoggingBase {
 
 	private final Map<DamageModifier, String> modifiers = new HashMap<>();
 	private Stage lastStage;
+	private Throwable throwable;
 
 	private AttackLogEntry(DamageSource source, LivingEntity target, @Nullable LivingEntity attacker) {
 		super(source, target, attacker);
+		throwable = new Throwable();
 	}
 
 	public void log(Stage stage, float amount) {
@@ -51,6 +53,12 @@ public class AttackLogEntry extends LoggingBase {
 	}
 
 	public void end() {
+		output.add("------ Damage Stack Trace ------");
+		output.add("Stack Trace:");
+		var trace = throwable.getStackTrace();
+		for (var e : trace) {
+			output.add(e.toString());
+		}
 		output.add("------ Damage Tracker Profile END ------");
 		if (info) {
 			for (var e : output) {
