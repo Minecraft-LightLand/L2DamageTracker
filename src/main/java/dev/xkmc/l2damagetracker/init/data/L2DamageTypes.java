@@ -117,6 +117,24 @@ public class L2DamageTypes extends DamageTypeAndTagsGen {
 			pvd.tag(MAGIC).addOptional(DamageTypesRegistry.FLARE.location());
 			pvd.tag(MAGIC).addOptional(DamageTypesRegistry.COLD_SNAP.location());
 		}
+		pvd.tag(MAGIC)
+			.addOptional(new ResourceLocation("traveloptics", "aerial_collapse"))
+			.addOptional(new ResourceLocation("traveloptics", "aqua_magic"))
+			.addOptional(new ResourceLocation("traveloptics", "asteroid_impact_crater"))
+			.addOptional(new ResourceLocation("traveloptics", "extended_water_bolt"))
+			.addOptional(new ResourceLocation("traveloptics", "lingering_strain"))
+			.addOptional(new ResourceLocation("traveloptics", "nullflare_blast"))
+			.addOptional(new ResourceLocation("traveloptics", "nullflare_fire"))
+			.addOptional(new ResourceLocation("traveloptics", "nullflare_ice"))
+			.addOptional(new ResourceLocation("traveloptics", "primordial_crest"))
+			.addOptional(new ResourceLocation("traveloptics", "reversal"))
+			.addOptional(new ResourceLocation("traveloptics", "tectonic_crest"))
+			.addOptional(new ResourceLocation("traveloptics", "void_uppercut"))
+			.addOptional(new ResourceLocation("traveloptics", "voidstrike_reaper_bonus_damage"))
+			.addOptional(new ResourceLocation("gtbcs_geomancy_plus", "geo_magic"))
+			.addOptionalTag(new ResourceLocation("familiarslib", "sound_magic"))
+			.addOptional(new ResourceLocation("fantasy_ending", "ds_power"))
+			.addOptional(new ResourceLocation("fantasy_ending", "fe_power"));
 	}
 
 }
