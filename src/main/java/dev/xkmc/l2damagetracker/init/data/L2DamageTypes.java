@@ -1,5 +1,7 @@
 package dev.xkmc.l2damagetracker.init.data;
 
+import com.hollingsworth.arsnouveau.ArsNouveau;
+import com.hollingsworth.arsnouveau.setup.registry.DamageTypesRegistry;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
@@ -10,10 +12,12 @@ import io.redspace.ironsspellbooks.damage.ISSDamageTypes;
 import io.redspace.ironsspellbooks.datagen.DamageTypeTagGenerator;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.ArrayList;
@@ -97,13 +101,36 @@ public class L2DamageTypes extends DamageTypeAndTagsGen {
 				.addOptional(ISSDamageTypes.DRAGON_BREATH_POOL.location())
 				.addOptional(ISSDamageTypes.FIRE_FIELD.location())
 				.addOptional(ISSDamageTypes.POISON_CLOUD.location());
-		/* TODO
 		if (ModList.get().isLoaded(ArsNouveau.MODID)) {
-			pvd.tag(MAGIC).addOptional(DamageTypesRegistry.CRUSH.location());
-			pvd.tag(MAGIC).addOptional(DamageTypesRegistry.WINDSHEAR.location());
-			pvd.tag(MAGIC).addOptional(DamageTypesRegistry.FLARE.location());
-			pvd.tag(MAGIC).addOptional(DamageTypesRegistry.COLD_SNAP.location());
-		}*/
+			pvd.addTag(Tags.DamageTypes.IS_MAGIC).addOptional(DamageTypesRegistry.CRUSH.location());
+			pvd.addTag(Tags.DamageTypes.IS_MAGIC).addOptional(DamageTypesRegistry.WINDSHEAR.location());
+			pvd.addTag(Tags.DamageTypes.IS_MAGIC).addOptional(DamageTypesRegistry.FLARE.location());
+			pvd.addTag(Tags.DamageTypes.IS_MAGIC).addOptional(DamageTypesRegistry.COLD_SNAP.location());
+		}
+		pvd.addTag(Tags.DamageTypes.IS_MAGIC)
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "aerial_collapse"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "aqua_magic"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "asteroid_impact_crater"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "extended_water_bolt"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "lingering_strain"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "nullflare_blast"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "nullflare_fire"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "nullflare_ice"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "primordial_crest"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "reversal"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "tectonic_crest"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "void_uppercut"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("traveloptics", "voidstrike_reaper_bonus_damage"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("gtbcs_geomancy_plus", "geo_magic"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("ess_requiem", "blade_magic"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("ess_requiem", "divine_magic"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("aero_additions", "wind_magic"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("fantasy_ending", "ds_power"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath("fantasy_ending", "fe_power"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("alshanex_familiars", "sound_magic"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("iss_magicfromtheeast", "dune_magic"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("iss_magicfromtheeast", "is_soul"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("iss_magicfromtheeast", "spirit_magic"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("iss_magicfromtheeast", "symmetry_magic"));
 	}
-
 }

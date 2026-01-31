@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-10T11:48:04.452686	Registrate Provider for l2damagetracker [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute), Tags (enchantment), Tags (damage_type)]
+// 1.21.1	2026-01-31T20:23:53.1387954	Registrate Provider for l2damagetracker [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute), Tags (enchantment), Tags (damage_type)]
 74a65c0670c8214726d4a79d7a83f89b6ce9a45c assets/l2damagetracker/lang/en_ud.json
 5633c82ef9e0c686b095781f20536cfe3a782c1c assets/l2damagetracker/lang/en_us.json
 25d924fdac4392adb88fe3b6aa2c23420f6fb4f9 data/l2damagetracker/damage_type/mob_attack-bypass_armor-bypass_cooldown-bypass_magic.json
@@ -24,4 +24,4 @@ feb2719d63ef038cdb576d9f16f82539dd9449d9 data/minecraft/tags/damage_type/bypasse
 cbfaa8efe26d5fe4a1ad3094a54c46bcac8c5bc9 data/minecraft/tags/damage_type/bypasses_effects.json
 cbfaa8efe26d5fe4a1ad3094a54c46bcac8c5bc9 data/minecraft/tags/damage_type/bypasses_enchantments.json
 cbfaa8efe26d5fe4a1ad3094a54c46bcac8c5bc9 data/minecraft/tags/damage_type/bypasses_resistance.json
-e89e6e1cbbe108b0c3d0dd82b8d92a300bdc7a16 data/neoforge/tags/damage_type/is_magic.json
+9e06e214506b1d63120140564014b419f0fca11e data/neoforge/tags/damage_type/is_magic.json
