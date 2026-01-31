@@ -36,11 +36,11 @@
       "required": false
     },
     {
-      "id": "#irons_spellbooks:void_magic",
+      "id": "#irons_spellbooks:eldritch_magic",
       "required": false
     },
     {
-      "id": "#irons_spellbooks:poison_magic",
+      "id": "#irons_spellbooks:nature_magic",
       "required": false
     },
     {
@@ -77,6 +77,74 @@
     },
     {
       "id": "ars_nouveau:frost",
+      "required": false
+    },
+    {
+      "id": "traveloptics:aerial_collapse",
+      "required": false
+    },
+    {
+      "id": "traveloptics:aqua_magic",
+      "required": false
+    },
+    {
+      "id": "traveloptics:asteroid_impact_crater",
+      "required": false
+    },
+    {
+      "id": "traveloptics:extended_water_bolt",
+      "required": false
+    },
+    {
+      "id": "traveloptics:lingering_strain",
+      "required": false
+    },
+    {
+      "id": "traveloptics:nullflare_blast",
+      "required": false
+    },
+    {
+      "id": "traveloptics:nullflare_fire",
+      "required": false
+    },
+    {
+      "id": "traveloptics:nullflare_ice",
+      "required": false
+    },
+    {
+      "id": "traveloptics:primordial_crest",
+      "required": false
+    },
+    {
+      "id": "traveloptics:reversal",
+      "required": false
+    },
+    {
+      "id": "traveloptics:tectonic_crest",
+      "required": false
+    },
+    {
+      "id": "traveloptics:void_uppercut",
+      "required": false
+    },
+    {
+      "id": "traveloptics:voidstrike_reaper_bonus_damage",
+      "required": false
+    },
+    {
+      "id": "gtbcs_geomancy_plus:geo_magic",
+      "required": false
+    },
+    {
+      "id": "#familiarslib:sound_magic",
+      "required": false
+    },
+    {
+      "id": "fantasy_ending:ds_power",
+      "required": false
+    },
+    {
+      "id": "fantasy_ending:fe_power",
       "required": false
     }
   ]

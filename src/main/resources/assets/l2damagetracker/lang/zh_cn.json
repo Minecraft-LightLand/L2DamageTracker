@@ -1,7 +1,7 @@
 {
   "attribute.l2damagetracker.crit_rate": "暴击率",
   "attribute.l2damagetracker.crit_damage": "暴击伤害",
-  "attribute.l2damagetracker.bow_strength": "投射物伤害",
+  "attribute.l2damagetracker.bow_strength": "弹射物伤害",
   "l2damagetracker.tooltip.tool.immune": "免疫: ",
   "attribute.l2damagetracker.explosion_damage": "爆炸伤害",
   "attribute.l2damagetracker.fire_damage": "火焰伤害",
