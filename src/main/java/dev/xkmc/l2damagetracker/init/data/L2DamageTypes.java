@@ -8,6 +8,7 @@ import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
 import dev.xkmc.l2damagetracker.contents.damage.DamageTypeWrapper;
 import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
+import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.damage.ISSDamageTypes;
 import io.redspace.ironsspellbooks.datagen.DamageTypeTagGenerator;
 import net.minecraft.core.registries.Registries;
@@ -87,20 +88,23 @@ public class L2DamageTypes extends DamageTypeAndTagsGen {
 		pvd.addTag(MATERIAL_MUX).add(DamageTypes.PLAYER_ATTACK, DamageTypes.MOB_ATTACK);
 		pvd.addTag(DIRECT).add(DamageTypes.PLAYER_ATTACK, DamageTypes.MOB_ATTACK);
 		pvd.addTag(NO_SCALE).add(DamageTypes.THORNS, DamageTypes.STARVE, DamageTypes.DROWN, DamageTypes.DRY_OUT, DamageTypes.IN_WALL);
-		pvd.addTag(Tags.DamageTypes.IS_MAGIC).addOptionalTags(
-						DamageTypeTagGenerator.FIRE_MAGIC,
-						DamageTypeTagGenerator.ICE_MAGIC,
-						DamageTypeTagGenerator.LIGHTNING_MAGIC,
-						DamageTypeTagGenerator.HOLY_MAGIC,
-						DamageTypeTagGenerator.ENDER_MAGIC,
-						DamageTypeTagGenerator.BLOOD_MAGIC,
-						DamageTypeTagGenerator.EVOCATION_MAGIC,
-						DamageTypeTagGenerator.ELDRITCH_MAGIC,
-						DamageTypeTagGenerator.NATURE_MAGIC
-				).addOptional(ISSDamageTypes.CAULDRON.location())
-				.addOptional(ISSDamageTypes.DRAGON_BREATH_POOL.location())
-				.addOptional(ISSDamageTypes.FIRE_FIELD.location())
-				.addOptional(ISSDamageTypes.POISON_CLOUD.location());
+		pvd.addTag(Tags.DamageTypes.IS_MAGIC).add(DamageTypes.SONIC_BOOM);
+		if (ModList.get().isLoaded(IronsSpellbooks.MODID)) {
+			pvd.addTag(Tags.DamageTypes.IS_MAGIC).addOptionalTags(
+							DamageTypeTagGenerator.FIRE_MAGIC,
+							DamageTypeTagGenerator.ICE_MAGIC,
+							DamageTypeTagGenerator.LIGHTNING_MAGIC,
+							DamageTypeTagGenerator.HOLY_MAGIC,
+							DamageTypeTagGenerator.ENDER_MAGIC,
+							DamageTypeTagGenerator.BLOOD_MAGIC,
+							DamageTypeTagGenerator.EVOCATION_MAGIC,
+							DamageTypeTagGenerator.ELDRITCH_MAGIC,
+							DamageTypeTagGenerator.NATURE_MAGIC
+					).addOptional(ISSDamageTypes.CAULDRON.location())
+					.addOptional(ISSDamageTypes.DRAGON_BREATH_POOL.location())
+					.addOptional(ISSDamageTypes.FIRE_FIELD.location())
+					.addOptional(ISSDamageTypes.POISON_CLOUD.location());
+		}
 		if (ModList.get().isLoaded(ArsNouveau.MODID)) {
 			pvd.addTag(Tags.DamageTypes.IS_MAGIC).addOptional(DamageTypesRegistry.CRUSH.location());
 			pvd.addTag(Tags.DamageTypes.IS_MAGIC).addOptional(DamageTypesRegistry.WINDSHEAR.location());
