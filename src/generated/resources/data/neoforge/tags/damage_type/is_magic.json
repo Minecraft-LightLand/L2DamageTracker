@@ -146,7 +146,7 @@
       "required": false
     },
     {
-      "id": "#alshanex_familiars:sound_magic",
+      "id": "#familiarslib:sound_magic",
       "required": false
     },
     {
