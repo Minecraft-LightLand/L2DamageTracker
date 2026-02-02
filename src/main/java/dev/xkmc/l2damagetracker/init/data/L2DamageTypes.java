@@ -131,7 +131,7 @@ public class L2DamageTypes extends DamageTypeAndTagsGen {
 				.addOptional(ResourceLocation.fromNamespaceAndPath("aero_additions", "wind_magic"))
 				.addOptional(ResourceLocation.fromNamespaceAndPath("fantasy_ending", "ds_power"))
 				.addOptional(ResourceLocation.fromNamespaceAndPath("fantasy_ending", "fe_power"))
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("alshanex_familiars", "sound_magic"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("familiarslib", "sound_magic"))
 				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("iss_magicfromtheeast", "dune_magic"))
 				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("iss_magicfromtheeast", "is_soul"))
 				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("iss_magicfromtheeast", "spirit_magic"))
