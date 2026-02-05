@@ -1,0 +1,11 @@
+{
+  "attribute.l2damagetracker.bow_strength": "矢の威力",
+  "attribute.l2damagetracker.crit_damage": "クリティカル倍率",
+  "attribute.l2damagetracker.crit_rate": "クリティカル率",
+  "attribute.l2damagetracker.damage_absorption": "ダメージ吸収",
+  "attribute.l2damagetracker.damage_reduction": "最終ダメージ軽減",
+  "attribute.l2damagetracker.explosion_damage": "爆発ダメージ",
+  "attribute.l2damagetracker.fire_damage": "火炎ダメージ",
+  "attribute.l2damagetracker.magic_damage": "魔法ダメージ",
+  "l2damagetracker.tooltip.tool.immune": "無効化："
+}
