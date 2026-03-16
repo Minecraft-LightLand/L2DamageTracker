@@ -31,6 +31,14 @@ public class LogEntry {
 	}
 
 	private static Path path(Player player, @Nullable LivingEntity other, String type, String time) {
+		return entityPath(player.getScoreboardName(), other, type, time);
+	}
+
+	private static Path entityPath(UUID uuid, @Nullable LivingEntity other, String type, String time) {
+		return entityPath(uuid.toString(), other, type, time);
+	}
+
+	private static Path entityPath(String id, @Nullable LivingEntity other, String type, String time) {
 		String otherType;
 		if (other == null) {
 			otherType = "null";
@@ -40,7 +48,7 @@ public class LogEntry {
 			otherType = rl.getPath().replaceAll("/", "_");
 		}
 		return FMLPaths.GAMEDIR.get().resolve("logs/damage_tracker/" +
-				player.getScoreboardName() + "-" + type + "/" + otherType + "/" + time + ".txt");
+				id + "-" + type + "/" + otherType + "/" + time + ".txt");
 	}
 
 	private final DamageSource source;
@@ -61,8 +69,12 @@ public class LogEntry {
 		info = L2DamageTrackerConfig.COMMON.printDamageTrace.get();
 		if (target instanceof ServerPlayer player && LogHelper.savePlayerHurt(player))
 			saves.add(path(player, attacker, "hurt", time));
+		else if (!(target instanceof ServerPlayer) && LogHelper.saveEntityHurt(target))
+			saves.add(entityPath(target.getUUID(), attacker, "hurt", time));
 		if (attacker instanceof ServerPlayer player && LogHelper.savePlayerAttack(player))
 			saves.add(path(player, target, "attack", time));
+		else if (attacker != null && !(attacker instanceof ServerPlayer) && LogHelper.saveEntityAttack(attacker))
+			saves.add(entityPath(attacker.getUUID(), target, "attack", time));
 		trace = !saves.isEmpty();
 		log = info || trace;
 		if (log) {
