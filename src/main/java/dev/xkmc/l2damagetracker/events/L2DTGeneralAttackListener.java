@@ -68,7 +68,7 @@ public class L2DTGeneralAttackListener implements AttackListener {
 		if (data.getSource().is(tag)) {
 			var ins = attacker.getAttribute(attr);
 			if (ins != null) {
-				data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue(), attr.key().location()));
+				data.addHurtModifier(DamageModifier.multTotal((float) ins.getValue(), attr.key().identifier()));
 			}
 		}
 	}
@@ -80,15 +80,15 @@ public class L2DTGeneralAttackListener implements AttackListener {
 			if (ins != null) {
 				float val = (float) ins.getValue();
 				data.addDealtModifier(DamageModifier.multAttr(val,
-						L2DamageTracker.REDUCTION.key().location()));
+						L2DamageTracker.REDUCTION.key().identifier()));
 			}
 			ins = data.getTarget().getAttribute(L2DamageTracker.ABSORB.holder());
 			if (ins != null) {
 				float val = (float) ins.getValue();
 				data.addDealtModifier(DamageModifier.add(-val,
-						L2DamageTracker.ABSORB.key().location()));
+						L2DamageTracker.ABSORB.key().identifier()));
 				data.addDealtModifier(DamageModifier.nonlinearMiddle(943, e -> Math.max(0, e),
-						L2DamageTracker.ABSORB.key().location().withSuffix("_prevent_underflow")));
+						L2DamageTracker.ABSORB.key().identifier().withSuffix("_prevent_underflow")));
 			}
 		}
 	}

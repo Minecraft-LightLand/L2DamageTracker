@@ -113,7 +113,7 @@ public abstract class LoggingBase {
 			output.add("Attacked Entity: " + target);
 			output.add("Attacker Entity: " + attacker);
 			output.add("Damage Source: " + source.typeHolder().unwrapKey()
-					.map(e -> e.location().toString())
+					.map(e -> e.identifier().toString())
 					.orElseGet(() -> source.type().msgId()));
 		}
 	}

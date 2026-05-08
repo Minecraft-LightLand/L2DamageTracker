@@ -19,8 +19,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
@@ -65,8 +63,6 @@ public class L2DamageTracker {
 	public static final SimpleEntry<Attribute> REGEN = regPerc(REGISTRATE, "regen", "Regeneration Rate");
 	public static final SimpleEntry<Attribute> ABSORB = reg(REGISTRATE, "damage_absorption", e -> new RangedAttribute(e, 0, 0, 10000), "Damage Absorption");
 	public static final SimpleEntry<Attribute> REDUCTION = reg(REGISTRATE, "damage_reduction", e -> new FactorAttribute(e, 1, -10000, 10000).setSentiment(Attribute.Sentiment.NEGATIVE), "Damage after Reduction");
-
-	public static final DataMapReg<ArmorMaterial, ArmorImmunity> ARMOR = REG.dataMap("armor_immunity", Registries.ARMOR_MATERIAL, ArmorImmunity.class);
 
 	public L2DamageTracker() {
 		L2DamageTrackerConfig.init();
