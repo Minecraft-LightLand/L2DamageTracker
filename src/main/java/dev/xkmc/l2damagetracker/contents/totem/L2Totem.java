@@ -12,8 +12,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.function.Consumer;
 
@@ -41,17 +39,24 @@ public interface L2Totem {
 		return !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	default void onClientTrigger(Entity entity, ItemStack item) {
-		Minecraft.getInstance().particleEngine.createTrackingEmitter(entity, ParticleTypes.TOTEM_OF_UNDYING, 30);
-		entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.TOTEM_USE, entity.getSoundSource(), 1.0F, 1.0F, false);
-		if (entity == Proxy.getClientPlayer()) {
-			Minecraft.getInstance().gameRenderer.displayItemActivation(item);
-		}
+		ClientHandler.onClientTrigger(entity, item);
 	}
 
 	default boolean isValid(LivingEntity self, ItemStack stack, TotemHelper.TotemSlot slot) {
 		return true;
+	}
+
+	class ClientHandler {
+
+		public static void onClientTrigger(Entity entity, ItemStack item) {
+			Minecraft.getInstance().particleEngine.createTrackingEmitter(entity, ParticleTypes.TOTEM_OF_UNDYING, 30);
+			entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.TOTEM_USE, entity.getSoundSource(), 1.0F, 1.0F, false);
+			if (entity == Proxy.getClientPlayer()) {
+				Minecraft.getInstance().gameRenderer.displayItemActivation(item);
+			}
+		}
+
 	}
 
 }
