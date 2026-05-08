@@ -2,7 +2,7 @@ package dev.xkmc.l2damagetracker.contents.materials.api;
 
 import dev.xkmc.l2damagetracker.contents.materials.generic.ExtraArmorConfig;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -26,7 +26,7 @@ public interface IMatArmorType {
 		float tough = armorMat.toughness();
 		float kbres = armorMat.knockbackResistance();
 		EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(slot.getSlot());
-		ResourceLocation id = ResourceLocation.withDefaultNamespace("armor." + slot.getName());
+		Identifier id = Identifier.withDefaultNamespace("armor." + slot.getName());
 		if (armor > 0) {
 			builder.add(Attributes.ARMOR, new AttributeModifier(id, armor, AttributeModifier.Operation.ADD_VALUE), group);
 		}

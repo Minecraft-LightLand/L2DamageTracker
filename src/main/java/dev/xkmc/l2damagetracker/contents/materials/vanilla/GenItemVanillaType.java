@@ -9,13 +9,10 @@ import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2core.util.MathHelper;
 import dev.xkmc.l2damagetracker.contents.materials.api.*;
 import dev.xkmc.l2damagetracker.contents.materials.generic.GenericArmorItem;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -112,11 +109,11 @@ public record GenItemVanillaType(String modid, L2Registrate registrate) {
 	}
 
 	public <T extends Item> void generatedModel(DataGenContext<Item, T> ctx, RegistrateItemModelProvider pvd, String id, String suf) {
-		pvd.generated(ctx, ResourceLocation.fromNamespaceAndPath(modid, "item/generated/" + id + "/" + suf));
+		pvd.generated(ctx, Identifier.fromNamespaceAndPath(modid, "item/generated/" + id + "/" + suf));
 	}
 
 	public <T extends Item> void handHeld(DataGenContext<Item, T> ctx, RegistrateItemModelProvider pvd, String id, String suf) {
-		pvd.handheld(ctx, ResourceLocation.fromNamespaceAndPath(modid, "item/generated/" + id + "/" + suf));
+		pvd.handheld(ctx, Identifier.fromNamespaceAndPath(modid, "item/generated/" + id + "/" + suf));
 	}
 
 }

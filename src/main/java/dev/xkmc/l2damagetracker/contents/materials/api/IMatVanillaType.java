@@ -2,8 +2,7 @@ package dev.xkmc.l2damagetracker.contents.materials.api;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2damagetracker.contents.materials.vanilla.Tools;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -14,7 +13,7 @@ public interface IMatVanillaType extends IMatToolType, IMatArmorType {
 
 	ItemEntry<Item>[][] getGenerated();
 
-	ResourceLocation id();
+	Identifier id();
 
 	Item getNugget();
 

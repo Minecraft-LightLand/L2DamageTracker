@@ -72,7 +72,7 @@ public abstract class DamageTypeAndTagsGen {
 	protected void addDamageTypeTags(RegistrateTagsProvider.Impl<DamageType> pvd) {
 		for (var e : holders) {
 			for (var t : e.tags) {
-				pvd.addTag(t).add(e.key);
+				pvd.tag(t).add(e.key);
 			}
 		}
 	}

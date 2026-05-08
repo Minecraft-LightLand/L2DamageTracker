@@ -3,7 +3,7 @@ package dev.xkmc.l2damagetracker.contents.logging;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.l2damagetracker.init.data.L2DamageTrackerConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -81,7 +81,7 @@ public abstract class LoggingBase {
 		if (other == null) {
 			otherType = "null";
 		} else {
-			ResourceLocation rl = BuiltInRegistries.ENTITY_TYPE.getKey(other.getType());
+			Identifier rl = BuiltInRegistries.ENTITY_TYPE.getKey(other.getType());
 			otherType = rl.getPath().replaceAll("/", "_");
 		}
 		return player.getScoreboardName() + "-" + type + "/" + otherType + "/" + time;

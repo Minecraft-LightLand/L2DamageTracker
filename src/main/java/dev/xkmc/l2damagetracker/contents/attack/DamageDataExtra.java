@@ -3,7 +3,7 @@ package dev.xkmc.l2damagetracker.contents.attack;
 import dev.xkmc.l2damagetracker.contents.immunity.ImmunityDataExtra;
 import dev.xkmc.l2damagetracker.contents.logging.AttackLogEntry;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -190,8 +190,8 @@ public class DamageDataExtra implements DamageData.All {
 		event.setNewDamage(damage);
 	}
 
-	private static final ResourceLocation EVENT_OFFENSIVE = L2DamageTracker.loc("event_offensive");
-	private static final ResourceLocation EVENT_DEFENSIVE = L2DamageTracker.loc("event_defensive");
+	private static final Identifier EVENT_OFFENSIVE = L2DamageTracker.loc("event_offensive");
+	private static final Identifier EVENT_DEFENSIVE = L2DamageTracker.loc("event_defensive");
 
 	private DamageModifier event(LivingIncomingDamageEvent event, Consumer<LivingIncomingDamageEvent> cons) {
 		return new Nonlinear(EVENT_OFFENSIVE, DamageModifier.Order.EVENT, 0, f -> {

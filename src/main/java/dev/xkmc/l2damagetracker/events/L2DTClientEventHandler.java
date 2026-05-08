@@ -7,7 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
@@ -30,7 +30,7 @@ public class L2DTClientEventHandler {
 		var access = player.level().registryAccess();
 		ArmorImmunity config = L2DamageTracker.ARMOR.get(access, mat);
 		if (config == null) return;
-		TreeMap<ResourceLocation, MobEffect> map = new TreeMap<>();
+		TreeMap<Identifier, MobEffect> map = new TreeMap<>();
 		for (var e : config.set()) {
 			map.put(BuiltInRegistries.MOB_EFFECT.getKey(e), e);
 		}

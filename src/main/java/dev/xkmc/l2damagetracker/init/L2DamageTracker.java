@@ -1,6 +1,5 @@
 package dev.xkmc.l2damagetracker.init;
 
-import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.tterrag.registrate.providers.ProviderType;
 import dev.xkmc.l2core.init.reg.datapack.DataMapReg;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
@@ -8,27 +7,23 @@ import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.Reg;
 import dev.xkmc.l2core.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
-import dev.xkmc.l2damagetracker.contents.logging.SendLogPacket;
 import dev.xkmc.l2damagetracker.contents.curios.FactorAttribute;
 import dev.xkmc.l2damagetracker.contents.curios.TotemUseToClient;
-import dev.xkmc.l2damagetracker.contents.damage.DamageTypeRoot;
-import dev.xkmc.l2damagetracker.events.ArsEventCompat;
+import dev.xkmc.l2damagetracker.contents.logging.SendLogPacket;
 import dev.xkmc.l2damagetracker.events.L2DTGeneralAttackListener;
 import dev.xkmc.l2damagetracker.init.data.*;
 import dev.xkmc.l2serial.network.PacketHandler;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +35,7 @@ import static dev.xkmc.l2core.init.L2TagGen.ATTR_TAGS;
 
 @Mod(L2DamageTracker.MODID)
 @SuppressWarnings("unchecked")
-@EventBusSubscriber(modid = L2DamageTracker.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = L2DamageTracker.MODID)
 public class L2DamageTracker {
 
 	public static final String MODID = "l2damagetracker";
@@ -80,7 +75,7 @@ public class L2DamageTracker {
 		new L2DamageTypes(REGISTRATE).generate();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, L2DTLangData::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.DATA_MAP, DTAttributeConfigGen::onDataMapGen);
-		if (ModList.get().isLoaded(ArsNouveau.MODID)) NeoForge.EVENT_BUS.register(ArsEventCompat.class);
+		//if (ModList.get().isLoaded(ArsNouveau.MODID)) NeoForge.EVENT_BUS.register(ArsEventCompat.class);
 		NeoForgeMod.enableMergedAttributeTooltips();
 	}
 
@@ -98,11 +93,6 @@ public class L2DamageTracker {
 			event.add(e, REDUCTION.holder());
 			event.add(e, ABSORB.holder());
 		}
-	}
-
-	@SubscribeEvent
-	public static void setup(FMLCommonSetupEvent event) {
-		DamageTypeRoot.generateAll();
 	}
 
 	@Deprecated(forRemoval = true)
@@ -123,8 +113,8 @@ public class L2DamageTracker {
 		return reg(reg, id, e -> new FactorAttribute(e, 1, 0, 1000), name);
 	}
 
-	public static ResourceLocation loc(String id) {
-		return ResourceLocation.fromNamespaceAndPath(MODID, id);
+	public static Identifier loc(String id) {
+		return Identifier.fromNamespaceAndPath(MODID, id);
 	}
 
 	public static TagKey<Attribute> key(String id) {

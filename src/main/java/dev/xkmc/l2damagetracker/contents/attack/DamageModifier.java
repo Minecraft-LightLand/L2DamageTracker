@@ -1,45 +1,45 @@
 package dev.xkmc.l2damagetracker.contents.attack;
 
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public interface DamageModifier {
 
-	static DamageModifier nonlinearPre(int priority, Float2FloatFunction func, ResourceLocation id) {
+	static DamageModifier nonlinearPre(int priority, Float2FloatFunction func, Identifier id) {
 		return new Nonlinear(id, Order.PRE_NONLINEAR, priority, func);
 	}
 
-	static DamageModifier multAttr(float val, ResourceLocation id) {
+	static DamageModifier multAttr(float val, Identifier id) {
 		return new Multiplicative(id, Order.PRE_MULTIPLICATIVE, val);
 	}
 
-	static DamageModifier add(float val, ResourceLocation id) {
+	static DamageModifier add(float val, Identifier id) {
 		return new Additive(id, Order.PRE_ADDITIVE, val);
 	}
 
-	static DamageModifier multBase(float val, ResourceLocation id) {
+	static DamageModifier multBase(float val, Identifier id) {
 		return new Additive(id, Order.POST_MULT_BASE, val);
 	}
 
-	static DamageModifier multTotal(float val, ResourceLocation id) {
+	static DamageModifier multTotal(float val, Identifier id) {
 		return new Multiplicative(id, Order.POST_MULTIPLICATIVE, val);
 	}
 
-	static DamageModifier nonlinearMiddle(int priority, Float2FloatFunction func, ResourceLocation id) {
+	static DamageModifier nonlinearMiddle(int priority, Float2FloatFunction func, Identifier id) {
 		return new Nonlinear(id, Order.POST_NONLINEAR, priority, func);
 	}
 
-	static DamageModifier addExtra(float val, ResourceLocation id) {
+	static DamageModifier addExtra(float val, Identifier id) {
 		return new Additive(id, Order.POST_ADDITIVE, val);
 	}
 
-	static DamageModifier nonlinearFinal(int priority, Float2FloatFunction func, ResourceLocation id) {
+	static DamageModifier nonlinearFinal(int priority, Float2FloatFunction func, Identifier id) {
 		return new Nonlinear(id, Order.END_NONLINEAR, priority, func);
 	}
 
 	String info(float num);
 
-	ResourceLocation id();
+	Identifier id();
 
 	enum Time {
 		CRIT,
@@ -101,7 +101,7 @@ public interface DamageModifier {
 
 }
 
-record Additive(ResourceLocation id, Order order, float n) implements DamageModifier {
+record Additive(Identifier id, Order order, float n) implements DamageModifier {
 
 	@Override
 	public float modify(float val) {
@@ -121,7 +121,7 @@ record Additive(ResourceLocation id, Order order, float n) implements DamageModi
 }
 
 
-record Multiplicative(ResourceLocation id, Order order, float n) implements DamageModifier {
+record Multiplicative(Identifier id, Order order, float n) implements DamageModifier {
 
 	@Override
 	public float modify(float val) {
@@ -140,7 +140,7 @@ record Multiplicative(ResourceLocation id, Order order, float n) implements Dama
 
 }
 
-record Nonlinear(ResourceLocation id, Order order, int priority, Float2FloatFunction func) implements DamageModifier {
+record Nonlinear(Identifier id, Order order, int priority, Float2FloatFunction func) implements DamageModifier {
 
 	@Override
 	public float modify(float val) {

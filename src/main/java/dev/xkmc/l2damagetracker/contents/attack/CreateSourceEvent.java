@@ -8,8 +8,8 @@ import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
@@ -126,7 +126,7 @@ public class CreateSourceEvent extends Event {
 	public boolean sourceIs(String id) {
 		if (id.startsWith("#")) {
 			return getRegistry().getHolderOrThrow(getOriginal())
-					.is(TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.parse(id.substring(1))));
+					.is(TagKey.create(Registries.DAMAGE_TYPE, Identifier.parse(id.substring(1))));
 		} else return getOriginal().location().toString().equals(id);
 	}
 
@@ -144,7 +144,7 @@ public class CreateSourceEvent extends Event {
 
 	public void setTo(String id) {
 		setResult(new SingletonDamageTypeWrapper(
-				ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.parse(id))
+				ResourceKey.create(Registries.DAMAGE_TYPE, Identifier.parse(id))
 		));
 	}
 
