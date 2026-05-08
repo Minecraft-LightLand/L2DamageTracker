@@ -1,4 +1,4 @@
-package dev.xkmc.l2damagetracker.contents.curios;
+package dev.xkmc.l2damagetracker.init;
 
 import dev.xkmc.l2damagetracker.init.data.L2DTLangData;
 import net.minecraft.ChatFormatting;

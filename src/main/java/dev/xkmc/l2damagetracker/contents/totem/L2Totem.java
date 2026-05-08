@@ -1,4 +1,4 @@
-package dev.xkmc.l2damagetracker.contents.curios;
+package dev.xkmc.l2damagetracker.contents.totem;
 
 import dev.xkmc.l2core.util.Proxy;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;

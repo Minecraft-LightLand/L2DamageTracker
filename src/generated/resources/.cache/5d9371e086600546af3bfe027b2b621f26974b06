@@ -1,0 +1,7 @@
+// 26.1.2	2026-05-08T15:48:46.347701	Registrate Provider for l2damagetracker [Registries, Data Maps, , Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Model Definitions - l2damagetracker, Lang (en_us/en_ud), generic_client_provider, Tags (mob_effect), Tags (attribute), Tags (damage_type)]
+f19b860723b3c025d36433325252646163808dc4 assets/l2damagetracker/lang/en_ud.json
+5f1b9f5a644deb01d6a9e8372379fa3733ab4af1 assets/l2damagetracker/lang/en_us.json
+b57c109ecfae9adbfd0a70a88d4e1addf3b12776 data/l2damagetracker/tags/damage_type/direct.json
+4780359f3196a37daa0712673346e035d102a673 data/l2damagetracker/tags/damage_type/ignore_scaling.json
+f8ef4742784244395792ea3cc2d4ac2d6cc59876 data/l2tabs/data_maps/attribute/attribute_entry.json
+4b0ff25ac9710bba227360b163292796db4500bf data/neoforge/tags/damage_type/is_magic.json

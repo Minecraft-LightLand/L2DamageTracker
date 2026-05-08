@@ -1,57 +1,57 @@
 {
   "values": {
     "l2damagetracker:bow_strength": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 13000,
       "usePercent": true
     },
     "l2damagetracker:crit_damage": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 12000,
       "usePercent": true
     },
     "l2damagetracker:crit_rate": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 11000,
       "usePercent": true
     },
     "l2damagetracker:damage_absorption": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 24000,
       "usePercent": false
     },
     "l2damagetracker:damage_reduction": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 23000,
       "usePercent": true
     },
     "l2damagetracker:explosion_damage": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 16000,
       "usePercent": true
     },
     "l2damagetracker:fire_damage": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 17000,
       "usePercent": true
     },
     "l2damagetracker:freezing_damage": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 17100,
       "usePercent": true
     },
     "l2damagetracker:lightning_damage": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 17200,
       "usePercent": true
     },
     "l2damagetracker:magic_damage": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 18000,
       "usePercent": true
     },
     "l2damagetracker:regen": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 25000,
       "usePercent": true
     }

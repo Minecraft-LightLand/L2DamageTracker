@@ -5,7 +5,6 @@ import dev.xkmc.l2damagetracker.contents.attack.AttackListener;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.l2damagetracker.contents.attack.PlayerAttackCache;
-import dev.xkmc.l2damagetracker.contents.materials.generic.GenericTieredItem;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
 import net.minecraft.tags.DamageTypeTags;
@@ -51,9 +50,6 @@ public class L2DTGeneralAttackListener implements AttackListener {
 
 	@Override
 	public void onHurt(DamageData.Offence data) {
-		if (data.getWeapon().getItem() instanceof GenericTieredItem item) {
-			item.getExtraConfig().onDamage(data, data.getWeapon());
-		}
 		var attacker = data.getAttacker();
 		if (attacker != null) {
 			elemental(data, attacker, DamageTypeTags.IS_EXPLOSION, L2DamageTracker.EXPLOSION_FACTOR);

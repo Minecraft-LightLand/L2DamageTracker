@@ -17,7 +17,7 @@ public class CustomAttackListener implements AttackListener {
 	private Consumer<DamageData.OffenceMax> onHurtMaximized = Consumers.nop();
 	private Consumer<DamageData.Defence> onDamage = Consumers.nop();
 	private Consumer<DamageData.DefenceMax> onDamageFinalized = Consumers.nop();
-	private Consumer<CreateSourceEvent> onCreateSource = Consumers.nop();
+	private Consumer<OnDamageSourceModifyEvent> onCreateSource = Consumers.nop();
 
 	@Override
 	public void onPlayerAttack(PlayerAttackCache cache) {
@@ -55,7 +55,7 @@ public class CustomAttackListener implements AttackListener {
 	}
 
 	@Override
-	public void onCreateSource(CreateSourceEvent event) {
+	public void onCreateSource(OnDamageSourceModifyEvent event) {
 		onCreateSource.accept(event);
 	}
 
@@ -95,7 +95,7 @@ public class CustomAttackListener implements AttackListener {
 		return this;
 	}
 
-	public CustomAttackListener subscribeCreateSource(Consumer<CreateSourceEvent> onCreateSource) {
+	public CustomAttackListener subscribeCreateSource(Consumer<OnDamageSourceModifyEvent> onCreateSource) {
 		this.onCreateSource = onCreateSource;
 		return this;
 	}

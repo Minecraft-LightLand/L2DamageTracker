@@ -26,7 +26,7 @@ public class DTAttributeConfigGen {
 	}
 
 	public static void add(DataMapProvider.Builder<AttrDispEntry, Attribute> b, ResourceKey<Attribute> attr, boolean perc, int order) {
-		b.add(attr, new AttrDispEntry(perc, order, 0), false);
+		b.add(attr, new AttrDispEntry(perc, order, false), false);
 	}
 
 }

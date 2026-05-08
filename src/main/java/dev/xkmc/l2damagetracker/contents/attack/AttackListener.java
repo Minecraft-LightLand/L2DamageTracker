@@ -34,7 +34,7 @@ public interface AttackListener {
 	default void onDamageFinalized(DamageData.DefenceMax data) {
 	}
 
-	default void onCreateSource(CreateSourceEvent event) {
+	default void onCreateSource(OnDamageSourceModifyEvent event) {
 	}
 
 }

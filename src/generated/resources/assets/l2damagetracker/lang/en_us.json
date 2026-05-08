@@ -22,5 +22,5 @@
   "l2damagetracker.title": "L2DamageTracker",
   "l2damagetracker.tooltip.mult": "x%s %s",
   "l2damagetracker.tooltip.tool.immune": "Grants immunity to: ",
-  "l2damagetracker.tooltip.tool.immune_set": "Full set grants immunity to: "
+  "l2damagetracker.tooltip.tool.immune_set": "Set of %s grants immunity to: "
 }

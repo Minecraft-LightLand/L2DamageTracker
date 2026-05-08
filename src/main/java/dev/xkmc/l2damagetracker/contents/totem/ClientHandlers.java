@@ -1,4 +1,4 @@
-package dev.xkmc.l2damagetracker.contents.curios;
+package dev.xkmc.l2damagetracker.contents.totem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;

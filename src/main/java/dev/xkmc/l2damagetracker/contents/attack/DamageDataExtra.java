@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -25,8 +26,10 @@ public class DamageDataExtra implements DamageData.All {
 
 	private DamageSource source;
 	private LivingEntity target;
+	@Nullable
 	private LivingEntity attacker;
 	private ItemStack weapon = ItemStack.EMPTY;
+	@Nullable
 	private PlayerAttackCache player;
 	private DamageContainer cont;
 
@@ -39,10 +42,12 @@ public class DamageDataExtra implements DamageData.All {
 	private boolean bypassMagic;
 	private float originalDamage;
 	private boolean noCancellation;
+	@Nullable
 	private Event logEvent;
 
 	public boolean bypassMagic() {
-		return bypassMagic;
+		return source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) ||
+				source.is(DamageTypeTags.BYPASSES_EFFECTS);
 	}
 
 	public DamageSource getSource() {
@@ -114,11 +119,12 @@ public class DamageDataExtra implements DamageData.All {
 	public void init(DamageSource source, float originalDamage) {
 		this.source = source;
 		this.originalDamage = originalDamage;
-		this.bypassMagic = source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) ||
-				source.is(DamageTypeTags.BYPASSES_EFFECTS);
 		Entity e = source.getEntity();
 		while (e instanceof PartEntity<?> pe) e = pe.getParent();
 		this.attacker = e instanceof LivingEntity le ? le : null;
+		if (attacker != null) {
+			NeoForge.EVENT_BUS.post(new OnDamageSourceModifyEvent(attacker, source));
+		}
 	}
 
 	void setupAttackerProfile(@Nullable LivingEntity entity, @Nullable ItemStack stack) {

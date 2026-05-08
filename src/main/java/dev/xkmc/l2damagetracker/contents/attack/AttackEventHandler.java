@@ -1,14 +1,12 @@
 package dev.xkmc.l2damagetracker.contents.attack;
 
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
@@ -73,7 +71,7 @@ public class AttackEventHandler {
 				if (arrow.isCritArrow() && player.getRandom().nextDouble() < cr) {
 					strength *= (1 + cd);
 				}
-				arrow.setBaseDamage((float) (arrow.getBaseDamage() * strength));
+				arrow.setBaseDamage((float) (arrow.baseDamage * strength));
 			}
 		}
 	}
@@ -83,8 +81,9 @@ public class AttackEventHandler {
 		PLAYER.clear();
 	}
 
-	public static void onDamageSourceCreate(LivingEntity attacker) {
-		if (attacker.level().isClientSide()) return;
+	@SubscribeEvent
+	public static void onCreateSource(OnDamageSourceModifyEvent event) {
+		var attacker = event.getEntity();
 		PlayerAttackCache cache = null;
 		if (PLAYER.containsKey(attacker.getUUID())) {
 			cache = PLAYER.get(attacker.getUUID());
@@ -92,8 +91,9 @@ public class AttackEventHandler {
 		if (cache != null)
 			event.setPlayerAttackCache(cache);
 		getListeners().forEach(e -> e.onCreateSource(event));
-		if (event.getPlayerAttackCache() != cache) {
-			PLAYER.put(attacker.getUUID(), event.getPlayerAttackCache());
+		var ans = event.getPlayerAttackCache();
+		if (ans != cache && ans != null) {
+			PLAYER.put(attacker.getUUID(), ans);
 		}
 	}
 

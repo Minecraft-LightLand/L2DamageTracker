@@ -17,6 +17,8 @@ import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.Permission;
+import net.minecraft.server.permissions.PermissionLevel;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -60,11 +62,11 @@ public class LogHelper {
 	}
 
 	private static long time(ServerPlayer player) {
-		return player.server.overworld().getGameTime();
+		return player.level().getServer().overworld().getGameTime();
 	}
 
 	public static void buildCommand(LiteralArgumentBuilder<CommandSourceStack> base) {
-		base.requires(e -> e.hasPermission(2))
+		base.requires(e -> e.permissions().hasPermission(new Permission.HasCommandLevel(PermissionLevel.MODERATORS)))
 				.then(Commands.literal("player")
 						.then(argument("player", EntityArgument.players())
 								.then(Commands.literal("attack")
@@ -99,7 +101,7 @@ public class LogHelper {
 		EntitySelector sel = ctx.getArgument("player", EntitySelector.class);
 		var list = sel.findPlayers(ctx.getSource());
 		for (var e : list) {
-			MAP.put(new Key(type, e.getUUID()), new Val(e.server.overworld().getGameTime() + time, e.getScoreboardName(), true, ctx.getSource().source));
+			MAP.put(new Key(type, e.getUUID()), new Val(e.level().getServer().overworld().getGameTime() + time, e.getScoreboardName(), true, ctx.getSource().source));
 		}
 		int sec = time / 20;
 		int min = sec / 60;

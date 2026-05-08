@@ -7,8 +7,8 @@ import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.Reg;
 import dev.xkmc.l2core.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
-import dev.xkmc.l2damagetracker.contents.curios.FactorAttribute;
-import dev.xkmc.l2damagetracker.contents.curios.TotemUseToClient;
+import dev.xkmc.l2damagetracker.contents.effect.EffectImmunity;
+import dev.xkmc.l2damagetracker.contents.totem.TotemUseToClient;
 import dev.xkmc.l2damagetracker.contents.logging.SendLogPacket;
 import dev.xkmc.l2damagetracker.events.L2DTGeneralAttackListener;
 import dev.xkmc.l2damagetracker.init.data.*;
@@ -19,6 +19,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
+import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
@@ -63,6 +64,8 @@ public class L2DamageTracker {
 	public static final SimpleEntry<Attribute> REGEN = regPerc(REGISTRATE, "regen", "Regeneration Rate");
 	public static final SimpleEntry<Attribute> ABSORB = reg(REGISTRATE, "damage_absorption", e -> new RangedAttribute(e, 0, 0, 10000), "Damage Absorption");
 	public static final SimpleEntry<Attribute> REDUCTION = reg(REGISTRATE, "damage_reduction", e -> new FactorAttribute(e, 1, -10000, 10000).setSentiment(Attribute.Sentiment.NEGATIVE), "Damage after Reduction");
+
+	public static final DataMapReg<Item, EffectImmunity> EFFECT_IMMUNITY = REG.dataMap("effect_immunity", Registries.ITEM, EffectImmunity.class);
 
 	public L2DamageTracker() {
 		L2DamageTrackerConfig.init();

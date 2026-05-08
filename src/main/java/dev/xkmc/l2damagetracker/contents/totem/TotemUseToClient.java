@@ -1,4 +1,4 @@
-package dev.xkmc.l2damagetracker.contents.curios;
+package dev.xkmc.l2damagetracker.contents.totem;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import net.minecraft.world.entity.Entity;
