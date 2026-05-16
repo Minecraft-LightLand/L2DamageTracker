@@ -6,6 +6,7 @@
 	"mixins": [
 		"CommonHooksMixin",
 		"DamageContainerMixin",
+		"DamageSourceMixin",
 		"EntityInvulnerabilityCheckEventMixin",
 		"LivingEntityMixin",
 		"LivingIncomingDamageEventMixin"

@@ -1,6 +1,5 @@
 package dev.xkmc.l2damagetracker.contents.totem;
 
-import dev.xkmc.l2core.util.Proxy;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
@@ -52,7 +51,7 @@ public interface L2Totem {
 		public static void onClientTrigger(Entity entity, ItemStack item) {
 			Minecraft.getInstance().particleEngine.createTrackingEmitter(entity, ParticleTypes.TOTEM_OF_UNDYING, 30);
 			entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.TOTEM_USE, entity.getSoundSource(), 1.0F, 1.0F, false);
-			if (entity == Proxy.getClientPlayer()) {
+			if (entity == Minecraft.getInstance().player) {
 				Minecraft.getInstance().gameRenderer.displayItemActivation(item);
 			}
 		}
