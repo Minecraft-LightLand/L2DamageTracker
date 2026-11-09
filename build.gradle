@@ -127,8 +127,8 @@ dependencies {
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
     implementation fg.deobf("dev.xkmc.l2library:l2library:${l2library_version}-slim")
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
-    implementation fg.deobf("dev.xkmc.l2serial:l2serial:1.2.1")
-    implementation fg.deobf("dev.xkmc.l2tabs:l2tabs:0.2.0")
+    implementation fg.deobf("dev.xkmc.l2serial:l2serial:1.2.7")
+    implementation fg.deobf("dev.xkmc.l2tabs:l2tabs:0.4.0")
 
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
